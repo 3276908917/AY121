@@ -8,6 +8,15 @@ def g(d):
     """
     return ugradio.pico.capture_data('1V', divisor=10)
 
+def collect_noise():
+    """
+    Hard coded for final data collection activity of week 1
+    """
+    noises = []
+    for c in range (0, 32):
+        noises.append(g())
+    return noises
+
 def d():
     """
     Abbreviation function: dual get hard-coded for week 2 data collection.
