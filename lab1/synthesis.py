@@ -3,10 +3,14 @@
 	# lab partners can perform visual
 	# verifications for themselves
 
+
 # if you haven't already written these, write them 
 	# Fourier plotting method,
 	# which labels the real and imaginary
 	# and includes a legend on the plot
+    # no_title option for plots, so that you can create
+    # pictures suitable for the report (where titles
+        # will not be tolerated, only captions)
 
 # QOL
 	# a global label called 'temp'

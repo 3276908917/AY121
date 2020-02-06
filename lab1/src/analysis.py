@@ -19,10 +19,10 @@ def power_plot(sample, ifreq, norm, srate=6.25e6):
     """
     fig = plt.figure()
 
-    ax3 = fig.add_subplot(111)
+    ax = fig.add_subplot(111)
     f = ugradio.dft.dft(sample, vsamp=srate)
     P = np.abs(f[1]) ** 2
-    ax3.plot(f[0], normalize(P, norm ** 2))
+    ax.plot(f[0], normalize(P, norm ** 2))
     plt.xlabel('Frequency (Hz)')
     plt.ylabel(r'Power (nV$^2$)')
     plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')

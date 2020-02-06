@@ -35,13 +35,17 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(arr):
+def plot(arr, norm):
     """
     Produce and display a plot
     where y-values are determined by @arr
     and where x-valies are determined by the current array associated with 'times'
     """
-    plt.plot(times[:len(arr)], arr)
+    #fig = plt.figure()
+    #ax = fig.add_subplot(111)
+    plt.plot(times[:len(arr)], normalize(arr, norm))
+    plt.xlabel('Time (s)')
+    plt.ylabel('Voltage (mV)')
     plt.show()
 
     # I am assuming that we are continuing to use sample frequency 6.25e6 Hz
