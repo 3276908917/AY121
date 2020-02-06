@@ -23,7 +23,7 @@ times = []
 
 def create_time(v_s):
 	"""
-	Rewrite the global variable times,
+	Rewrite the global variable times:
 	length-16000 array of elapsed times,
 	where each index gives a time according to
 	@v_s sampling frequency.
