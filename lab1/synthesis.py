@@ -1,3 +1,6 @@
+# there is bad hard-coding with regards to micro seconds and
+    # mega hertz. Can we do axis autoscaling?
+
 # TODO:
 	# upload pictures from phone so that
 	# lab partners can perform visual

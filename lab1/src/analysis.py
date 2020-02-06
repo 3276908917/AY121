@@ -7,7 +7,7 @@ import ugradio
 import numpy as np
 import matplotlib.pyplot as plt
 
-def power_plot(sample, ifreq, norm, srate=6.25e6):
+def power_plot(sample, norm, srate=6.25e6, ifreq=None):
     """
     Clean, labeled plot of power spectrum of @sample
     corresponding to a signal at @ifreq (in MHz)
@@ -22,10 +22,11 @@ def power_plot(sample, ifreq, norm, srate=6.25e6):
     ax = fig.add_subplot(111)
     f = ugradio.dft.dft(sample, vsamp=srate)
     P = np.abs(f[1]) ** 2
-    ax.plot(f[0], normalize(P, norm ** 2))
-    plt.xlabel('Frequency (Hz)')
+    ax.plot(f[0] / 10 ** 6, normalize(P, norm ** 2))
+    plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Power (nV$^2$)')
-    plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
+    if ifreq is not None:
+        plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
 
     plt.show()
 	

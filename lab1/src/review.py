@@ -13,7 +13,7 @@ def create_time(v_s):
     """
     global times
     for i in range(0, 16000):
-        times.append(i / v_s)
+        times.append(i / v_s * 10 ** 6)
 
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)
@@ -35,16 +35,20 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(arr, norm):
+def plot(arr, norm, i=0, f=None):
     """
     Produce and display a plot
     where y-values are determined by @arr
     and where x-valies are determined by the current array associated with 'times'
+
+    @i and @f are optional parameters to specify a contiguous slice of data
     """
+    if f is None:
+        f = len(arr)
     #fig = plt.figure()
     #ax = fig.add_subplot(111)
-    plt.plot(times[:len(arr)], normalize(arr, norm))
-    plt.xlabel('Time (s)')
+    plt.plot(times[i:f], normalize(arr[i:f], norm))
+    plt.xlabel(r'Time ($\mu$s)')
     plt.ylabel('Voltage (mV)')
     plt.show()
 
