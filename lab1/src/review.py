@@ -43,3 +43,19 @@ def plot(arr)
     """
     plt.plot(times[:len(arr)], arr)
     plt.show()
+
+    # I am assuming that we are continuing to use sample frequency 6.25e6 Hz
+def raw_power(sample, rate=6.25e6):
+    """
+    Unlabeled power spectrum plot (with arbitrary normalization)
+    of @sample at sampling rate @rate
+    and return Fourier transform as well as power array
+
+    This function is intended only for on-the-fly eyeballing.
+    For reporting, use the analysis.py counterpart power_plot
+    """
+    f = ugradio.dft.dft(sample, vsamp=rate)
+    P = np.abs(f[1]) ** 2
+    plt.plot(f[0], P)
+    plt.show()
+    return f, P

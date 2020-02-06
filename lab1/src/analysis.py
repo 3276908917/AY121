@@ -7,19 +7,7 @@ import ugradio
 import numpy as np
 import matplotlib.pyplot as plt
 
-# I am assuming that we are continuing to use sample frequency 6.25e6 Hz
-def raw_power(sample, rate):
-    """
-    Plot power spectrum of @sample at @rate sampling rate
-    and return Fourier transform as well as power array
-    """
-    f = ugradio.dft.dft(sample, vsamp=rate)
-    P = np.abs(f[1]) ** 2
-    plt.plot(f[0], P)
-    plt.show()
-    return f, P
-
-def mini_power_spectrum(sample, ifreq, norm, srate=6.25e6):
+def power_plot(sample, ifreq, norm, srate=6.25e6):
     """
     Clean, labeled plot of power spectrum of @sample
     corresponding to a signal at @ifreq (in MHz)
