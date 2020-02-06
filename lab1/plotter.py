@@ -1,3 +1,12 @@
+# TODO: ie if you haven't already written these, write them 
+	# Fourier plotting method,
+	# which labels the real and imaginary
+	# and includes a legend on the plot
+
+	# upload pictures from phone so that
+	# lab partners can perform visual
+	# verifications for themselves
+
 # from within a shell:
 # execfile('plotter.py') for Python2
 # exec(open('plotter.py').read()) for Python3
