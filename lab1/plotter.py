@@ -21,8 +21,18 @@ def d():
 
 times = []
 
-for i in range(0, 16000):
-	times.append(i / 6.25e6) # time intervals given by sampling frequency
+def create_time(v_s):
+	"""
+	Return a length-16000 array of elapsed times,
+	where each index gives a time according to
+	@v_s sampling frequency.
+	"""
+	global times
+	for i in range(0, 16000):
+		times.append(i / v_s) # time intervals given by sampling frequency
+
+# this default line poises the script for lab1_week1 data collection
+times = create_time(6.25e6)
 
 def plot(arr):
 	plt.plot(times[:len(arr)], arr)
