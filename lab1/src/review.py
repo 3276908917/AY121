@@ -35,7 +35,7 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(arr)
+def plot(arr):
     """
     Produce and display a plot
     where y-values are determined by @arr

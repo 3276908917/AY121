@@ -24,3 +24,6 @@ def d():
     1V range, divisor=2
     """
     return ugradio.pico.capture_data('1V', divisor=2, dual_mode=True)
+
+# Here is an example of a labeled save: 
+# np.savez('bundle1', trial1=t1, trial2=t2, trial3=t3, trial4=t4, trial5=t5, trial6_1=t6_1, trial6_2=t6_2, trial6_3=t6_3, trial7=t7, noises=n) 
