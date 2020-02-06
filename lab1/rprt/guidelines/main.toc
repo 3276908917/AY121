@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}Outline for a Scientific Paper}{1}% 
+\contentsline {section}{\numberline {2}Writing The Report}{2}% 
+\contentsline {section}{\numberline {3}Scientific and Interpretive Issues}{3}% 
+\contentsline {section}{\numberline {4}Style}{4}% 
+\contentsline {section}{\numberline {5}Equations, Python, and Plots}{5}% 
+\contentsline {subsection}{\numberline {5.1}Equations}{5}% 
+\contentsline {subsection}{\numberline {5.2}Plotting and Python}{5}% 
+\contentsline {section}{\numberline {6}TEX hints}{7}% 
+\contentsline {section}{\numberline {7}Grades}{9}% 
+\contentsline {subsection}{\numberline {7.1}Rubric}{10}% 
