@@ -1,0 +1,1 @@
+* How to make Python plots bolder so that they print well

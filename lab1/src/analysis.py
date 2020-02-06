@@ -25,7 +25,7 @@ def power_plot(sample, norm, srate=6.25e6, ifreq=None):
     ax.plot(f[0] / 10 ** 6, normalize(P, norm ** 2))
     plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Power (nV$^2$)')
-    if ifreq is not None:
+    if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
 
     plt.show()
@@ -37,7 +37,7 @@ def invf(transform):
     Plot inverse Fourier transform of @transform
     and return the plotted array
     """
-    i = ugradio.dft.idft(transform)
+    i = ugradio.dft.idft(transform) # remember to use f[1], not f, and not f[0]
     plt.plot(i[0], i[1])
     plt.show()
     return i
@@ -118,7 +118,7 @@ def volt_spec(sample, ifreq, norm, srate=6.25e6):
 
     plt.show()
 
-def mini_volt_spec(sample, ifreq, norm, srate=6.25e6):
+def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     """
     Simultaneously plot real and imaginary components of voltage spectrum of sample.
     @ifreq input frequency
@@ -138,7 +138,8 @@ def mini_volt_spec(sample, ifreq, norm, srate=6.25e6):
     ax1.plot(f[0], normalize(np.imag(f[1]), norm), label='imaginary component')
     plt.xlabel('Frequency (Hz)')
     plt.ylabel(r'Voltage (mV)')
-    plt.title('Voltage Spectrum: ' + str(ifreq) + ' MHz sinusoid')
+    if ifreq is not None: # this is an awful way of giving a no-plot option
+        plt.title('Voltage Spectrum: ' + str(ifreq) + ' MHz sinusoid')
 
     ax1.legend(bbox_to_anchor=(1, 1))
 
