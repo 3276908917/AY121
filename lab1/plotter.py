@@ -1,11 +1,29 @@
-# TODO: ie if you haven't already written these, write them 
+# TODO:
+	# upload pictures from phone so that
+	# lab partners can perform visual
+	# verifications for themselves
+
+# if you haven't already written these, write them 
 	# Fourier plotting method,
 	# which labels the real and imaginary
 	# and includes a legend on the plot
 
-	# upload pictures from phone so that
-	# lab partners can perform visual
-	# verifications for themselves
+# QOL
+	# a global label called 'temp'
+	# which all functions edit before
+	# returning, so that
+	# when I forget to save a result,
+	# I can go back and write temp to something else
+
+	# expand the docstrings
+
+# Collaboration
+	# put all bundles and 'readme.md' describing each item in the repo
+	# now you have just one nexus to put on the Google Doc
+	# this will also allow you to maintain a changelog,
+	# to consolidate all your memoranda and postscripts
+
+	
 
 # from within a shell:
 # execfile('plotter.py') for Python2
