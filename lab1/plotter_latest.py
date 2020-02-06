@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 
 # abbreviation for "get"
 def g():
+        """
+        Abbreviation function.
+        Acquire data through pico sampler. 1V range, divisor=10.
+        """
 	return ugradio.pico.capture_data('1V', divisor=10)
 
 times = []
