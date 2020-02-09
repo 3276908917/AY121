@@ -44,7 +44,7 @@ def invf(transform):
     Plot inverse Fourier transform of @transform
     and return the plotted array
     """
-    i = ugradio.dft.idft(transform) # remember to use f[1], not f, and not f[0]
+    i = ugradio.dft.idft(transform[1], transform[0]) # remember to use f[1], not f, and not f[0]
     plt.plot(i[0], i[1])
     plt.show()
     return i

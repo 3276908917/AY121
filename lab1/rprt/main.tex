@@ -266,6 +266,32 @@ frequencies to be negative versus positive?''
 \end{minipage}
 \end{figure}
 
+``you need to make sure dft.idft correctly infers the frequencies corresponding to each bins in your power spectrum array''
+
+``When calculating a digital version of the correlation function, you have to worry about end effects.
+Suppose you are calculating an ACF for N samples with delays ∆N ranging up to N/2. Then the
+number of terms in the sum is always smaller than N because the delays spill over the edge of the
+available samples.''
+
+\textcolor{red}{How am I supposed to account for this?}
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3/volt3}
+	\caption{Voltage}
+	\label{fig:inverse}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3/pow3}
+	\caption{Powerish}
+	\label{fig:ACF}
+\end{minipage}
+\end{figure}
+
+\textcolor{red}{Differences? Probably because I did not zero out the middle}
 
 \subsection{4}
 
