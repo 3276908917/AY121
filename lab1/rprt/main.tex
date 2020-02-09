@@ -141,14 +141,11 @@ Finally, we took the default 16000 samples for each signal. However, for the dat
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.8\linewidth]{5-2_trial6}
-	\caption{$\nu_0 = .6 \nu_s = 3.75$ MHz.}
-	\label{fig:Nyq6}
+	\includegraphics[width=.8\linewidth]{5-2_trial8}
+	\caption{$\nu_0 = .8 \nu_s = 5$ MHz.}
+	\label{fig:Nyq8}
 \end{minipage}
 \end{figure}
-	
-\quad We may begin inspection of the samples with a qualitative approach. Figure \ref{fig:Nyq2} shows a signal which repeats about five times in the span of about 4 microseconds. This gives us 1.25 cycles per microsecond, or 1.25 MHz, as expected. Figure \ref{fig:Nyq6} is not as obviously derived from a sine wave (the shape is distorted by the shrinking gap between $\nu_0$ and $\nu_s$), but we may still say that there is a repeating signal with slightly under five repetitions in a span of 4 microseconds. This would give us slighly under 1.25 MHz, which is incorrect; thus we have qualitatively demonstrated an aliasing effect.
-% ?? Maybe I should put these annotations in the captions (it would be more appropriate there, I think)
 
 \begin{figure}
 \centering
@@ -160,14 +157,48 @@ Finally, we took the default 16000 samples for each signal. However, for the dat
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.8\linewidth]{5-2_trial8}
-	\caption{$\nu_0 = .8 \nu_s = 5$ MHz.}
-	\label{fig:Nyq8}
+	\includegraphics[width=.8\linewidth]{5-2_trial6}
+	\caption{$\nu_0 = .6 \nu_s = 3.75$ MHz.}
+	\label{fig:Nyq6}
 \end{minipage}
 \end{figure}
+	
+\quad We may begin inspection of the samples with a qualitative approach. Figure \ref{fig:Nyq2} shows a signal which repeats about five times in the span of about 4 microseconds. This gives us 1.25 cycles per microsecond, or 1.25 MHz, as expected. Figure \ref{fig:Nyq6} is not as obviously derived from a sine wave (the shape is distorted by the shrinking gap between $\nu_0$ and $\nu_s$), but we may still say that there is a repeating signal with slightly under five repetitions in a span of 4 microseconds. This would give us slighly under 1.25 MHz, which is incorrect; thus we have qualitatively demonstrated an aliasing effect.
+% ?? Maybe I should put these annotations in the captions (it would be more appropriate there, I think)
 
 % ?? These figures need annotations. You can probably just do the same qualitative thing that you did before.
 
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-2_pow2}
+	\caption{$\nu_0 = .2 \nu_s = 1.25$ MHz. Peak amplitudes at $\pm$ 1.25 MHz}
+	\label{fig:NyPw2}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-2_pow8}
+	\caption{$\nu_0 = .8 \nu_s = 5$ MHz. Peak amplitudes at $\pm$ 1.25 MHz}
+	\label{fig:NyPw8}
+\end{minipage}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-2_pow4}
+	\caption{$\nu_0 = .4 \nu_s = 2.5$ MHz. Peak amplitudes at $\pm$ 2.5 MHz}
+	\label{fig:NyPw2}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-2_pow6}
+	\caption{$\nu_0 = .6 \nu_s = 3.75$ MHz. Peak amplitudes at $\pm$ 2.5 MHz}
+	\label{fig:NyPw8}
+\end{minipage}
+\end{figure}
 
 \subsection{3}
 

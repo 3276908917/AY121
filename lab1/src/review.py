@@ -35,7 +35,22 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(arr, norm, i=0, f=None):
+def plot(x, y, xnote, ynote):
+    """
+    General but highly volatile plotting function
+    (because I do not like writing functions in the shell).    
+    Mostly ad-hoc and designed for rapid plotting 
+    of similar categories of data.
+    """
+    plt.figure(figsize=(3,3))
+    plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)    
+    plt.plot(x, y)   
+    plt.xlabel(xnote, fontsize=12)
+    plt.ylabel(ynote, fontsize=12)
+	
+    plt.show()
+
+def plot_sample(arr, norm, i=0, f=None):
     """
     Produce and display a plot
     where y-values are determined by @arr
@@ -45,8 +60,6 @@ def plot(arr, norm, i=0, f=None):
     """
     if f is None:
         f = len(arr)
-    #fig = plt.figure()
-    #ax = fig.add_subplot(111)
     plt.figure(figsize=(3,3))
     plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)    
     plt.plot(times[i:f], normalize(arr[i:f], norm))	    
