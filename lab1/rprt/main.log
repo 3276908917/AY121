@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  9 FEB 2020 14:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  9 FEB 2020 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -835,38 +835,38 @@ Package pdftex.def Info: res/5-2/pow6.png  used on input line 203.
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
 ) [3 <./res/5-2/trial4.png> <./res/5-2/trial6.png> <./res/5-2/pow2.png> <./res/
 5-2/pow8.png> <./res/5-2/pow4.png> <./res/5-2/pow6.png>]
-<res/5-2/volt1.png, id=139, 295.5843pt x 216.81pt>
-File: res/5-2/volt1.png Graphic file (type png)
-<use res/5-2/volt1.png>
-Package pdftex.def Info: res/5-2/volt1.png  used on input line 225.
+<res/5-3/volt1.png, id=139, 295.5843pt x 216.81pt>
+File: res/5-3/volt1.png Graphic file (type png)
+<use res/5-3/volt1.png>
+Package pdftex.def Info: res/5-3/volt1.png  used on input line 225.
 (pdftex.def)             Requested size: 170.71718pt x 125.22057pt.
-<res/5-2/symp1.png, id=140, 330.2739pt x 216.81pt>
-File: res/5-2/symp1.png Graphic file (type png)
-<use res/5-2/symp1.png>
-Package pdftex.def Info: res/5-2/symp1.png  used on input line 231.
+<res/5-3/pow1.png, id=140, 330.2739pt x 216.81pt>
+File: res/5-3/pow1.png Graphic file (type png)
+<use res/5-3/pow1.png>
+Package pdftex.def Info: res/5-3/pow1.png  used on input line 231.
 (pdftex.def)             Requested size: 170.71718pt x 112.07027pt.
-<res/5-2/volt2.png, id=141, 307.8702pt x 216.81pt>
-File: res/5-2/volt2.png Graphic file (type png)
-<use res/5-2/volt2.png>
-Package pdftex.def Info: res/5-2/volt2.png  used on input line 241.
+<res/5-3/volt2.png, id=141, 307.8702pt x 216.81pt>
+File: res/5-3/volt2.png Graphic file (type png)
+<use res/5-3/volt2.png>
+Package pdftex.def Info: res/5-3/volt2.png  used on input line 241.
 (pdftex.def)             Requested size: 170.71718pt x 120.2251pt.
-<res/5-2/symp2.png, id=142, 310.0383pt x 216.81pt>
-File: res/5-2/symp2.png Graphic file (type png)
-<use res/5-2/symp2.png>
-Package pdftex.def Info: res/5-2/symp2.png  used on input line 247.
+<res/5-3/pow2.png, id=142, 310.0383pt x 216.81pt>
+File: res/5-3/pow2.png Graphic file (type png)
+<use res/5-3/pow2.png>
+Package pdftex.def Info: res/5-3/pow2.png  used on input line 247.
 (pdftex.def)             Requested size: 170.71718pt x 119.38481pt.
-<res/5-2/volt3.png, id=143, 328.1058pt x 216.81pt>
-File: res/5-2/volt3.png Graphic file (type png)
-<use res/5-2/volt3.png>
-Package pdftex.def Info: res/5-2/volt3.png  used on input line 257.
+<res/5-3/volt3.png, id=143, 328.1058pt x 216.81pt>
+File: res/5-3/volt3.png Graphic file (type png)
+<use res/5-3/volt3.png>
+Package pdftex.def Info: res/5-3/volt3.png  used on input line 257.
 (pdftex.def)             Requested size: 170.71718pt x 112.81131pt.
-<res/5-2/symp3.png, id=144, 297.7524pt x 216.81pt>
-File: res/5-2/symp3.png Graphic file (type png)
-<use res/5-2/symp3.png>
-Package pdftex.def Info: res/5-2/symp3.png  used on input line 263.
+<res/5-3/pow3.png, id=144, 297.7524pt x 216.81pt>
+File: res/5-3/pow3.png Graphic file (type png)
+<use res/5-3/pow3.png>
+Package pdftex.def Info: res/5-3/pow3.png  used on input line 263.
 (pdftex.def)             Requested size: 170.71718pt x 124.30748pt.
- [4 <./res/5-2/volt1.png> <./res/5-2/symp1.png> <./res/5-2/volt2.png> <./res/5-
-2/symp2.png> <./res/5-2/volt3.png> <./res/5-2/symp3.png>]
+ [4 <./res/5-3/volt1.png> <./res/5-3/pow1.png> <./res/5-3/volt2.png> <./res/5-3
+/pow2.png> <./res/5-3/volt3.png> <./res/5-3/pow3.png>]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 3
 11.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
@@ -891,8 +891,8 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 330.
  ) 
 Here is how much of TeX's memory you used:
- 19695 strings out of 492164
- 364784 string characters out of 6127732
+ 19696 strings out of 492164
+ 364768 string characters out of 6127732
  455556 words of memory out of 5000000
  23598 multiletter control sequences out of 15000+600000
  16192 words of font info for 40 fonts, out of 8000000 for 9000
