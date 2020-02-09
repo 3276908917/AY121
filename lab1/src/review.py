@@ -35,7 +35,7 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(x, y, xnote, ynote):
+def plot(x, y, xnote, ynote, im=False):
     """
     General but highly volatile plotting function
     (because I do not like writing functions in the shell).    
@@ -43,8 +43,14 @@ def plot(x, y, xnote, ynote):
     of similar categories of data.
     """
     plt.figure(figsize=(3,3))
-    plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)    
-    plt.plot(x, y)   
+    plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)
+    if im:
+        plt.plot(x, y[0], label='real component')
+        plt.plot(x, y[1], label='imaginary component')
+        plt.legend()
+    else:    
+        plt.plot(x, y)   
+    
     plt.xlabel(xnote, fontsize=12)
     plt.ylabel(ynote, fontsize=12)
 	

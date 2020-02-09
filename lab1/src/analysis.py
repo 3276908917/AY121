@@ -140,8 +140,12 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
 
     f = ugradio.dft.dft(sample, vsamp=srate)    
 
-    ax1.plot(f[0], normalize(np.real(f[1]), norm), label='real component')
-    ax1.plot(f[0], normalize(np.imag(f[1]), norm), label='imaginary component')
+    x = f[0] / 10 ** 6
+    re = normalize(np.real(f[1]), norm)
+    im = normalize(np.imag(f[1]), norm)
+
+    ax1.plot(x, re, label='real component')
+    ax1.plot(x, im, label='imaginary component')
     plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Voltage (mV)')
     if ifreq is not None: # this is an awful way of giving a no-plot option
@@ -150,7 +154,7 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     ax1.legend(bbox_to_anchor=(1, 1))
 
     plt.show()
-    return f
+    return [x, [re, im]]
 
 def full_comparison(sample, rate):
     """
