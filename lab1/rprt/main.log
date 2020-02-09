@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  9 FEB 2020 12:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  9 FEB 2020 12:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -784,36 +784,36 @@ Package caption Info: End \AtBeginDocument code.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<res/5-3_bad.png, id=104, 275.3487pt x 216.81pt>
-File: res/5-3_bad.png Graphic file (type png)
-<use res/5-3_bad.png>
-Package pdftex.def Info: res/5-3_bad.png  used on input line 130.
+<res/pico_bad.png, id=104, 275.3487pt x 216.81pt>
+File: res/pico_bad.png Graphic file (type png)
+<use res/pico_bad.png>
+Package pdftex.def Info: res/pico_bad.png  used on input line 130.
 (pdftex.def)             Requested size: 275.348pt x 216.80946pt.
-<res/5-3_trial2.png, id=106, 279.6849pt x 239.9364pt>
-File: res/5-3_trial2.png Graphic file (type png)
-<use res/5-3_trial2.png>
-Package pdftex.def Info: res/5-3_trial2.png  used on input line 138.
+<res/5-2_trial2.png, id=106, 279.6849pt x 239.9364pt>
+File: res/5-2_trial2.png Graphic file (type png)
+<use res/5-2_trial2.png>
+Package pdftex.def Info: res/5-2_trial2.png  used on input line 138.
 (pdftex.def)             Requested size: 170.71718pt x 146.45982pt.
-<res/5-3_trial6.png, id=107, 285.4665pt x 236.3229pt>
-File: res/5-3_trial6.png Graphic file (type png)
-<use res/5-3_trial6.png>
-Package pdftex.def Info: res/5-3_trial6.png  used on input line 144.
+<res/5-2_trial6.png, id=107, 285.4665pt x 236.3229pt>
+File: res/5-2_trial6.png Graphic file (type png)
+<use res/5-2_trial6.png>
+Package pdftex.def Info: res/5-2_trial6.png  used on input line 144.
 (pdftex.def)             Requested size: 170.71718pt x 141.33325pt.
- [2 <./res/5-3_bad.png> <./res/5-3_trial2.png> <./res/5-3_trial6.png>]
-<res/5-3_trial4.png, id=120, 278.2395pt x 244.2726pt>
-File: res/5-3_trial4.png Graphic file (type png)
-<use res/5-3_trial4.png>
-Package pdftex.def Info: res/5-3_trial4.png  used on input line 157.
+ [2 <./res/pico_bad.png> <./res/5-2_trial2.png> <./res/5-2_trial6.png>]
+<res/5-2_trial4.png, id=120, 278.2395pt x 244.2726pt>
+File: res/5-2_trial4.png Graphic file (type png)
+<use res/5-2_trial4.png>
+Package pdftex.def Info: res/5-2_trial4.png  used on input line 157.
 (pdftex.def)             Requested size: 170.71718pt x 149.87825pt.
-<res/5-3_trial8.png, id=121, 282.5757pt x 240.6591pt>
-File: res/5-3_trial8.png Graphic file (type png)
-<use res/5-3_trial8.png>
-Package pdftex.def Info: res/5-3_trial8.png  used on input line 163.
+<res/5-2_trial8.png, id=121, 282.5757pt x 240.6591pt>
+File: res/5-2_trial8.png Graphic file (type png)
+<use res/5-2_trial8.png>
+Package pdftex.def Info: res/5-2_trial8.png  used on input line 163.
 (pdftex.def)             Requested size: 170.71718pt x 145.39906pt.
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
 ine 180.
 
-[3 <./res/5-3_trial4.png> <./res/5-3_trial8.png>]
+[3 <./res/5-2_trial4.png> <./res/5-2_trial8.png>]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
 25.
 
@@ -840,7 +840,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 244.
  ) 
 Here is how much of TeX's memory you used:
  19456 strings out of 492164
- 363043 string characters out of 6127732
+ 363050 string characters out of 6127732
  458165 words of memory out of 5000000
  23382 multiletter control sequences out of 15000+600000
  16192 words of font info for 40 fonts, out of 8000000 for 9000
