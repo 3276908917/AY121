@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # used to plot sampled waveforms; facilitates visual inspection
 times = []
 
-def create_time(v_s):
+def create_time(v_s, L=16000):
     """
     Rewrite the global variable times:
     length-16000 array of elapsed times,
@@ -12,7 +12,7 @@ def create_time(v_s):
     @v_s sampling frequency.
     """
     global times
-    for i in range(0, 16000):
+    for i in range(0, L):
         times.append(i / v_s * 10 ** 6)
 
 # this default line poises the script for lab 1 week 1 data collection
@@ -35,7 +35,7 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(x, y, xnote, ynote, im=False):
+def plot(x, y, xnote, ynote, dual=False, noteA=None, noteB=None):
     """
     General but highly volatile plotting function
     (because I do not like writing functions in the shell).    
@@ -44,9 +44,9 @@ def plot(x, y, xnote, ynote, im=False):
     """
     plt.figure(figsize=(3,3))
     plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)
-    if im:
-        plt.plot(x, y[0], label='real component')
-        plt.plot(x, y[1], label='imaginary component')
+    if dual:
+        plt.plot(x, y[0], label=noteA)
+        plt.plot(x, y[1], label=noteB)
         plt.legend()
     else:    
         plt.plot(x, y)   
@@ -56,7 +56,7 @@ def plot(x, y, xnote, ynote, im=False):
 	
     plt.show()
 
-def plot_sample(arr, norm, i=0, f=None):
+def plot_sample(arr, norm, pad=0, i=0, f=None):
     """
     Produce and display a plot
     where y-values are determined by @arr
@@ -68,7 +68,7 @@ def plot_sample(arr, norm, i=0, f=None):
         f = len(arr)
     plt.figure(figsize=(3,3))
     plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)    
-    plt.plot(times[i:f], normalize(arr[i:f], norm))	    
+    plt.plot(times[i + pad:f + pad], normalize(arr[i:f], norm))	    
     plt.xlabel(r'Time ($\mu$s)', fontsize=12)
     plt.ylabel('Voltage (mV)', fontsize=12)
 	

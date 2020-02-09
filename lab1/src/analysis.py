@@ -6,6 +6,7 @@
 import ugradio
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import signal
 
 def power_plot(sample, norm, srate=6.25e6, ifreq=None):
     """
