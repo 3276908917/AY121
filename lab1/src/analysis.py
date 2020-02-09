@@ -13,24 +13,29 @@ def power_plot(sample, norm, srate=6.25e6, ifreq=None):
     corresponding to a signal at @ifreq (in MHz)
     with maximum amplitude @norm (in mV)
     sampled at rate @srate (default is our value for week 1 data collection)
-    returns SINGLE frequency of largest power spike,
-        so this function does not work as well for
-        combined signals!
+    returns power spectrum and
+        SINGLE frequency of largest power spike,
+            so this function does not work as well for
+            combined signals!
+	Note: @ifreq is not used in any calculations,
+		but rather is used to title the plot.
+		Leave this as None, and the plot will not be titled.
     """
     fig = plt.figure()
 
     ax = fig.add_subplot(111)
     f = ugradio.dft.dft(sample, vsamp=srate)
     P = np.abs(f[1]) ** 2
-    ax.plot(f[0] / 10 ** 6, normalize(P, norm ** 2))
+    x = f[0] / 10 ** 6
+    y = normalize(P, norm ** 2)
+    ax.plot(x, y)
     plt.xlabel('Frequency (MHz)')
-    plt.ylabel(r'Power (nV$^2$)')
+    plt.ylabel(r'Power (mV)$^2$')
     if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
 
     plt.show()
-	
-    return f[0][np.argmax(P)]
+    return [x, y]
 
 def invf(transform):
     """
