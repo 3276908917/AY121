@@ -47,9 +47,12 @@ def plot(arr, norm, i=0, f=None):
         f = len(arr)
     #fig = plt.figure()
     #ax = fig.add_subplot(111)
-    plt.plot(times[i:f], normalize(arr[i:f], norm))
-    plt.xlabel(r'Time ($\mu$s)')
-    plt.ylabel('Voltage (mV)')
+    plt.figure(figsize=(3,3))
+    plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)    
+    plt.plot(times[i:f], normalize(arr[i:f], norm))	    
+    plt.xlabel(r'Time ($\mu$s)', fontsize=12)
+    plt.ylabel('Voltage (mV)', fontsize=12)
+	
     plt.show()
 
     # I am assuming that we are continuing to use sample frequency 6.25e6 Hz

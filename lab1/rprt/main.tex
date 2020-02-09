@@ -14,6 +14,11 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
+\graphicspath{{res/}}
+
 \title{Your Paper}
 \author{Lukas Finkbeiner}
 
@@ -105,6 +110,64 @@ I need uncertainties on results but I do not yet know how to get these.
 \subsection{2}
 
 Without taking the spectrum, we want to perform visual analysis of the plots and find periods
+
+Motivation
+
+* Pico sampler model, what sampling rate we used
+
+* We're using the ugradio pico sampler code
+
+* We're using the \_\_\_ signal generator
+
+* Define terms $\nu_0$ = input frequency. $\nu_s$ = sampling frequency.
+
+Finally, we took the default 16000 samples for each signal. However, for the data analysis, we will be excluding the first 100 samples due to a peculiarity of the pico sampler which distorted these (\ref{fig:pico_start}).
+
+% Perhaps not important to discuss differences in peak to peak voltages across trials
+
+\begin{figure}
+\centering
+\includegraphics{5-3_bad} %[width=0.3\textwidth]
+\caption{\label{fig:pico_start}The oscilloscope displayed a constant signal throughout the period of data-taking. The data sampled from the pico sampler, however, reconstructs a signal with large aberrations in the first few microseconds.}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3_trial2}
+	\caption{$\nu_0 = .2 \nu_s = 1.25$ MHz.}
+	\label{fig:Nyq2}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3_trial6}
+	\caption{$\nu_0 = .6 \nu_s = 3.75$ MHz.}
+	\label{fig:Nyq6}
+\end{minipage}
+\end{figure}
+	
+\quad We may begin inspection of the samples with a qualitative approach. Figure \ref{fig:Nyq2} shows a signal which repeats about five times in the span of about 4 microseconds. This gives us 1.25 cycles per microsecond, or 1.25 MHz, as expected. Figure \ref{fig:Nyq6} is not as obviously derived from a sine wave (the shape is distorted by the shrinking gap between $\nu_0$ and $\nu_s$), but we may still say that there is a repeating signal with slightly under five repetitions in a span of 4 microseconds. This would give us slighly under 1.25 MHz, which is incorrect; thus we have qualitatively demonstrated an aliasing effect.
+% ?? Maybe I should put these annotations in the captions (it would be more appropriate there, I think)
+
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3_trial4}
+	\caption{$\nu_0 = .4 \nu_s = 2.5$ MHz.}
+	\label{fig:Nyq4}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{5-3_trial8}
+	\caption{$\nu_0 = .8 \nu_s = 5$ MHz.}
+	\label{fig:Nyq8}
+\end{minipage}
+\end{figure}
+
+% ?? These figures need annotations. You can probably just do the same qualitative thing that you did before.
+
 
 \subsection{3}
 
