@@ -130,7 +130,7 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     @ifreq input frequency
     @norm maximum observed amplitude of input signal
     @srate sampling frequency, default is lab 1 week 1
-    
+    Returns the Fourier transform.
     If there is excessive overlap between imaginary and real components,
         use volt_spec instead
     """
@@ -138,11 +138,11 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
 
-    f = ugradio.dft.dft(sample, vsamp=srate)
+    f = ugradio.dft.dft(sample, vsamp=srate)    
 
     ax1.plot(f[0], normalize(np.real(f[1]), norm), label='real component')
     ax1.plot(f[0], normalize(np.imag(f[1]), norm), label='imaginary component')
-    plt.xlabel('Frequency (Hz)')
+    plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Voltage (mV)')
     if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Voltage Spectrum: ' + str(ifreq) + ' MHz sinusoid')
@@ -150,6 +150,7 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     ax1.legend(bbox_to_anchor=(1, 1))
 
     plt.show()
+    return f
 
 def full_comparison(sample, rate):
     """
