@@ -50,6 +50,8 @@ def filtering():
     f[1][2400:2600] = f[1][13400:13600] = 0
     # target eliminated
     
+def latest_save():
+    np.savez('power_pack_7-3.npz', phn = pp_hn, pln = pp_ln, plp = pp_lp, php = pp_hp)
 
 # Low power: sum at 21.4505 MHz
     # difference at .550314 MHz
