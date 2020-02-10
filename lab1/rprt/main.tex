@@ -134,7 +134,8 @@ Finally, we took the default 16000 samples for each signal. However, for the dat
 \begin{figure}
 \centering
 \includegraphics{5-2/pico_bad} %[width=0.3\textwidth]
-\caption{\label{fig:pico_start}The oscilloscope displayed a constant signal throughout the period of data-taking. The data sampled from the pico sampler, however, reconstructs a signal with large aberrations in the first few microseconds.}
+\caption{The oscilloscope displayed a constant signal throughout the period of data-taking. The data sampled from the pico sampler, however, reconstructs a signal with large aberrations in the first few microseconds.}
+\label{fig:pico_start}
 \end{figure}
 
 \begin{figure}
@@ -311,6 +312,8 @@ available samples.''
 \end{minipage}
 \end{figure}
 
+\textcolor{red}{The y-axis is labeled incorrectly. We want log of square of voltage.}
+
 \subsection{5}
 
 \textcolor{red}{The data are completely aliased!!}
@@ -336,7 +339,8 @@ available samples.''
 \begin{figure}
 \centering
 \includegraphics[width=.45\linewidth]{5-6/12window}
-\caption{\label{fig:win12}Same frequency. Twelth window.}
+\caption{Same frequency. Twelth window.}
+\label{fig:win12}
 \end{figure}
 
 % They can't be harmonics; why else would all the spikes have the same amplitudes. And, for that matter, why do all windows show such low amplitudes? Ah, it is because the input signal (as seen on the oscilloscope) has a much lower amplitude--squaring further affects to that end.
@@ -351,17 +355,30 @@ Noise.
 
 \subsection{1}
 
-You can make lists with automatic numbering \dots
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{7-1/l_power}
+	\caption{}
+	\label{fig:low_pow}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.8\linewidth]{7-1/h_power}
+	\caption{}
+	\label{fig:high_pow}
+\end{minipage}
+\end{figure}
 
-\begin{enumerate}
-\item Like this,
-\item and like this.
-\end{enumerate}
-\dots or bullet points \dots
-\begin{itemize}
-\item Like this,
-\item and like this.
-\end{itemize}
+\begin{figure}
+\centering
+\includegraphics[width=.45\linewidth]{7-1/low_osc}
+\caption{}
+\label{fig:low_display}
+\end{figure}
+
+\textcolor{red}{These figures are missing captions!}
 
 \subsection{2}
 
