@@ -44,26 +44,22 @@ def noise_averaged(P, N):
     avg /= N
     return avg
 
-def noise_layer:
-    """
-    General but highly volatile plotting function
-    (because I do not like writing functions in the shell).    
-    Mostly ad-hoc and designed for rapid plotting 
-    of similar categories of data.
-    """
+def noise_layer(P):
     plt.figure(figsize=(3,3))
     plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)
-    if dual:
-        plt.plot(x, y[0], label=noteA)
-        plt.plot(x, y[1], label=noteB)
-        plt.legend()
-    else:    
-        plt.plot(x, y)   
+
+    plt.plot(P[0][0], noise_averaged(P, 1), label='1 block')
+    plt.plot(P[0][0], noise_averaged(P, 2), label='2 blocks')
+    plt.plot(P[0][0], noise_averaged(P, 4), label='4 blocks')
+    plt.plot(P[0][0], noise_averaged(P, 8), label='8 blocks')
+    plt.plot(P[0][0], noise_averaged(P, 16), label='16 blocks')
+    plt.plot(P[0][0], noise_averaged(P, 32), label='32 blocks')
+
+    plt.legend() 
     
-    plt.xlabel(xnote, fontsize=12)
-    plt.ylabel(ynote, fontsize=12)
-    if logv:    
-        plt.yscale('log')	
+    plt.xlabel('Frequency (MHz)', fontsize=12)
+    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    plt.yscale('log')
 
     plt.show()
 
