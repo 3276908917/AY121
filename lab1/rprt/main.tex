@@ -31,6 +31,8 @@ We studied signals.
 
 \end{abstract}
 
+% No need to re-derive anything!!
+
 \section{Introduction and Background}
 
 \subsection{The Fourier Transform}
@@ -116,6 +118,10 @@ All that sweet, sweet trig.
 \section{Methods}
 
 \quad This is the equipment I used. These are the libraries and functions I used. This is how I used them ($vague$ hint at your code). Uncertainty? Technical errors?
+
+\
+
+\quad To begin our investigation of the Nyquist criterion, we decided on a sampling frequency $\nu_s = 6.25$ MHz at which the pico sampler (a PicoScope 2206A) remained for the duration of the data collection for all signals. We then used the N9310A RF Signal Generator to output signals at frequency $\nu_0$: fractions of the sampling frequency. For example, one of our input signals was $\nu_0 = .4 \nu_s = 2.5$ MHz. We used ugradio...
 
 \subsection{Sideband}
 
@@ -500,6 +506,8 @@ Variance = 403.19203959371663 (mV)$^2$
 % I really do not want to take this data, so I am deliberately leaving a more challenging analysis task for last-minute
 
 Single side band mixer is more difficult to perform.
+
+\section{Conclusions}
 
 \bibliographystyle{alpha}
 \bibliography{sample}

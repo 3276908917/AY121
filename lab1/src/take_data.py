@@ -6,7 +6,7 @@ def g(d):
     Acquire data through pico sampler. 1V range,
     divisor=@d.
     """
-    return ugradio.pico.capture_data('1V', divisor=10)
+    return ugradio.pico.capture_data('1V', divisor=d)
 
 def collect_noise():
     """
