@@ -35,15 +35,87 @@ We studied signals.
 
 \subsection{The Fourier Transform}
 
-\subsection{Nyquist's Theorem}
+Where $V(t)$ is voltage as a function of time and $V(\nu)$ is voltage as a function of frequency $\nu$.
 
-\subsection{The Convolution and Correlation Theora}
+\
+
+$V(\nu) = \int_{-T / 2}^{T / 2} V(t) \exp(2 \pi i \nu t) dt$
+
+\
+
+Where T is the length of the time sample.
+
+\
+
+$V(t) = \frac{1}{\nu_s} \int_{- \nu_s / 2}^{\nu_s / 2} \tilde{V}(\nu) \exp(-2 \pi i \nu t) d \nu$
+
+\
+
+where $\nu_s$ is the sampling frequency used.
+
+\textcolor{red}{What happens if you change the bounds in the manner (N / 2 - 1) / $\nu_s$}
+
+% ?? I need to talk about Parseval's Theorem
+
+\subsection{Positive and Negative Frequencies}
+
+``complex inputs to a Fourier Transform break the positive/negative frequency degeneracy''
+
+The sine function is odd:
+
+$\sin(-\omega t) = -sin(\omega t)$
+
+The cosine function is even:
+
+$\cos(-\omega t) = \cos (\omega t)$
+
+We can generalize under Euler's identity:
+
+$A\exp(i \omega t) = A \cos(\omega t) + i \cdot A \sin(\omega t)$
+
+$A\exp(-i \omega t) = A \cos(-\omega t) + i \cdot A \sin(-\omega t) = A \cos(\omega t) - i \cdot A \sin(\omega t)$
+
+\subsection{Nyquist's Theorem and Aliasing}
+
+$f_s > 2 f_{max}$
+
+\subsection{The Convolution and Correlation Theorems}
+
+The convolution of two functions $f(t)$ and $g(t)$ is defined as:
+
+\
+
+$[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$
+
+\
+
+The correlation of two functions $f(t)$ and $g(t)$ is defined as
+
+\
+
+$[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
+
+\
+
+\textcolor{red}{You may want to prove this by substituting the Fourier transform}
+
+\
+
+$[\tilde{f * g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f * g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g}(\nu)$
+
+\
+
+$[\tilde{f \star g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f \star g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g^*}(\nu)$
+
+\textcolor{red}{Now: how is the ACF relevant to this paper}
 
 \subsection{Sideband Theory}
 
+All that sweet, sweet trig.
+
 \section{Methods}
 
-\quad	This is the equipment I used. These are the libraries and functions I used. Uncertainty? Technical errors?
+\quad This is the equipment I used. These are the libraries and functions I used. This is how I used them ($vague$ hint at your code). Uncertainty? Technical errors?
 
 \subsection{Sideband}
 
@@ -79,7 +151,9 @@ For the upper sideband, we can see spikes at almost the difference frequency (.5
 
 For the lower sideband, we see outer spikes at 9 MHz. The inner spikes are still at roughly the difference frequency...
 
-\section{Outline and To-Do}
+\section{Notes to Self}
+
+% I could try zeroing out the different averages again. Maybe the log plot would look nicer. But you couldn't just use zeroes, becaus on a log plot that just creates a spike in the opposite direction.
 
 What am I doing? Not ACF (5.3, 5.7) and procrastinating on 5.5 so that I can get some writing done.
 
@@ -91,19 +165,14 @@ What am I doing? Not ACF (5.3, 5.7) and procrastinating on 5.5 so that I can get
 
 %\textcolor{black}
 
-Rough outline:
 
 argue what the Nyquist criterion is, based on results.
-
-Observations and Data
 
 * Include make and model of all equipment used.
 
 * "Don't quote a number without the uncertainty and units."
 
-* Introduce a hypothesis before each result, and justify each hypothesis with theory
-
-% I guess ?? is now the code I use to point out areas to which I need to return later.
+% ?? is now the code I use to point out areas to which I need to return later.
 
 Discussion on results for week 2, section 1
 
@@ -118,6 +187,8 @@ I need to include details about the equipment used, but how in-depth do I need t
 \
 
 \textcolor{red}{I need uncertainties on results but I do not yet know how to get these.}
+
+Closer to the end of writing, design a new subsection layout for the results section. You of course cannot make references like ``5.2'' and ``7.3'' in the submission.
 
 \section{Results}
 

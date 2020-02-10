@@ -1,18 +1,19 @@
 \BOOKMARK [1][-]{section.1}{Introduction and Background}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{The Fourier Transform}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Nyquist's Theorem}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.3}{The Convolution and Correlation Theora}{section.1}% 4
-\BOOKMARK [2][-]{subsection.1.4}{Sideband Theory}{section.1}% 5
-\BOOKMARK [1][-]{section.2}{Methods}{}% 6
-\BOOKMARK [2][-]{subsection.2.1}{Sideband}{section.2}% 7
-\BOOKMARK [1][-]{section.3}{Outline and To-Do}{}% 8
-\BOOKMARK [1][-]{section.4}{Results}{}% 9
-\BOOKMARK [2][-]{subsection.4.1}{5.2}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.2}{5.3}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.3}{5.4}{section.4}% 12
-\BOOKMARK [2][-]{subsection.4.4}{5.5}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.5}{5.6}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.6}{5.7}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.7}{7.1}{section.4}% 16
-\BOOKMARK [2][-]{subsection.4.8}{7.2}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.9}{7.3}{section.4}% 18
+\BOOKMARK [2][-]{subsection.1.2}{Positive and Negative Frequencies}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Nyquist's Theorem and Aliasing}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{The Convolution and Correlation Theorems}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{Sideband Theory}{section.1}% 6
+\BOOKMARK [1][-]{section.2}{Methods}{}% 7
+\BOOKMARK [2][-]{subsection.2.1}{Sideband}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Notes to Self}{}% 9
+\BOOKMARK [1][-]{section.4}{Results}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{5.2}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{5.3}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{5.4}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.4}{5.5}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.5}{5.6}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.6}{5.7}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.7}{7.1}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.8}{7.2}{section.4}% 18
+\BOOKMARK [2][-]{subsection.4.9}{7.3}{section.4}% 19
