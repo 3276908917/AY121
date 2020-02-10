@@ -14,7 +14,7 @@ def collect_noise():
     """
     noises = []
     for c in range (0, 32):
-        noises.append(g())
+        noises.append(g(2))
     return noises
 
 def d():

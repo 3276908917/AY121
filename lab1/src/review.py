@@ -15,6 +15,8 @@ def create_time(v_s, L=16000):
     for i in range(0, L):
         times.append(i / v_s * 10 ** 6)
 
+# I use this for 5.4, but scale and N are not actually separable,
+    # so this function may not be doing what I hope it to be doing...
 def scale_freqs(v_s, N, scale):
     """
     Return a length @scale*@N array
@@ -23,6 +25,16 @@ def scale_freqs(v_s, N, scale):
     lobe = round(scale * N / 2)
     delta = v_s / scale / N
     return np.array([i * delta for i in range(-lobe, lobe)])
+
+# Primarily comes in handy for analysis 5.6
+def freq_range(v_s, N, W):
+    """
+    Return a N-length array
+    Where frequencies range between plus or minus W * v_s / 2
+    """
+    lobe = round(W * v_s / 2)
+    interval = W * v_s / N
+    return np.array([i * interval for i in range(-lobe, lobe)])
 
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)
