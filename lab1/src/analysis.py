@@ -28,7 +28,7 @@ def power_plot(sample, norm, srate=6.25e6, ifreq=None, freqs=None):
     if freqs is not None:
         f = ugradio.dft.dft(sample, f=freqs, vsamp=srate)
     else:
-        f = ugradio.dft.dft(sample, vsamp-srate)    
+        f = ugradio.dft.dft(sample, vsamp=srate)    
     P = np.abs(f[1]) ** 2
     x = f[0] / 10 ** 6
     y = normalize(P, norm ** 2) / 1000 ** 2

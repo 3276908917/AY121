@@ -32,7 +32,8 @@ def freq_range(v_s, N, W):
     Return a N-length array
     Where frequencies range between plus or minus W * v_s / 2
     """
-    lobe = round(W * v_s / 2)
+    #lobe = round(W * v_s / 2)
+    lobe = round(N / 2)
     interval = W * v_s / N
     return np.array([i * interval for i in range(-lobe, lobe)])
 

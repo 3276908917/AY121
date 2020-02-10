@@ -13,3 +13,8 @@ p_ACF = mini_volt_spec(n_corr, 658)
 # I am struggling to demonstrate either of the following:
     # Power spectrum looks like FT of ACF
     # iFT of power spectrum looks like ACF
+
+
+# L Tracker: what can I take the hit on?
+    # ACF may not be a biggie
+    # Most of 7.3
