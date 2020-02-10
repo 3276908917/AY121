@@ -20,6 +20,8 @@ def boost_freqs(v_s, N):
     Return a length 5*N array
     Of over-sampled frequencies 
     """
+    # The 5/2 is currently the issue.
+    # Before, we used range(1, 5 * N + 1)
     return [i * v_s / (5 * N) for i in range(-5/2 * N, 5/2 * N + 1)]
 
 # this default line poises the script for lab 1 week 1 data collection
