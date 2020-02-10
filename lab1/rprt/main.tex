@@ -29,7 +29,16 @@
 Your abstract.
 \end{abstract}
 
-\section{Introduction}
+\section{Introduction and Background}
+
+* The Fourier transform
+* Nyquist's Theorem
+* Convolution / correlation theorem
+* Sideband theory
+
+\section{Methods}
+
+\quad	This is the equipment I used. These are the libraries and functions I used. Uncertainty? Technical errors?
 
 \section{Loose Notes and Calculations}
 
@@ -111,9 +120,9 @@ I need to include details about the equipment used, but how in-depth do I need t
 
 \textcolor{red}{I need uncertainties on results but I do not yet know how to get these.}
 
-\section{5}
+\section{Results}
 
-\subsection{2}
+\subsection{5.2}
 
 Without taking the spectrum, we want to perform visual analysis of the plots and find periods
 
@@ -207,7 +216,7 @@ Finally, we took the default 16000 samples for each signal. However, for the dat
 \end{minipage}
 \end{figure}
 
-\subsection{3}
+\subsection{5.3}
 
 ``What does it mean, that the voltage spectra are complex? What do the real and imaginary
 parts represent? Is the imaginary part less ‘real’ than the real part? What does it mean, for
@@ -294,7 +303,7 @@ available samples.''
 
 \textcolor{red}{Differences? Probably because I did not zero out the middle}
 
-\subsection{4}
+\subsection{5.4}
 
 \begin{figure}
 \centering
@@ -314,11 +323,11 @@ available samples.''
 
 \textcolor{red}{The y-axis is labeled incorrectly. We want log of square of voltage.}
 
-\subsection{5}
+\subsection{5.5}
 
-\textcolor{red}{The data are completely aliased!!}
+\textcolor{red}{The separation looks pretty good so far.}
 
-\subsection{6}
+\subsection{5.6}
 
 \begin{figure}
 \centering
@@ -345,7 +354,7 @@ available samples.''
 
 % They can't be harmonics; why else would all the spikes have the same amplitudes. And, for that matter, why do all windows show such low amplitudes? Ah, it is because the input signal (as seen on the oscilloscope) has a much lower amplitude--squaring further affects to that end.
 
-\subsection{7}
+\subsection{5.7}
 
 Noise.
 
@@ -355,11 +364,9 @@ Mean = 3.899292452830189 mV
 Standard deviation = 20.079642416978363 mV
 Variance = 403.19203959371663 (mV)$^2$
 
-\textcolor{red}{The data are completely aliased!!}
+\textcolor{red}{I am allowing the first 100 samples to contaminate. I do not know how much I should trod outside the 16000 recommendation.}
 
-\section{7}
-
-\subsection{1}
+\subsection{7.1}
 
 \begin{figure}
 \centering
@@ -386,15 +393,9 @@ Variance = 403.19203959371663 (mV)$^2$
 
 \textcolor{red}{These figures are missing captions!}
 
-\subsection{2}
+\subsection{7.2}
 
-You can upload a \verb|.bib| file containing your BibTeX entries, created with JabRef; or import your \href{https://www.overleaf.com/blog/184}{Mendeley}, CiteULike or Zotero library as a \verb|.bib| file. You can then cite entries from it, like this: \cite{greenwade93}. Just remember to specify a bibliography style, as well as the filename of the \verb|.bib|.
-
-You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
-
-We hope you find Overleaf useful, and please let us know if you have any feedback using the help menu above --- or use the contact form at \url{https://www.overleaf.com/contact}!
-
-\subsection{3}
+\subsection{7.3}
 
 % I really do not want to take this data, so I am deliberately leaving a more challenging analysis task for last-minute
 
