@@ -15,6 +15,13 @@ def create_time(v_s, L=16000):
     for i in range(0, L):
         times.append(i / v_s * 10 ** 6)
 
+def boost_freqs(v_s, N):
+    """
+    Return a length 5*N array
+    Of over-sampled frequencies 
+    """
+    return [i * v_s / (5 * N) for i in range(-5/2 * N, 5/2 * N + 1)]
+
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)
 
@@ -35,7 +42,7 @@ def normalize(arr, actual_max):
     norm_c = actual_max / max(arr)
     return arr * norm_c
 
-def plot(x, y, xnote, ynote, dual=False, noteA=None, noteB=None):
+def plot(x, y, xnote, ynote, dual=False, noteA=None, noteB=None, logv=False):
     """
     General but highly volatile plotting function
     (because I do not like writing functions in the shell).    
@@ -53,7 +60,9 @@ def plot(x, y, xnote, ynote, dual=False, noteA=None, noteB=None):
     
     plt.xlabel(xnote, fontsize=12)
     plt.ylabel(ynote, fontsize=12)
-	
+    if logv:    
+        plt.yscale('log')	
+
     plt.show()
 
 def plot_sample(arr, norm, pad=0, i=0, f=None):
