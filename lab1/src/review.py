@@ -20,11 +20,9 @@ def scale_freqs(v_s, N, scale):
     Return a length @scale*@N array
     Of over/under-sampled frequencies 
     """
-    # The 5/2 is currently the issue.
-    # Before, we used range(1, 5 * N + 1)
     lobe = round(scale * N / 2)
     delta = v_s / scale / N
-    return [i * delta for i in range(-lobe, lobe)]
+    return np.array([i * delta for i in range(-lobe, lobe)])
 
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)
