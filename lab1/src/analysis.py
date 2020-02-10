@@ -8,6 +8,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
+def hist_gauss(sample, b, sigma):
+    count, bins, ignored = plt.hist(sample, 64, density=True)
+    plt.plot(bins, 4.5/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
+    plt.ylabel(r'Frequency')
+    plt.xlabel('Voltage (V)')
+    plt.show()
+
 def power_plot(sample, norm, srate=6.25e6, ifreq=None, freqs=None):
     """
     Clean, labeled plot of power spectrum of @sample
