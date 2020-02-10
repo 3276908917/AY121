@@ -36,7 +36,20 @@ def recreation():
     # ACF may not be a biggie
     # Most of 7.3
 
+def zeros(P):
+    for i in range(0, 32):
+        P[i][7990:8008] = 0
 
+def filtering():
+    data71 = load_saves('data/7_1.npz')
+    ld = data71['l_d1']
+    f = ugradio.dft.dft(ld, vsamp=62.5e6)
+    # acquire target
+    plt.plot(np.real(f[1]))
+    # target aquired
+    f[1][2400:2600] = f[1][13400:13600] = 0
+    # target eliminated
+    
 
 # Low power: sum at 21.4505 MHz
     # difference at .550314 MHz
