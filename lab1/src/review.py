@@ -15,14 +15,16 @@ def create_time(v_s, L=16000):
     for i in range(0, L):
         times.append(i / v_s * 10 ** 6)
 
-def boost_freqs(v_s, N):
+def scale_freqs(v_s, N, scale):
     """
-    Return a length 5*N array
-    Of over-sampled frequencies 
+    Return a length @scale*@N array
+    Of over/under-sampled frequencies 
     """
     # The 5/2 is currently the issue.
     # Before, we used range(1, 5 * N + 1)
-    return [i * v_s / (5 * N) for i in range(-5/2 * N, 5/2 * N + 1)]
+    lobe = round(scale * N / 2)
+    delta = v_s / scale / N
+    return [i * delta for i in range(-lobe, lobe)]
 
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)
