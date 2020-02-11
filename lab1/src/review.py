@@ -80,6 +80,20 @@ def plot(x, y, xnote, ynote, dual=False, noteA=None, noteB=None, logv=False):
 
     plt.show()
 
+def limited_plot(x, y, xnote, ynote, ycaps=None, logv=False):
+    plt.figure(figsize=(3,3))
+    plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)
+    plt.plot(x, y)   
+    
+    plt.xlabel(xnote, fontsize=12)
+    plt.ylabel(ynote, fontsize=12)
+    if ycaps is not None:    
+        plt.ylim(ycaps)
+    if logv:    
+        plt.yscale('log')	
+
+    plt.show()
+
 def plot_sample(arr, norm, pad=0, i=0, f=None):
     """
     Produce and display a plot

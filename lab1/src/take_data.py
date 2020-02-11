@@ -41,7 +41,7 @@ def noise_averaged(P, N):
     avg = P[0][1]
     for c in range(1, N):
         avg += P[c][1]
-    avg /= N
+    #avg /= N
     return avg
 
 def noise_layer(P):
