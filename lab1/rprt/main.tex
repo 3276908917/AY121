@@ -77,6 +77,8 @@ $A\exp(i \omega t) = A \cos(\omega t) + i \cdot A \sin(\omega t)$
 
 $A\exp(-i \omega t) = A \cos(-\omega t) + i \cdot A \sin(-\omega t) = A \cos(\omega t) - i \cdot A \sin(\omega t)$
 
+\textcolor{red}{Show how such a formulation can explain a phase shift.}
+
 \subsection{Nyquist's Theorem and Aliasing}
 
 $f_s > 2 f_{max}$
@@ -239,7 +241,9 @@ A more nuanced example comes from frequencies close to $.5 \nu_s$: compare figur
 
 The power spectra exactly confirm these estimations. Furthermore, there are no obvious aberrations in the power spectra to indicate whether the signal was aliased during sampling. Consider, for example, that figures \ref{fig:NyPw4} and \ref{fig:NyPw6} are identical. An argmax function yielded precisely the same values for the frequency peaks.
 
-% ?? I need to discuss negative frequencies yet?
+The power spectrum for our fifth trial ($\nu_0 = .5 \nu_s = 3.125$ MHz) yielded an argmax with many digits (all other power spectra, even the aliased, returned frequencies to two decimal places). In other words, the calculation becomes more sensitive in a small region around this midpoint. All frequencies above this returned incorrect maxima in the power spectrum, so we have verified the Nyquist criterion. 
+
+\textcolor{red}{?? No value and no uncertainty for this trial}
 
 \begin{figure}
 \centering
@@ -274,6 +278,22 @@ The power spectra exactly confirm these estimations. Furthermore, there are no o
 \end{figure}
 
 \subsection{5.3}
+
+The power spectra show two spikes symmetric about 0. We see them at the positive and negative of (for the non-aliased samples) the input frequency. We can consider the concept of a negative frequency in a broader context by returning to Euler's identity as recalled in the introduction.
+
+Specifically, we calculated the voltage spectra of our samples. Since this is directly the Fourier transform, we now see real and imaginary components which are not visible in the power spectrum due to the magnitude-square operation applied to the outputs.
+
+Differences between voltage spectra of the same signal suggest that variation in imaginary and real components are consequences of phase shifts. Taking multiple blocks of data one after the other (which loosely controls for environmental variation) allows the PicoScope to begin taking data points such that the signals do not overlap.
+
+Power spectra are provided alongside the voltage spectra to demonstrate the power spectrum's destruction of information. The power spectrum does not change (figures \ref{fig:SyPw1}, \ref{fig:SyPw2}, and \ref{fig:SyPw3} are identical) and exhibits complete symmetry always. The voltage spectra, by contrast, are inconsistent. However, excepting noise, which seems to be influencing the patterns at the centers, the spectra are symmetric and antisymmetric in their real and imaginary components, respectively.
+
+% ?? You probably want to put the following in the conclusion
+
+Phase is defined with respect to some reference point; although we can discuss the phase of a single sample through its voltage spectrum, phase only becomes physically meaningful when we have multiple signals to compare. Therefore, we would find voltage spectra to be physically insightful when we are investigating multiple signals at once. Power spectra are useful for both single and simultaneous signals but, as we have seen, combined signals lead to results about the combination, and information about the individual constituents is less accessible. However, power spectra immediately provide explicit characteristics of signals, so their utility in examining individual signals is demonstrated.
+
+% it would be kind of cool to overplot all three waveforms, in different colors...
+
+\textcolor{red}{Come back to this section to discuss the ACF discrepancies}
 
 ``What does it mean, that the voltage spectra are complex? What do the real and imaginary
 parts represent? Is the imaginary part less ‘real’ than the real part? What does it mean, for
@@ -328,7 +348,7 @@ frequencies to be negative versus positive?''
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.8\linewidth]{5-3/pow3}
-	\caption{Powerish}
+	\caption{Powerishy Squishy}
 	\label{fig:SyPw3}
 \end{minipage}
 \end{figure}
@@ -346,13 +366,13 @@ available samples.''
 \centering
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.8\linewidth]{5-3/volt3}
-	\caption{Voltage}
+	\includegraphics[width=.8\linewidth]{5-3/ACF}
+	\caption{\textcolor{red}{This is supposed to be the dft/idft version}}
 	\label{fig:inverse}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.8\linewidth]{5-3/pow3}
+	\includegraphics[width=.8\linewidth]{5-3/ACF}
 	\caption{Powerish}
 	\label{fig:ACF}
 \end{minipage}
