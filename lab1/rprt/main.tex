@@ -121,7 +121,11 @@ All that sweet, sweet trig.
 
 \
 
-\quad To begin our investigation of the Nyquist criterion, we decided on a sampling frequency $\nu_s = 6.25$ MHz at which the pico sampler (a PicoScope 2206A) remained for the duration of the data collection for all signals. We then used the N9310A RF Signal Generator to output signals at frequency $\nu_0$: fractions of the sampling frequency. For example, one of our input signals was $\nu_0 = .4 \nu_s = 2.5$ MHz. We used ugradio...
+\quad To begin our investigation of the Nyquist criterion, we decided on a sampling frequency $\nu_s = 6.25$ MHz at which the pico sampler (a PicoScope 2206A) remained for the duration of the data collection for all signals. We then used the N9310A RF Signal Generator to output signals at frequency $\nu_0$: fractions of the sampling frequency. For example, one of our input signals was $\nu_0 = .4 \nu_s = 2.5$ MHz. For all signals, we performed visual inspections of the pico sampler's input by using a T-joint and connecting the output to an oscilloscope (a Rigol DS1052E). We used the ugradio module to perform data collection (ugradio.pico.capture\_data) and, later on, to perform Fourier and inverse Fourier transforms (ugradio.dft.dft and ugradio.dft.idft).
+
+\quad To consider the frequency resolution for two signals of similar frequency, we employed a second signal generator. The 83712B has a lower limit of 10 MHz output frequency. Consequently, we set our original signal generator to small increments above that frequency and needed to increase the sampling frequency to $\nu_s = 31.25$ MHz.
+
+\quad To investigate the impact of noise on the Fourier transform, we switched the pico sampler's input to an NOD 5250 noise generator (6 MHz bandpass) at zero attenuation. We collected 32 blocks of 16000 samples from the PicoScope, this time using the sampling frequency $\nu_s = 62.5$ MHz.
 
 \subsection{Sideband}
 
@@ -129,7 +133,7 @@ We used one signal generator (N9310A) with a wide range of allowed frequencies, 
 
 We set the 83712B to run at 11 MHz and 1.5 dBm (justify??). This gave $\Delta \nu = .05 \times \nu_{LO} = .55$ MHz. We set the N9310A to run at 1.5 dBm as well and, depending on the trial, either $\nu_{RF} = \nu_{LO} + \Delta \nu = 11.55$ MHz or $\nu_{RF} = \nu_{LO} - \Delta \nu = 10.45$ MHz. 
 
-When collecting data, we sampled at 32.5 MHz, which is more than double the Nyquist frequency. ?? why is this important and give a calculation of how far above the Nyquist this is
+When collecting data, we sampled at 31.25 MHz, which is more than double the Nyquist frequency. ?? why is this important and give a calculation of how far above the Nyquist this is
 
 \
 
