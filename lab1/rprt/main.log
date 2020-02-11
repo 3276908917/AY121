@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  11 FEB 2020 10:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  11 FEB 2020 10:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -939,11 +939,11 @@ File: res/5-7/pow_all.png Graphic file (type png)
 <use res/5-7/pow_all.png>
 Package pdftex.def Info: res/5-7/pow_all.png  used on input line 497.
 (pdftex.def)             Requested size: 192.0548pt x 126.91107pt.
-<res/5-7/comparison.png, id=220, 1004.553pt x 560.0925pt>
+<res/5-7/comparison.png, id=220, 344.0052pt x 240.6591pt>
 File: res/5-7/comparison.png Graphic file (type png)
 <use res/5-7/comparison.png>
 Package pdftex.def Info: res/5-7/comparison.png  used on input line 505.
-(pdftex.def)             Requested size: 426.79135pt x 237.96352pt.
+(pdftex.def)             Requested size: 426.79135pt x 298.57576pt.
 <res/7-1/l_power.png, id=222, 303.534pt x 216.81pt>
 File: res/7-1/l_power.png Graphic file (type png)
 <use res/7-1/l_power.png>
@@ -1033,7 +1033,7 @@ lic/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm090
 xmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000
 .pfb>
-Output written on main.pdf (12 pages, 988452 bytes).
+Output written on main.pdf (12 pages, 924785 bytes).
 PDF statistics:
  351 PDF objects out of 1000 (max. 8388607)
  230 compressed objects within 3 object streams
