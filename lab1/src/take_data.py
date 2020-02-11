@@ -41,10 +41,11 @@ def noise_averaged(P, N):
     avg = P[0][1]
     for c in range(1, N):
         avg += P[c][1]
-    #avg /= N
+    avg /= N
     return avg
 
-def noise_layer(P):
+# keep re-running this and updating the value of ylim
+def noise_layer(P, ycaps=None):
     plt.figure(figsize=(3,3))
     plt.subplots_adjust(left=.2, bottom=.15, right=.95, top=.9)
 
@@ -59,6 +60,9 @@ def noise_layer(P):
     
     plt.xlabel('Frequency (MHz)', fontsize=12)
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    
+    if ycaps is not None:
+        plt.ylim(ycaps)
     plt.yscale('log')
 
     plt.show()
