@@ -346,20 +346,22 @@ Figures \ref{fig:win4}, \ref{fig:win8}, \ref{fig:win12} all represent power spec
 
 Our first sample of noise had unsurprising characteristics: the mean was close to zero (3.7988 (mV)$^2$) and the variance and standard deviation were proportionally large (412.3664 (mV)$^4$ and 20.3068 (mV)$^2$, respectively).
 
-Figure \ref{fig:histogram}
+Figure \ref{fig:histogram} shows a gaussian curve plotted over a histogram of the noise voltages for the first sample. The good fit demonstrates that the noise is indeed normal.
+
+Figure \ref{fig:pow1} shows a plot of the power spectrum of this first sample. A spike at zero overshadows the rest of the data, so we adjust the limits on the vertical axis accordingly. If we take the average of the power spectra of 32 noise samples procured in the same way, we find that the noise (as in, that part of the power spectrum which is not associated with the DC input, the 0 MHz amplitude) levels decrease as we would expect by taking the average of random fluctuations.
 
 \begin{figure}
 \centering
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.9\linewidth]{5-7/histo}
-	\caption{}
+	\caption{This histogram of the first noise \hfill \break sample  roughly approximates the \hfill \break gaussian curve overlaid in red.}
 	\label{fig:histogram}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.9\linewidth]{5-7/comparison}
-	\caption{}
+	\caption{an over-layering of power spectra averages, where each color represents an average based an a different number of samples used}
 	\label{fig:avgs_comparison}
 \end{minipage}
 \end{figure}
@@ -369,18 +371,18 @@ Figure \ref{fig:histogram}
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.9\linewidth]{5-7/pow1}
-	\caption{}
+	\caption{One noise sample (16000 points)}
 	\label{fig:pow1}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.9\linewidth]{5-7/pow_all}
-	\caption{}
+	\caption{Average of 32 noise samples}
 	\label{fig:pow_all}
 \end{minipage}
 \end{figure}
 
-Based on a visual inspection of \ref{fig:avgs_comparison}, the signal to noise ratio power law, as it depends on the number of blocks $N$ used in the sample, is difficult to see. The differences on the logarithmic plot are difficult to see, and it is unclear whether $x$ (as in, signal to noise ratio $\propto N^x$) would be much larger than one tenth. 
+Figure \ref{fig:avgs_comparison} represents . Based on a visual inspection, the signal to noise ratio power law, as it depends on the number of blocks $N$ used in the sample, is difficult to see. The differences on the logarithmic plot are difficult to see, and it is unclear whether $x$ (as in, signal to noise ratio $\propto N^x$) would be much larger than one tenth. 
 
 Again, the ACF analysis failed. Please refer to the earlier analysis for a discussion of the ACF as well as the correlation and convolution theorems.
 

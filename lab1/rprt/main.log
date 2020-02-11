@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  11 FEB 2020 12:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  11 FEB 2020 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -908,80 +908,80 @@ Package pdftex.def Info: res/5-6/12window.png  used on input line 334.
 (pdftex.def)             Requested size: 192.0548pt x 106.69766pt.
 [6 <./res/5-5/10k_factor8.png> <./res/5-5/5k_factor16.png> <./res/5-6/4window.p
 ng> <./res/5-6/8window.png>]
-<res/5-7/histo.png, id=177, 462.528pt x 346.896pt>
+<res/5-7/histo.png, id=179, 462.528pt x 346.896pt>
 File: res/5-7/histo.png Graphic file (type png)
 <use res/5-7/histo.png>
-Package pdftex.def Info: res/5-7/histo.png  used on input line 353.
+Package pdftex.def Info: res/5-7/histo.png  used on input line 357.
 (pdftex.def)             Requested size: 192.0548pt x 144.04384pt.
-<res/5-7/comparison.png, id=178, 344.0052pt x 240.6591pt>
+<res/5-7/comparison.png, id=180, 344.0052pt x 240.6591pt>
 File: res/5-7/comparison.png Graphic file (type png)
 <use res/5-7/comparison.png>
-Package pdftex.def Info: res/5-7/comparison.png  used on input line 359.
+Package pdftex.def Info: res/5-7/comparison.png  used on input line 363.
 (pdftex.def)             Requested size: 192.0548pt x 134.35689pt.
-<res/5-7/pow1.png, id=179, 328.8285pt x 216.81pt>
+<res/5-7/pow1.png, id=181, 328.8285pt x 216.81pt>
 File: res/5-7/pow1.png Graphic file (type png)
 <use res/5-7/pow1.png>
-Package pdftex.def Info: res/5-7/pow1.png  used on input line 369.
+Package pdftex.def Info: res/5-7/pow1.png  used on input line 373.
 (pdftex.def)             Requested size: 192.0548pt x 126.63318pt.
-<res/5-7/pow_all.png, id=180, 328.1058pt x 216.81pt>
+<res/5-7/pow_all.png, id=182, 328.1058pt x 216.81pt>
 File: res/5-7/pow_all.png Graphic file (type png)
 <use res/5-7/pow_all.png>
-Package pdftex.def Info: res/5-7/pow_all.png  used on input line 375.
+Package pdftex.def Info: res/5-7/pow_all.png  used on input line 379.
 (pdftex.def)             Requested size: 192.0548pt x 126.91107pt.
-<res/7-1/l_power.png, id=183, 303.534pt x 216.81pt>
-File: res/7-1/l_power.png Graphic file (type png)
-<use res/7-1/l_power.png>
-Package pdftex.def Info: res/7-1/l_power.png  used on input line 395.
-(pdftex.def)             Requested size: 170.71718pt x 121.93878pt.
-<res/7-1/h_power.png, id=184, 299.9205pt x 216.81pt>
-File: res/7-1/h_power.png Graphic file (type png)
-<use res/7-1/h_power.png>
-Package pdftex.def Info: res/7-1/h_power.png  used on input line 401.
-(pdftex.def)             Requested size: 170.71718pt x 123.41426pt.
  [7 <./res/5-6/12window.png> <./res/5-7/histo.png> <./res/5-7/comparison.png> <
 ./res/5-7/pow1.png> <./res/5-7/pow_all.png>]
+<res/7-1/l_power.png, id=197, 303.534pt x 216.81pt>
+File: res/7-1/l_power.png Graphic file (type png)
+<use res/7-1/l_power.png>
+Package pdftex.def Info: res/7-1/l_power.png  used on input line 399.
+(pdftex.def)             Requested size: 170.71718pt x 121.93878pt.
+<res/7-1/h_power.png, id=198, 299.9205pt x 216.81pt>
+File: res/7-1/h_power.png Graphic file (type png)
+<use res/7-1/h_power.png>
+Package pdftex.def Info: res/7-1/h_power.png  used on input line 405.
+(pdftex.def)             Requested size: 170.71718pt x 123.41426pt.
 <res/7-1/low_osc.png, id=203, 561.5379pt x 242.8272pt>
 File: res/7-1/low_osc.png Graphic file (type png)
 <use res/7-1/low_osc.png>
-Package pdftex.def Info: res/7-1/low_osc.png  used on input line 413.
+Package pdftex.def Info: res/7-1/low_osc.png  used on input line 417.
 (pdftex.def)             Requested size: 341.43437pt x 147.6464pt.
 <res/7-1/filtered.png, id=204, 468.3096pt x 216.81pt>
 File: res/7-1/filtered.png Graphic file (type png)
 <use res/7-1/filtered.png>
-Package pdftex.def Info: res/7-1/filtered.png  used on input line 420.
+Package pdftex.def Info: res/7-1/filtered.png  used on input line 424.
 (pdftex.def)             Requested size: 298.75264pt x 138.31792pt.
 <res/7-2.png, id=205, 478.4274pt x 216.81pt>
 File: res/7-2.png Graphic file (type png)
 <use res/7-2.png>
-Package pdftex.def Info: res/7-2.png  used on input line 429.
+Package pdftex.def Info: res/7-2.png  used on input line 433.
 (pdftex.def)             Requested size: 298.75264pt x 135.39012pt.
 
-Overfull \hbox (0.18396pt too wide) in paragraph at lines 434--435
+Overfull \hbox (0.18396pt too wide) in paragraph at lines 438--439
 []\T1/cmr/m/n/10 The mix-ers are non-ideal but in-stead per-form $\OML/cmm/m/it
 /10 approximate$ \T1/cmr/m/n/10 mul-ti-pli-ca-tion with non-lin-ear diodes.
  []
 
 [8 <./res/7-1/l_power.png> <./res/7-1/h_power.png> <./res/7-1/low_osc.png> <./r
 es/7-1/filtered.png>]
-<res/7-3/pln.png, id=218, 313.6518pt x 216.81pt>
+<res/7-3/pln.png, id=220, 313.6518pt x 216.81pt>
 File: res/7-3/pln.png Graphic file (type png)
 <use res/7-3/pln.png>
-Package pdftex.def Info: res/7-3/pln.png  used on input line 442.
+Package pdftex.def Info: res/7-3/pln.png  used on input line 446.
 (pdftex.def)             Requested size: 213.39568pt x 147.51155pt.
  [9 <./res/7-2.png> <./res/7-3/pln.png>] [10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 467.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 467.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 471.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 471.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 467.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 467.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 471.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 471.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: F6A7ADF98BE392D174742896F03E3B90;362.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 467.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 471.
  ) 
 Here is how much of TeX's memory you used:
  19544 strings out of 492164
  363501 string characters out of 6127732
- 459316 words of memory out of 5000000
+ 459601 words of memory out of 5000000
  23429 multiletter control sequences out of 15000+600000
  13659 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1000,10 +1000,10 @@ lic/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm090
 0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/te
 xmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sfrm1728.pfb>
-Output written on main.pdf (10 pages, 878778 bytes).
+Output written on main.pdf (10 pages, 879633 bytes).
 PDF statistics:
- 292 PDF objects out of 1000 (max. 8388607)
- 183 compressed objects within 2 object streams
+ 294 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
  37 named destinations out of 1000 (max. 500000)
  325 words of extra memory for PDF output out of 10000 (max. 10000000)
 
