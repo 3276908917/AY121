@@ -41,19 +41,11 @@ Where $V(t)$ is voltage as a function of time and $V(\nu)$ is voltage as a funct
 
 \
 
-$V(\nu) = \int_{-T / 2}^{T / 2} V(t) \exp(2 \pi i \nu t) dt$
+$V(\nu) = \int_{-T / 2}^{T / 2} V(t) \exp(2 \pi i \nu t) dt$ and $V(t) = \frac{1}{\nu_s} \int_{- \nu_s / 2}^{\nu_s / 2} \tilde{V}(\nu) \exp(-2 \pi i \nu t) d \nu$
 
 \
 
-Where T is the length of the time sample.
-
-\
-
-$V(t) = \frac{1}{\nu_s} \int_{- \nu_s / 2}^{\nu_s / 2} \tilde{V}(\nu) \exp(-2 \pi i \nu t) d \nu$
-
-\
-
-where $\nu_s$ is the sampling frequency used.
+Where T is the length of the time sample, and $\nu_s$ is the sampling frequency used.
 
 \textcolor{red}{What happens if you change the bounds in the manner (N / 2 - 1) / $\nu_s$}
 
@@ -85,23 +77,11 @@ $f_s > 2 f_{max}$
 
 \subsection{The Convolution and Correlation Theorems}
 
-The convolution of two functions $f(t)$ and $g(t)$ is defined as:
+We define the convolution and correlation of two functions $f(t)$ and $g(t)$, respectively, as:
 
 \
 
-$[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$
-
-\
-
-The correlation of two functions $f(t)$ and $g(t)$ is defined as
-
-\
-
-$[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
-
-\
-
-\textcolor{red}{You may want to prove this by substituting the Fourier transform}
+$[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$ and $[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
 
 \
 
@@ -119,11 +99,9 @@ All that sweet, sweet trig.
 
 \section{Methods}
 
-\quad \quad This is the equipment I used. These are the libraries and functions I used. This is how I used them ($vague$ hint at your code). Uncertainty? Technical errors?
+%\quad \quad This is the equipment I used. These are the libraries and functions I used. This is how I used them ($vague$ hint at your code). Uncertainty? Technical errors?
 
-\
-
-To begin our investigation of the Nyquist criterion, we decided on a sampling frequency $\nu_s = 6.25$ MHz at which the pico sampler (a PicoScope 2206A) remained for the duration of the data collection for all signals. We then used the N9310A RF Signal Generator to output signals at frequency $\nu_0$: fractions of the sampling frequency. For example, one of our input signals was $\nu_0 = .4 \nu_s = 2.5$ MHz. For all signals, we performed visual inspections of the pico sampler's input by using a T-joint and connecting the output to an oscilloscope (a Rigol DS1052E). We used the ugradio module to perform data collection (ugradio.pico.capture\_data) and, later on, to perform Fourier and inverse Fourier transforms (ugradio.dft.dft and ugradio.dft.idft).
+\quad \quad To begin our investigation of the Nyquist criterion, we decided on a sampling frequency $\nu_s = 6.25$ MHz at which the pico sampler (a PicoScope 2206A) remained for the duration of the data collection for all signals. We then used the N9310A RF Signal Generator to output signals at frequency $\nu_0$: fractions of the sampling frequency. For example, one of our input signals was $\nu_0 = .4 \nu_s = 2.5$ MHz. For all signals, we performed visual inspections of the pico sampler's input by using a T-joint and connecting the output to an oscilloscope (a Rigol DS1052E). We used the ugradio module to perform data collection (ugradio.pico.capture\_data) and, later on, to perform Fourier and inverse Fourier transforms (ugradio.dft.dft and ugradio.dft.idft).
 
 To consider the frequency resolution for two signals of similar frequency, we employed a second signal generator. The 83712B has a lower limit of 10 MHz output frequency. Consequently, we set our original signal generator to small increments above that frequency and needed to increase the sampling frequency to $\nu_s = 31.25$ MHz.
 
@@ -143,7 +121,7 @@ Now, if we expect to see two signals, $2\nu_{LO} + \Delta \nu = 23.1$ 23.1 is th
 
 Finally, we constructed a single-sideband mixer by using two mixers. Both mixers used both the local oscillator and radio frequency signals, but one of the mixers' RF input was phase shifted by approximately $\pi / 2$ by linking smaller cables together until we roughly satisfied the $\lambda / 4$ criterion.
 
-\textcolor{red}{I don't remember the model of the other mixer} 
+%\textcolor{red}{I don't remember the model of the other mixer} 
 
 \section{Notes to Self}
 
@@ -155,32 +133,7 @@ What am I doing? Not ACF (5.3, 5.7) and procrastinating on 5.5 so that I can get
 
 \textcolor{red}{Major logic error: side-by-side captions are mutilated!}
 
-\textcolor{green}{Idea: put signal and power spectrum plots side by side, not signals with signals}
-
-%\textcolor{black}
-
-
-argue what the Nyquist criterion is, based on results.
-
-* Include make and model of all equipment used.
-
-* "Don't quote a number without the uncertainty and units."
-
 % ?? is now the code I use to point out areas to which I need to return later.
-
-Discussion on results for week 2, section 1
-
-\
-
-I need to include details about the equipment used, but how in-depth do I need to go? Current plan
-
-* For most things, use model number and manufacturer
-
-* When data analysis depends on a spec sheet, offer a brief summary of the specs to which you are referring to fine-tune your analysis
-
-\
-
-\textcolor{red}{I need uncertainties on results but I do not yet know how to get these.}
 
 Closer to the end of writing, design a new subsection layout for the results section. You of course cannot make references like ``5.2'' and ``7.3'' in the submission.
 
@@ -245,7 +198,7 @@ The power spectra exactly confirm these estimations. Furthermore, there are no o
 
 The power spectrum for our fifth trial ($\nu_0 = .5 \nu_s = 3.125$ MHz) yielded an argmax with many digits (all other power spectra, even the aliased, returned frequencies to two decimal places). In other words, the calculation becomes more sensitive in a small region around this midpoint. All frequencies above this returned incorrect maxima in the power spectrum, so we have verified the Nyquist criterion. 
 
-\textcolor{red}{?? No value and no uncertainty for this trial}
+%\textcolor{red}{?\? No value and no uncertainty for this trial}
 
 \begin{figure}
 \centering
@@ -469,13 +422,11 @@ Figures \ref{fig:win4}, \ref{fig:win8}, \ref{fig:win12} all represent power spec
 
 First sample:
 
-Mean = 3.79875 $V^2$
+Mean = 3.79875 (mV)$^2$
 
-Variance = 412.3663734375 V$^4$
+Variance = 412.3663734375 (mV)$^4$
 
-Standard deviation = 20.30680608656861 $V^2$
-
-\textcolor{red}{I am allowing the first 100 samples to contaminate. I do not know how much I should trod outside the 16000 recommendation.}
+Standard deviation = 20.30680608656861 (mV)$^2$
 
 \begin{figure}
 \centering
@@ -507,7 +458,7 @@ Standard deviation = 20.30680608656861 $V^2$
 \label{fig:avgs_comparison}
 \end{figure}
 
-Based on a visual inspection of \ref{fig:avgs_comparison}, 
+Based on a visual inspection of \ref{fig:avgs_comparison}, the signal to noise ratio power law, as it depends on the number of blocks $N$ used in the sample, is difficult to see. The differences on the logarithmic plot are difficult to see, and it is unclear whether $x$ (as in, signal to noise ratio $\propto N^x$) would be much larger than one tenth. 
 
 \subsection{Mixers}
 
@@ -555,50 +506,32 @@ We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. Whe
 \centering
 \includegraphics[width=.8\linewidth]{7-2}
 \caption{}
-\label{fig:intermods}
+\label{fig:failure}
 \end{figure}
 
 The mixers are non-ideal but instead perform $approximate$ multiplication with nonlinear diodes. In figure \ref{fig:intermods}, we demonstrate a repetition of pairs of lines symmetric about the zero frequency. We can see harmonics of the difference signal as pairs of spikes that fall off steeply, fading into noise at about $\pm$ 4 MHz. Incidentally, the spikes close to $\pm$ 10 MHz appear not to be harmonics but rather the original signals re-emerging.
 
 \subsection{7.3}
 
-To control our investigation of the single-sideband (SSB) mixer, we first wired components as described in the methods section, but then used an approximately 5 cm cable to connect the RF inputs (approximating zero delay). Figures \ref{fig:pln} and \ref{fig:phn}. 
+To control our investigation of the single-sideband (SSB) mixer, we first wired components as described in the methods section, but then used an approximately 5 cm cable to connect the RF inputs (approximating zero delay). %Figures \ref{fig:pln} and \ref{fig:phn} show the power spectra obtained with this setup. 
 
 \begin{figure}
 \centering
-\begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.9\linewidth]{7-3/pln}
-	\caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s - \Delta \nu$}
-	\label{fig:pln}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.9\linewidth]{7-3/phn}
-	\caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s + \Delta \nu$}
-	\label{fig:phn}
-\end{minipage}
-\end{figure}
-
-\begin{figure}
-\centering
-\begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.9\linewidth]{7-3/plp}
-	\caption{SSB with $\approx \pi / 2$ delay. $\nu_{LO} = \nu_s - \Delta \nu$}
-	\label{fig:plp}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
-	\centering
-	\includegraphics[width=.9\linewidth]{7-3/php}
-	\caption{SSB with $\approx \pi / 2$ delay. $\nu_{LO} = \nu_s - \Delta \nu$}
-	\label{fig:php}
-\end{minipage}
+\includegraphics[width=.8\linewidth]{7-3/pln}
+\caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s - \Delta \nu$. The boundaries reveal that the sampling frequency was only 6.25 MHz.}
+\label{fig:intermods}
 \end{figure}
 
 \section{Conclusions}
 
-\bibliographystyle{alpha}
-\bibliography{sample}
+
+
+We are unable to offer data on the single-sideband mixer due to data collection blunder.
+
+\section{Acknowledgments}
+
+I collected and re-collected data for lab activities 5.2-5.7, as well as data for section 7.1. Mehdi Arhor provided example analyses for sections 5.6-5.7 and section 7 activities. Rebecca Gore typed up methods and documented the specific values and amplitudes that we should use when collecting data.
+
+Theory and background provided by Aaron Parsons. "LAB 1: Exploring Digital Sampling, Fourier Filtering, and Heterodyne Mixers." 2020.
 
 \end{document}
