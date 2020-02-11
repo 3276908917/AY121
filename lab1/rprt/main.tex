@@ -27,7 +27,7 @@
 
 \begin{abstract}
 
-
+We investigate signals through
 
 \end{abstract}
 
@@ -35,9 +35,7 @@
 
 \section{Introduction and Background}
 
-\subsection{The Fourier Transform}
-
-Where $V(t)$ is voltage as a function of time and $V(\nu)$ is voltage as a function of frequency $\nu$.
+Let $V(t)$ be voltage as a function of time and $V(\nu)$ the corresponding voltage as a function of frequency $\nu$.
 
 \
 
@@ -47,41 +45,25 @@ $V(\nu) = \int_{-T / 2}^{T / 2} V(t) \exp(2 \pi i \nu t) dt$ and $V(t) = \frac{1
 
 Where T is the length of the time sample, and $\nu_s$ is the sampling frequency used.
 
-\textcolor{red}{What happens if you change the bounds in the manner (N / 2 - 1) / $\nu_s$}
 
 % ?? I need to talk about Parseval's Theorem
 
-\subsection{Positive and Negative Frequencies}
 
-``complex inputs to a Fourier Transform break the positive/negative frequency degeneracy''
+The sine function is odd: $\sin(-\omega t) = -sin(\omega t)$. The cosine function is even: $\cos(-\omega t) = \cos (\omega t)$.
 
-The sine function is odd:
+We can generalize under Euler's identity: $A\exp(i \omega t) = A \cos(\omega t) + i \cdot A \sin(\omega t)$ such that $A\exp(-i \omega t) = A \cos(-\omega t) + i \cdot A \sin(-\omega t) = A \cos(\omega t) - i \cdot A \sin(\omega t)$.
 
-$\sin(-\omega t) = -sin(\omega t)$
+This allows us to accept negative and imaginary frequencies, which are nominally unphysical, as consequences of phase shift. For example, a signal and its flipped counterpart could be said to have opposite frequencies.
 
-The cosine function is even:
+In the laboratory, we cannot use the ideal of an unbounded Fourier transform (as in, the limits of integration are $\pm \infty$), because we have to start sampling at some point and stop sampling at another. Furthermore, we cannot use the continuous Fourier transform because we collect data as snapshots, as individual poins. Consequently, we cannot perform an integral but instead a sum. 
 
-$\cos(-\omega t) = \cos (\omega t)$
-
-We can generalize under Euler's identity:
-
-$A\exp(i \omega t) = A \cos(\omega t) + i \cdot A \sin(\omega t)$
-
-$A\exp(-i \omega t) = A \cos(-\omega t) + i \cdot A \sin(-\omega t) = A \cos(\omega t) - i \cdot A \sin(\omega t)$
-
-\textcolor{red}{Show how such a formulation can explain a phase shift.}
-
-\subsection{Nyquist's Theorem and Aliasing}
-
-$f_s > 2 f_{max}$
-
-\subsection{The Convolution and Correlation Theorems}
+Nyquist's criterion sates that the sampling frequency must exceed the maximum signal frequency by a factor of two. If it does not, aliasing causes the signal to be irretrievable through the discrete and bounded Fourier transform; to reproduce any periodic shape, one needs over 2 points per period in order to guarantee that the shape is not mistaken for another of a different period.
 
 We define the convolution and correlation of two functions $f(t)$ and $g(t)$, respectively, as:
 
 \
 
-$[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$ and $[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
+$[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$ \quad and \quad $[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
 
 \
 
@@ -90,12 +72,6 @@ $[\tilde{f * g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f * g](\tau) \exp{2 \pi i \ta
 \
 
 $[\tilde{f \star g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f \star g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g^*}(\nu)$
-
-\textcolor{red}{Now: how is the ACF relevant to this paper}
-
-\subsection{Sideband Theory}
-
-All that sweet, sweet trig.
 
 \section{Methods}
 
@@ -244,18 +220,6 @@ Power spectra are provided alongside the voltage spectra to demonstrate the powe
 
 % it would be kind of cool to overplot all three waveforms, in different colors...
 
-\textcolor{red}{Come back to this section to discuss the ACF discrepancies}
-
-``What does it mean, that the voltage spectra are complex? What do the real and imaginary
-parts represent? Is the imaginary part less ‘real’ than the real part? What does it mean, for
-frequencies to be negative versus positive?''
-
-``Why might we use power spectra instead of voltage spectra, and vice versa?''
-
-``According to the correlation theorem, the Fourier transform of the power spectrum should equal the ACF. Does it? Explain any differences.''
-
-\
-
 \begin{figure}
 \centering
 \begin{minipage}{.5\textwidth}
@@ -317,7 +281,7 @@ available samples.''
 \centering
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.8\linewidth]{5-3/ACF}
+	\includegraphics[width=.8\linewidth]{5-3/dft_idft}
 	\caption{\textcolor{red}{This is supposed to be the dft/idft version}}
 	\label{fig:inverse}
 \end{minipage}%
@@ -329,7 +293,9 @@ available samples.''
 \end{minipage}
 \end{figure}
 
-\textcolor{red}{Differences? Probably because I did not zero out the middle}
+Unfortunately, a meaningful discussion of the autocorrelation function (ACF) and its relation to the Fourier transform cannot proceed on experimental results.
+
+``According to the correlation theorem, the Fourier transform of the power spectrum should equal the ACF. Does it? Explain any differences.''
 
 % subsection 5.5
 
@@ -382,7 +348,6 @@ With one signal generator at 10 MHz, we varied the other with a pseudo-logarithm
 
 A factor of two decrease in $\Delta \nu$ allowed us to distinguish between frequencies gaps which were themselves separated by a factor of two. In a discrete Fourier transformation with a difference $\Delta \nu$ instead of a continuous infinitesimal integration parameter $d\nu$, our ability to distinguish two signals of similar frequencies is diminished by aliasing, which will normally be able to pick out a signal between 10 MHz and the other ($\approx$ 10 MHz). By decreasing our $\Delta \nu$ we come closer to approximating a continuous Fourier transform and can separate the two signals.
 
-
 \subsection{5.6}
 
 \begin{figure}
@@ -426,9 +391,18 @@ Standard deviation = 20.30680608656861 (mV)$^2$
 
 \begin{figure}
 \centering
-\includegraphics[width=.45\linewidth]{5-7/histo}
-\caption{}
-\label{fig:histogram}
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\linewidth]{5-7/histo}
+	\caption{}
+	\label{fig:histogram}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\linewidth]{5-7/comparison}
+	\caption{}
+	\label{fig:avgs_comparison}
+\end{minipage}
 \end{figure}
 
 \begin{figure}
@@ -447,14 +421,9 @@ Standard deviation = 20.30680608656861 (mV)$^2$
 \end{minipage}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{5-7/comparison}
-\caption{}
-\label{fig:avgs_comparison}
-\end{figure}
-
 Based on a visual inspection of \ref{fig:avgs_comparison}, the signal to noise ratio power law, as it depends on the number of blocks $N$ used in the sample, is difficult to see. The differences on the logarithmic plot are difficult to see, and it is unclear whether $x$ (as in, signal to noise ratio $\propto N^x$) would be much larger than one tenth. 
+
+Again, the ACF analysis failed. Please refer to the earlier analysis for a discussion of the ACF as well as the correlation and convolution theorems.
 
 \subsection{Mixers}
 
@@ -502,12 +471,10 @@ We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. Whe
 \centering
 \includegraphics[width=.8\linewidth]{7-2}
 \caption{}
-\label{fig:failure}
+\label{fig:intermods}
 \end{figure}
 
 The mixers are non-ideal but instead perform $approximate$ multiplication with nonlinear diodes. In figure \ref{fig:intermods}, we demonstrate a repetition of pairs of lines symmetric about the zero frequency. We can see harmonics of the difference signal as pairs of spikes that fall off steeply, fading into noise at about $\pm$ 4 MHz. Incidentally, the spikes close to $\pm$ 10 MHz appear not to be harmonics but rather the original signals re-emerging.
-
-\subsection{7.3}
 
 To control our investigation of the single-sideband (SSB) mixer, we first wired components as described in the methods section, but then used an approximately 5 cm cable to connect the RF inputs (approximating zero delay). %Figures \ref{fig:pln} and \ref{fig:phn} show the power spectra obtained with this setup. 
 
@@ -515,8 +482,12 @@ To control our investigation of the single-sideband (SSB) mixer, we first wired 
 \centering
 \includegraphics[width=.8\linewidth]{7-3/pln}
 \caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s - \Delta \nu$. The boundaries reveal that the sampling frequency was only 6.25 MHz.}
-\label{fig:intermods}
+\label{fig:failure}
 \end{figure}
+
+Sideband Theory
+
+All that sweet, sweet trig from earlier.
 
 \section{Conclusions}
 
