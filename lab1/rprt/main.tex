@@ -186,7 +186,9 @@ Closer to the end of writing, design a new subsection layout for the results sec
 
 \section{Results}
 
-\subsection{5.2}
+\subsection{Nyquist Sampling}
+
+% subsection{5.2}
 
 \quad \quad We took the default 16000 samples for each of our first signal samples. However, for the data analysis, we will be excluding the first 100 samples due to a peculiarity of the pico sampler which distorted these (see figure \ref{fig:pico_start}).
 
@@ -277,7 +279,7 @@ The power spectrum for our fifth trial ($\nu_0 = .5 \nu_s = 3.125$ MHz) yielded 
 \end{minipage}
 \end{figure}
 
-\subsection{5.3}
+% subsection{5.3}
 
 The power spectra show two spikes symmetric about 0. We see them at the positive and negative of (for the non-aliased samples) the input frequency. We can consider the concept of a negative frequency in a broader context by returning to Euler's identity as recalled in the introduction.
 
@@ -380,7 +382,7 @@ available samples.''
 
 \textcolor{red}{Differences? Probably because I did not zero out the middle}
 
-\subsection{5.4}
+% subsection 5.5
 
 \begin{figure}
 \centering
@@ -400,14 +402,14 @@ available samples.''
 
 %Recall that spectral leakage is introduced by the finite bounds on our Fourier transforms. Why does that math correspond to these results?
 
-In physical application, all of our Fourier transforms must be discrete and have finite bounds. Finite bounds introduce spectral leakage, which in fact can be seens regardless of one's changing $\Delta \nu$. However, the effect is particularly pronounced when decreasing $\Delta \nu$. 
+In physical applications, all of our Fourier transforms must be discrete and have finite bounds. Finite bounds introduce spectral leakage, which in fact can be seens regardless of one's changing $\Delta \nu$. However, the effect is particularly pronounced when decreasing $\Delta \nu$. 
 
 Based on our results, we may suggest that spectral leakage becomes an increasingly impactful problem as one approaches the Nyquist criterion. To be sure, there is a variant pattern at the lower end of each leakage pattern, but this seems to stem more from noise than from the leakage pattern in particular. Consider figures \ref{fig:tenth_leakage} and \ref{fig:4tenths_leakage}. The as $\nu_0$ increases in proportion to $nu_s$, we see the erroneous spikes increase in eminence. In fact, in figure \ref{fig:4tenths_leakage}, the leakage spikes overshadow the expected power spikes which we demonstrated earlier. By decreasing the size of the frequency interval, we are computationally introducing additional aliasing into data we have already collected, by treating irregular patterns as single cycles rather than combinations of the same sine wave sampled with different offsets.
 
 
 % ?? You didn't mention convolutions
 
-\subsection{5.5}
+% subsection{5.5}
 
 \begin{figure}
 \centering
@@ -461,7 +463,7 @@ As we take the power spectrum out to increasing frequency ranges, we observe rep
 
 Figures \ref{fig:win4}, \ref{fig:win8}, \ref{fig:win12} all represent power spectra for the same data and therefore also for the same input signal frequency. We continue to see pairs of spikes symmetric about the zero frequency. While the number of spike pairs increases dramatically from the fourth (figure \ref{fig:win4}) to the eighth window (\ref{fig:win8}), we see the number drop off steeply by the twelfth window. % What is your point here? I mean, it kind of feels like we're just rambling. Maybe I should cut more closely to the lab manual.
 
-% They can't be harmonics; why else would all the spikes have the same amplitudes. And, for that matter, why do all windows show such low amplitudes? Ah, it is because the input signal (as seen on the oscilloscope) has a much lower amplitude--squaring further affects to that end.
+% They can't be harmonics; why else would all the spikes have the same amplitudes. And, for that matter, why do all windows show such low amplitudes? Ah, it is because the input signal (as seen on the oscilloscope) has a much lower amplitude--squaring further affects to that end. ??
 
 \subsection{5.7}
 
@@ -503,7 +505,7 @@ Variance = 403.19203959371663 (mV)$^2$
 \label{fig:avgs_comparison}
 \end{figure}
 
-\subsection{7.1}
+\subsection{Mixers}
 
 Figure \ref{fig:low_display} demonstrates the principle from earlier that a sample can reconstruct a signal (e.g. via Fourier decomposition) without precise visual mimicry. In this case, each cycle of the original signal has produced a visually different sampled cycle. 
 
@@ -512,16 +514,20 @@ Figure \ref{fig:low_display} demonstrates the principle from earlier that a samp
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.8\linewidth]{7-1/l_power}
-	\caption{}
+	\caption{Lower sideband $\nu_{RF} = \nu_{LO} - \Delta \nu$.}
 	\label{fig:low_pow}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=.8\linewidth]{7-1/h_power}
-	\caption{}
+	\caption{Upper sideband $\nu_{RF} = \nu_{LO} + \Delta \nu$.}
 	\label{fig:high_pow}
 \end{minipage}
 \end{figure}
+
+Following the trigonometric manipulations introduced in the discussion of our methods, we may observe that the differences between the power spectra for the lower (figure \ref{fig:low_pow}) and upper (\ref{fig:high_pow}) lie in the $\cos(2\nu_{LO} \pm \Delta \nu$) term. That is to say, we find the power spikes for the difference-signal at the same location in both spectra, and the sum-signal at slightly different locations: gap of 1 MHz between the two pairs, as we would expect.
+
+We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. When we take the Fourier transform of the sampled signal (\ref{fig:low_display}) and zero out the sum components, we can take the inverse Fourier transform and extract the difference sine wave. The waveform is not slightly corrupted by noise; in the interest of rigor we have not zeroed out anything but the sum spikes.
 
 \begin{figure}
 \centering
@@ -530,13 +536,12 @@ Figure \ref{fig:low_display} demonstrates the principle from earlier that a samp
 \label{fig:low_display}
 \end{figure}
 
-\textcolor{red}{These figures are missing captions!}
-
-Why do the power spectra look the way they do. Upper sideband and lower sideband.
-
-For the upper sideband, we can see spikes at almost the difference frequency (.575 MHz $\approx$ .55 MHz). The other spikes are at 10.2 MHz? Why?
-
-For the lower sideband, we see outer spikes at 9 MHz. The inner spikes are still at roughly the difference frequency...
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{7-1/filtered}
+\caption{}
+\label{fig:filtered}
+\end{figure}
 
 \subsection{7.2}
 
