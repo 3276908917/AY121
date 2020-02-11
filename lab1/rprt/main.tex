@@ -427,9 +427,13 @@ Recall that spectral leakage is introduced by the finite bounds on our Fourier t
 \begin{figure}
 \centering
 \includegraphics[width=.45\linewidth]{5-6/12window}
-\caption{Same frequency. Twelth window.}
+\caption{Same frequency. Twelfth window.}
 \label{fig:win12}
 \end{figure}
+
+As we take the power spectrum out to increasing frequency ranges, we observe repetitions of the original signal which do not strictly increase in frequency, perhaps due to aliasing wrap-around.
+
+Figures \ref{fig:win4}, \ref{fig:win8}, \ref{fig:win12} all represent power spectra for the same data and therefore also for the same input signal frequency. We continue to see pairs of spikes symmetric about the zero frequency. While the number of spike pairs increases dramatically from the fourth (figure \ref{fig:win4}) to the eighth window (\ref{fig:win8}), we see the number drop off steeply by the twelfth window. % What is your point here? I mean, it kind of feels like we're just rambling. Maybe I should cut more closely to the lab manual.
 
 % They can't be harmonics; why else would all the spikes have the same amplitudes. And, for that matter, why do all windows show such low amplitudes? Ah, it is because the input signal (as seen on the oscilloscope) has a much lower amplitude--squaring further affects to that end.
 
@@ -475,6 +479,8 @@ Variance = 403.19203959371663 (mV)$^2$
 
 \subsection{7.1}
 
+Figure \ref{fig:low_display} demonstrates the principle from earlier that a sample can reconstruct a signal (e.g. via Fourier decomposition) without precise visual mimicry. In this case, each cycle of the original signal has produced a visually different sampled cycle. 
+
 \begin{figure}
 \centering
 \begin{minipage}{.5\textwidth}
@@ -493,8 +499,8 @@ Variance = 403.19203959371663 (mV)$^2$
 
 \begin{figure}
 \centering
-\includegraphics[width=.45\linewidth]{7-1/low_osc}
-\caption{}
+\includegraphics[width=.8\linewidth]{7-1/low_osc}
+\caption{Waveform in the case where $\nu_s = 62.5$ MHz and where $\nu_{RF} = \nu{LO} - \Delta \nu = 10.45$ MHz. The largest-frequency signal is that of the sum, $2 \nu_{LO} + \Delta \nu$ = 23.1 MHz.}
 \label{fig:low_display}
 \end{figure}
 
@@ -508,9 +514,16 @@ For the lower sideband, we see outer spikes at 9 MHz. The inner spikes are still
 
 \subsection{7.2}
 
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{7-2}
+\caption{}
+\label{fig:intermods}
+\end{figure}
+
 \subsection{7.3}
 
-% I really do not want to take this data, so I am deliberately leaving a more challenging analysis task for last-minute
+% I really do not want to take this data, so I am deliberately leaving a more challenging analysis task for last-minute. Except it's apparently not even that challenging!
 
 Single side band mixer is more difficult to perform.
 
