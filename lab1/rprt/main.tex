@@ -507,6 +507,8 @@ Variance = 403.19203959371663 (mV)$^2$
 
 \subsection{Mixers}
 
+%section 7.1
+
 Figure \ref{fig:low_display} demonstrates the principle from earlier that a sample can reconstruct a signal (e.g. via Fourier decomposition) without precise visual mimicry. In this case, each cycle of the original signal has produced a visually different sampled cycle. 
 
 \begin{figure}
@@ -543,7 +545,7 @@ We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. Whe
 \label{fig:filtered}
 \end{figure}
 
-\subsection{7.2}
+% subsection{7.2}
 
 \begin{figure}
 \centering
@@ -552,21 +554,25 @@ We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. Whe
 \label{fig:intermods}
 \end{figure}
 
+The mixers are non-ideal but instead perform $approximate$ multiplication with nonlinear diodes. In figure \ref{fig:intermods}, we demonstrate a repetition of pairs of lines symmetric about the zero frequency. We can see harmonics of the difference signal as pairs of spikes that fall off steeply, fading into noise at about $\pm$ 4 MHz. Incidentally, the spikes close to $\pm$ 10 MHz appear not to be harmonics but rather the original signals re-emerging.
+
 \subsection{7.3}
+
+To control our investigation of the single-sideband (SSB) mixer, we first wired components as described in the methods section, but then used an approximately 5 cm cable to connect the RF inputs (approximating zero delay). Figures \ref{fig:pln} and \ref{fig:phn}. 
 
 \begin{figure}
 \centering
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.9\linewidth]{7-3/phn}
-	\caption{}
-	\label{fig:phn}
+	\includegraphics[width=.9\linewidth]{7-3/pln}
+	\caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s - \Delta \nu$}
+	\label{fig:pln}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.9\linewidth]{7-3/pln}
-	\caption{}
-	\label{fig:pln}
+	\includegraphics[width=.9\linewidth]{7-3/phn}
+	\caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s + \Delta \nu$}
+	\label{fig:phn}
 \end{minipage}
 \end{figure}
 
@@ -574,15 +580,15 @@ We demonstrate the results of a Fourier filter in figure \ref{fig:filtered}. Whe
 \centering
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.9\linewidth]{7-3/php}
-	\caption{}
-	\label{fig:php}
+	\includegraphics[width=.9\linewidth]{7-3/plp}
+	\caption{SSB with $\approx \pi / 2$ delay. $\nu_{LO} = \nu_s - \Delta \nu$}
+	\label{fig:plp}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 	\centering
-	\includegraphics[width=.9\linewidth]{7-3/plp}
-	\caption{}
-	\label{fig:plp}
+	\includegraphics[width=.9\linewidth]{7-3/php}
+	\caption{SSB with $\approx \pi / 2$ delay. $\nu_{LO} = \nu_s - \Delta \nu$}
+	\label{fig:php}
 \end{minipage}
 \end{figure}
 
