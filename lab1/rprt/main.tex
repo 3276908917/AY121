@@ -398,9 +398,11 @@ available samples.''
 \end{minipage}
 \end{figure}
 
-\textcolor{red}{The y-axis is labeled incorrectly. We want log of square of voltage.}
+%Recall that spectral leakage is introduced by the finite bounds on our Fourier transforms. Why does that math correspond to these results?
 
-Recall that spectral leakage is introduced by the finite bounds on our Fourier transforms. Why does that math correspond to these results?
+In physical application, all of our Fourier transforms must be discrete and have finite bounds. Finite bounds introduce spectral leakage, which in fact can be seens regardless of one's changing $\Delta \nu$. However, the effect is particularly pronounced when decreasing $\Delta \nu$. 
+
+Based on our results, we may suggest that spectral leakage becomes an increasingly impactful problem as one approaches the Nyquist criterion. To be sure, there is a variant pattern at the lower end of each leakage pattern, but this seems to stem more from noise than from the leakage pattern in particular. Consider figures \ref{fig:tenth_leakage} and \ref{fig:4tenths_leakage}. The as $\nu_0$ increases in proportion to $nu_s$, we see the erroneous spikes increase in eminence. In fact, in figure \ref{fig:4tenths_leakage}, the leakage spikes overshadow the expected power spikes which we demonstrated earlier. By decreasing the size of the frequency interval, we are computationally introducing additional aliasing into data we have already collected, by treating irregular patterns as single cycles rather than combinations of the same sine wave sampled with different offsets.
 
 \subsection{5.5}
 
