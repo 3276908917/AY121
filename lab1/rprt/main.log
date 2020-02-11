@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  10 FEB 2020 19:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.1.23)  10 FEB 2020 21:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -879,16 +879,16 @@ Package pdftex.def Info: res/5-3/ACF.png  used on input line 375.
 (pdftex.def)             Requested size: 170.71718pt x 134.07344pt.
  [5 <./res/5-2/pow4.png> <./res/5-2/pow6.png> <./res/5-3/volt1.png> <./res/5-3/
 pow1.png>]
-<res/5-4/t1_quarter.png, id=190, 298.4751pt x 216.81pt>
-File: res/5-4/t1_quarter.png Graphic file (type png)
-<use res/5-4/t1_quarter.png>
-Package pdftex.def Info: res/5-4/t1_quarter.png  used on input line 389.
-(pdftex.def)             Requested size: 170.71718pt x 124.00974pt.
-<res/5-4/t4_quarter.png, id=191, 302.8113pt x 216.81pt>
-File: res/5-4/t4_quarter.png Graphic file (type png)
-<use res/5-4/t4_quarter.png>
-Package pdftex.def Info: res/5-4/t4_quarter.png  used on input line 395.
-(pdftex.def)             Requested size: 170.71718pt x 122.23651pt.
+<res/5-4/t1_eighth.png, id=190, 297.0297pt x 216.81pt>
+File: res/5-4/t1_eighth.png Graphic file (type png)
+<use res/5-4/t1_eighth.png>
+Package pdftex.def Info: res/5-4/t1_eighth.png  used on input line 389.
+(pdftex.def)             Requested size: 170.71718pt x 124.61514pt.
+<res/5-4/t4_eighth.png, id=191, 313.6518pt x 216.81pt>
+File: res/5-4/t4_eighth.png Graphic file (type png)
+<use res/5-4/t4_eighth.png>
+Package pdftex.def Info: res/5-4/t4_eighth.png  used on input line 395.
+(pdftex.def)             Requested size: 170.71718pt x 118.00858pt.
 <res/5-6/4window.png, id=192, 359.1819pt x 216.81pt>
 File: res/5-6/4window.png Graphic file (type png)
 <use res/5-6/4window.png>
@@ -906,9 +906,9 @@ Package pdftex.def Info: res/5-6/12window.png  used on input line 429.
 (pdftex.def)             Requested size: 192.0548pt x 106.69766pt.
 
 [6 <./res/5-3/volt2.png> <./res/5-3/pow2.png> <./res/5-3/volt3.png> <./res/5-3/
-pow3.png> <./res/5-3/ACF.png>] [7 <./res/5-4/t1_quarter.png> <./res/5-4/t4_quar
-ter.png> <./res/5-6/4window.png> <./res/5-6/8window.png> <./res/5-6/12window.pn
-g>]
+pow3.png> <./res/5-3/ACF.png>] [7 <./res/5-4/t1_eighth.png> <./res/5-4/t4_eight
+h.png> <./res/5-6/4window.png> <./res/5-6/8window.png> <./res/5-6/12window.png>
+]
 <res/5-7/histo.png, id=224, 462.528pt x 346.896pt>
 File: res/5-7/histo.png Graphic file (type png)
 <use res/5-7/histo.png>
@@ -963,7 +963,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 535.
  ) 
 Here is how much of TeX's memory you used:
  20450 strings out of 492164
- 373254 string characters out of 6127732
+ 373238 string characters out of 6127732
  458385 words of memory out of 5000000
  24320 multiletter control sequences out of 15000+600000
  14345 words of font info for 37 fonts, out of 8000000 for 9000
@@ -984,7 +984,7 @@ lic/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm090
 xmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000
 .pfb>
-Output written on main.pdf (10 pages, 852454 bytes).
+Output written on main.pdf (10 pages, 850394 bytes).
 PDF statistics:
  329 PDF objects out of 1000 (max. 8388607)
  224 compressed objects within 3 object streams
