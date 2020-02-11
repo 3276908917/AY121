@@ -65,14 +65,6 @@ We define the convolution and correlation of two functions $f(t)$ and $g(t)$, re
 
 $[f * g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau - t) dt$ \quad and \quad $[f \star g](\tau) = \int_{-T / 2}^{T / 2} f(t) g(\tau + t) dt$
 
-\
-
-$[\tilde{f * g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f * g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g}(\nu)$
-
-\
-
-$[\tilde{f \star g}](\nu) \equiv \int_{-T / 2}^{T / 2}[f \star g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g^*}(\nu)$
-
 \section{Methods}
 
 %\quad \quad This is the equipment I used. These are the libraries and functions I used. This is how I used them ($vague$ hint at your code). Uncertainty? Technical errors?
@@ -89,8 +81,6 @@ The mixed signals were somewhat weak, so we used 1.5 dBm amplitudes on both sign
 
 $\sin(\nu_{LO}) \sin(\nu_{LO} + \Delta \nu) = \frac{1}{2} (\cos \Delta \nu - \cos (2\nu_{LO} + \Delta \nu))$ by evenness of the cosine function
 
-and
-
 $\sin(\nu_{LO}) \sin(\nu_{LO} - \Delta \nu) = \frac{1}{2} (\cos \Delta \nu - \cos (2\nu_{LO} - \Delta \nu))$
 
 Now, if we expect to see two signals, $2\nu_{LO} + \Delta \nu = 23.1$ 23.1 is the highest frequency that we would expect. Our PicoScope offers sampling rates by dividing the base $62.5$ MHz. 31.25 MHz would have failed the Nyquist criterion, so we used the maximum sampling rate instead. 
@@ -98,20 +88,6 @@ Now, if we expect to see two signals, $2\nu_{LO} + \Delta \nu = 23.1$ 23.1 is th
 Finally, we constructed a single-sideband mixer by using two mixers. Both mixers used both the local oscillator and radio frequency signals, but one of the mixers' RF input was phase shifted by approximately $\pi / 2$ by linking smaller cables together until we roughly satisfied the $\lambda / 4$ criterion.
 
 %\textcolor{red}{I don't remember the model of the other mixer} 
-
-\section{Notes to Self}
-
-% I could try zeroing out the different averages again. Maybe the log plot would look nicer. But you couldn't just use zeroes, becaus on a log plot that just creates a spike in the opposite direction.
-
-What am I doing? Not ACF (5.3, 5.7) and procrastinating on 5.5 so that I can get some writing done.
-
-\textcolor{red}{I did ACF analysis for neither 5.3 nor 5.7}
-
-\textcolor{red}{Major logic error: side-by-side captions are mutilated!}
-
-% ?? is now the code I use to point out areas to which I need to return later.
-
-Closer to the end of writing, design a new subsection layout for the results section. You of course cannot make references like ``5.2'' and ``7.3'' in the submission.
 
 \section{Results}
 
@@ -125,7 +101,7 @@ Closer to the end of writing, design a new subsection layout for the results sec
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{5-2/pico_bad}
+\includegraphics[width=0.3\textwidth]{5-2/pico_bad}
 \caption{The oscilloscope displayed a constant signal throughout the period of data-taking. The data sampled from the pico sampler, however, reconstructs a signal with large aberrations in the first few microseconds.}
 \label{fig:pico_start}
 \end{figure}
@@ -293,11 +269,23 @@ available samples.''
 \end{minipage}
 \end{figure}
 
-Unfortunately, a meaningful discussion of the autocorrelation function (ACF) and its relation to the Fourier transform cannot proceed on experimental results.
+Unfortunately, a meaningful discussion of the autocorrelation function (ACF) and its relation to the Fourier transform cannot proceed on experimental results. The convolution and correlation theorems are as follows:
 
-``According to the correlation theorem, the Fourier transform of the power spectrum should equal the ACF. Does it? Explain any differences.''
+$\widetilde{[f * g]}(\nu) \equiv \int_{-T / 2}^{T / 2}[f * g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g}(\nu)$
 
-% subsection 5.5
+\
+
+$\widetilde{[f \star g]}(\nu) \equiv \int_{-T / 2}^{T / 2}[f \star g](\tau) \exp{2 \pi i \tau \nu} d \tau = \tilde{f}(\nu) \cdot \tilde{g^*}(\nu)$
+
+If we use the ACF, and say that f and g are the same function, we see that the correlation theorem gives back $\widetilde{[f \star f]}(\nu) = \tilde{f}(\nu) \cdot \tilde{f^*}(\nu) \equiv ||f(\nu)||^2$. However, the right hand side is now our definiton of the power spectra $||V(\nu)||^2$ because we want to perform all such autocorrelations and Fourier transforms on our voltage time series data.
+
+Now, if we take the inverse Fourier transform of both sides, we see that the autocorrelation function $f \star f$ should be the same as the inverse Fourier transform of the power spectrum.
+
+Figure \ref{fig:inverse} shows a slice of the inverse Fourier transform for the $\nu_0 = .4 \nu_s = 2.5$ MHz power spectrum. If the reader will forgive the negative time translation and the lack of normalization, the more alarming issue of crude wave recreation may be observed. Why has the power spectrum, which corresponded to a smooth sine wave, been reduced like so? The data analysis elsewhere in this report has held up well, and this problem persists through multiple trials, so the problem must be in the implementation and understanding of the computer code for this discussion.
+
+Figure \ref{fig:ACF} shows the results of the autocorrelation of that same signal. The results using scipy and numpy are overlaid, but one can hardly tell because there is no discrepancy whatsoever (which suggests that the implementations are fundamentally the same). One might point out that this signal could perhaps simply be a more nuanced version of the same shape as in \ref{fig:inverse}, a much more zoomed out comparison of the two plots will show that the autocorrelation function represents a linear increase from the outer limits to the center: an array of length 31972. The dft/idft, by contrast produces a mostly consistent zig-zag with slight dips on larger-cales, and represents an array of length 16000 (the target length, given our sample size).
+
+% subsection 5.4
 
 \begin{figure}
 \centering
@@ -484,10 +472,6 @@ To control our investigation of the single-sideband (SSB) mixer, we first wired 
 \caption{SSB with $\approx$ zero delay. $\nu_{LO} = \nu_s - \Delta \nu$. The boundaries reveal that the sampling frequency was only 6.25 MHz.}
 \label{fig:failure}
 \end{figure}
-
-Sideband Theory
-
-All that sweet, sweet trig from earlier.
 
 \section{Conclusions}
 
