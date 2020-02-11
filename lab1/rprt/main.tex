@@ -404,6 +404,9 @@ In physical application, all of our Fourier transforms must be discrete and have
 
 Based on our results, we may suggest that spectral leakage becomes an increasingly impactful problem as one approaches the Nyquist criterion. To be sure, there is a variant pattern at the lower end of each leakage pattern, but this seems to stem more from noise than from the leakage pattern in particular. Consider figures \ref{fig:tenth_leakage} and \ref{fig:4tenths_leakage}. The as $\nu_0$ increases in proportion to $nu_s$, we see the erroneous spikes increase in eminence. In fact, in figure \ref{fig:4tenths_leakage}, the leakage spikes overshadow the expected power spikes which we demonstrated earlier. By decreasing the size of the frequency interval, we are computationally introducing additional aliasing into data we have already collected, by treating irregular patterns as single cycles rather than combinations of the same sine wave sampled with different offsets.
 
+
+% ?? You didn't mention convolutions
+
 \subsection{5.5}
 
 \begin{figure}
@@ -422,9 +425,12 @@ Based on our results, we may suggest that spectral leakage becomes an increasing
 \end{minipage}
 \end{figure}
 
+While a decrease in $\Delta \nu$ with respect to $\nu_s$ can introduce unwanted/fictitious signals, it can also allow us to see signals close together, which would otherwise be lumped together.
+
 With one signal generator at 10 MHz, we varied the other with a pseudo-logarithmic pattern: 10.0001, 10.0005, 10.001, 10.005, and 10.01 MHz. In the analysis, we found that our last couple of trials were approaching the end of distinguishability. Figures \ref{fig:10kf8} and \ref{fig:5kf16} represent zoomed in figures which only serve to demonstrate that the signals are separable (consider, for example, the miniscule range of the x-axes).
 
-A factor of two decrease in $\Delta \nu$ allowed us to distinguish between frequencies gaps which were themselves separated by a factor of two.
+A factor of two decrease in $\Delta \nu$ allowed us to distinguish between frequencies gaps which were themselves separated by a factor of two. In a discrete Fourier transformation with a difference $\Delta \nu$ instead of a continuous infinitesimal integration parameter $d\nu$, our ability to distinguish two signals of similar frequencies is diminished by aliasing, which will normally be able to pick out a signal between 10 MHz and the other ($\approx$ 10 MHz). By decreasing our $\Delta \nu$ we come closer to approximating a continuous Fourier transform and can separate the two signals.
+
 
 \subsection{5.6}
 
