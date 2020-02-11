@@ -127,27 +127,9 @@ All that sweet, sweet trig.
 
 \quad To investigate the impact of noise on the Fourier transform, we switched the pico sampler's input to an NOD 5250 noise generator (6 MHz bandpass) at zero attenuation. We collected 32 blocks of 16000 samples from the PicoScope, this time using the sampling frequency $\nu_s = 62.5$ MHz.
 
-\subsection{Sideband}
+\quad We explored mixers and sideband theory with a Mini-Circuits ZAD-1. We the 83712B as the local oscillator and the N9310A as the RF input. We sent the output to the oscilloscope and PicoScope, this time using a $50 \Omega$ terminator to eliminate bounce-back interference. The ZAD-1 works best for signals above 10 MHz, so we set the local oscillator to $\nu_{LO} = 11$ MHz and collected two sets of data: one for which $\nu_{RF} = 11.55$ MHz and one for which $\nu_{RF}=10.45$ MHz (thus, $\Delta \nu = .05 \nu_{LO} = .55$ MHz. 
 
-We used one signal generator (N9310A) with a wide range of allowed frequencies, while the other (83712B) with a lower frequency limit of 10 MHz. 
-
-We set the 83712B to run at 11 MHz and 1.5 dBm (justify??). This gave $\Delta \nu = .05 \times \nu_{LO} = .55$ MHz. We set the N9310A to run at 1.5 dBm as well and, depending on the trial, either $\nu_{RF} = \nu_{LO} + \Delta \nu = 11.55$ MHz or $\nu_{RF} = \nu_{LO} - \Delta \nu = 10.45$ MHz. 
-
-When collecting data, we sampled at 31.25 MHz, which is more than double the Nyquist frequency. ?? why is this important and give a calculation of how far above the Nyquist this is
-
-\
-
-?? I didn't identify the sum and difference frequencies from observation!!
-
-$\sin(\nu_{LO} + \Delta \nu) = \sin \nu_{LO} \cos \Delta \nu + \cos \nu_{LO} \sin \Delta \nu$
-
-$\sin(\nu_{LO} - \Delta \nu) = \sin \nu_{LO} \cos \Delta \nu - \cos \nu_{LO} \sin \Delta \nu$
-
-\
-
-But these are not relevant, we want
-
-$sin(a) + sin(a + b) = ?$, right?
+\quad The mixed signals were somewhat weak, so we used 1.5 dBm amplitudes on both signal generators. We again used a sampling frequency of $\nu_s = 62.5$ MHz, motivated by the following identities:
 
 $\sin(\nu_{LO}) \sin(\nu_{LO} + \Delta \nu) = \frac{1}{2} (\cos \Delta \nu - \cos (2\nu_{LO} + \Delta \nu))$ by evenness of the cosine function
 
@@ -155,11 +137,11 @@ and
 
 $\sin(\nu_{LO}) \sin(\nu_{LO} - \Delta \nu) = \frac{1}{2} (\cos \Delta \nu - \cos (2\nu_{LO} - \Delta \nu))$
 
-Why do the power spectra look the way they do. Upper sideband and lower sideband.
+Now, if we expect to see two signals, $2\nu_{LO} + \Delta \nu = 23.1$ 23.1 is the highest frequency that we would expect. Our PicoScope offers sampling rates by dividing the base $62.5$ MHz. 31.25 MHz would have failed the Nyquist criterion, so we used the maximum sampling rate instead. 
 
-For the upper sideband, we can see spikes at almost the difference frequency (.575 MHz $\approx$ .55 MHz). The other spikes are at 10.2 MHz? Why?
+\quad Finally, we constructed a single-sideband mixer by using two mixers. Both mixers used both the local oscillator and radio frequency signals, but one of the mixers' RF input was phase shifted by approximately $\pi / 2$ by linking smaller cables together until we roughly satisfied the $\lambda / 4$ criterion.
 
-For the lower sideband, we see outer spikes at 9 MHz. The inner spikes are still at roughly the difference frequency...
+\textcolor{red}{I don't remember the model of the other mixer} 
 
 \section{Notes to Self}
 
@@ -204,25 +186,13 @@ Closer to the end of writing, design a new subsection layout for the results sec
 
 \subsection{5.2}
 
-Without taking the spectrum, we want to perform visual analysis of the plots and find periods
-
-Motivation
-
-* Pico sampler model, what sampling rate we used
-
-* We're using the ugradio pico sampler code
-
-* We're using the \_\_\_ signal generator
-
-* Define terms $\nu_0$ = input frequency. $\nu_s$ = sampling frequency.
-
-Finally, we took the default 16000 samples for each signal. However, for the data analysis, we will be excluding the first 100 samples due to a peculiarity of the pico sampler which distorted these (\ref{fig:pico_start}).
+\quad We took the default 16000 samples for each of our first signal samples. However, for the data analysis, we will be excluding the first 100 samples due to a peculiarity of the pico sampler which distorted these (see figure \ref{fig:pico_start}).
 
 % Perhaps not important to discuss differences in peak to peak voltages across trials
 
 \begin{figure}
 \centering
-\includegraphics{5-2/pico_bad} %[width=0.3\textwidth]
+\includegraphics[width=0.5\textwidth]{5-2/pico_bad}
 \caption{The oscilloscope displayed a constant signal throughout the period of data-taking. The data sampled from the pico sampler, however, reconstructs a signal with large aberrations in the first few microseconds.}
 \label{fig:pico_start}
 \end{figure}
@@ -259,7 +229,11 @@ Finally, we took the default 16000 samples for each signal. However, for the dat
 \end{minipage}
 \end{figure}
 	
-\quad We may begin inspection of the samples with a qualitative approach. Figure \ref{fig:Nyq2} shows a signal which repeats about five times in the span of about 4 microseconds. This gives us 1.25 cycles per microsecond, or 1.25 MHz, as expected. Figure \ref{fig:Nyq6} is not as obviously derived from a sine wave (the shape is distorted by the shrinking gap between $\nu_0$ and $\nu_s$), but we may still say that there is a repeating signal with slightly under five repetitions in a span of 4 microseconds. This would give us slighly under 1.25 MHz, which is incorrect; thus we have qualitatively demonstrated an aliasing effect.
+\quad We may begin inspection of the samples with a qualitative approach. Figure \ref{fig:Nyq2} shows a signal which repeats about five times in the span of about 4 microseconds. This gives us 1.25 cycles per microsecond, or 1.25 MHz, as expected. Figure \ref{fig:Nyq8} still appoars as a sine wave, but visual inspection is no longer reliable. Again: we see about 5 samples in the span of about 4 microseconds. This would give 1.25 MHz, but because we know that our input signal was in fact $\nu_0 = 5$ MHz, we know that the waveform is aliased.
+
+A more nuanced example comes from frequencies close to $.5 \nu_s$: compare figures \ref{fig:Nyq4} and \ref{fig:NyPw6}. Keeping in mind that only the frequency varied between trials and not the shape of the signal, a visual inspection is now confused: the sample looks like a sine wave in neither case. If take for granted that \ref{fig:Nyq4} is not a perfect sample, we may still visually estimate the frequency by noting 10 pairs of relative extrema (2.5 MHz). 
+
+may still say that there is a repeating signal with slightly under five repetitions in a span of 4 microseconds. This would give us slighly under 1.25 MHz, which is incorrect; thus we have qualitatively demonstrated an aliasing effect.
 % ?? Maybe I should put these annotations in the captions (it would be more appropriate there, I think)
 
 % ?? These figures need annotations. You can probably just do the same qualitative thing that you did before.
@@ -502,6 +476,12 @@ Variance = 403.19203959371663 (mV)$^2$
 \end{figure}
 
 \textcolor{red}{These figures are missing captions!}
+
+Why do the power spectra look the way they do. Upper sideband and lower sideband.
+
+For the upper sideband, we can see spikes at almost the difference frequency (.575 MHz $\approx$ .55 MHz). The other spikes are at 10.2 MHz? Why?
+
+For the lower sideband, we see outer spikes at 9 MHz. The inner spikes are still at roughly the difference frequency...
 
 \subsection{7.2}
 
