@@ -8,9 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-def hist_gauss(sample, sigma, b=64):
+def hist_gauss(sample, sigma, b=64, correction=6):
     count, bins, ignored = plt.hist(sample, b, density=True)
-    plt.plot(bins, 6/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
+    plt.plot(bins, correction/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
     plt.ylabel(r'Frequency')
     plt.xlabel('Voltage (V)')
     plt.show()
