@@ -1,3 +1,5 @@
+# I need to switch to numpy fft
+
 def d2():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
