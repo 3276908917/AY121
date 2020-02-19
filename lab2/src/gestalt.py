@@ -23,3 +23,6 @@ def samples_median(power_list):
 
 def samples_mean(power_list):
     return np.mean(power_list, axis=0)
+
+# "It's okay to degrade the frequency resolution to, say, 1 or 2 kHz'
+	# I should probably write a function to handle this.
