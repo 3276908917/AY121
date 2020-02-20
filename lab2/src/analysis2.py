@@ -42,7 +42,7 @@ def power_barrage(rblock, iblock, srate=62.5e6, nsamps=15800):
 
 # The normalization changes between trials?
 # If so, that may explain the limited utility of naive averaging
-def pp_skeleton(x, y):
+def pp_skeleton(x, y, xBounds=None, logv=False):
     fig = plt.figure()
 
     ax = fig.add_subplot(111)
@@ -50,6 +50,10 @@ def pp_skeleton(x, y):
     ax.plot(x, np.fft.fftshift(y))
     plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
+    if xBounds is not None:
+        plt.xlim(xBounds)
+    if logv:
+        plt.yscale('log')
     plt.show()
 
 def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
