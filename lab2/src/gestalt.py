@@ -8,8 +8,8 @@ def d2():
     """
     return ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True)
 
-def complex_combine(real, imag=None, defaults=True):
-    if defaults:
+def complex_combine(real, imag=None):
+    if imag is None:
         r = real[100:16000]
         i = real[16100:32000]
         return r + 1j*i
@@ -35,5 +35,5 @@ def gain(scal, scold):
     return sum(scold) * 300/sum(scal - scold)
 
 # I guess the line frequency is the accepted value for the HI line?
-def doppler(nu_0, nu)
-	return 3e10 * (nu_0 - nu) / nu_0
+def doppler(nu_0, nu):
+    return 3e10 * (nu_0 - nu) / nu_0
