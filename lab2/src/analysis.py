@@ -3,7 +3,7 @@
 # todo: expand power_plot to return values of multiple spikes
     # this will make it re-usable for the mixed signals section
 
-import ugradio
+#import ugradio
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
@@ -15,7 +15,17 @@ def hist_gauss(sample, sigma, b=64, correction=6):
     plt.xlabel('Voltage (V)')
     plt.show()
 
-def power_plot(sample, norm, srate=6.25e6, ifreq=None, freqs=None):
+def freq_range(v_s, N, W=1):
+    """
+    Return a N-length array
+    Where frequencies range between plus or minus W * v_s / 2
+    """
+    #lobe = round(W * v_s / 2)
+    lobe = round(N / 2)
+    interval = W * v_s / N
+    return np.array([i * interval for i in range(-lobe, lobe)])
+
+def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None, freqs=None):
     """
     Clean, labeled plot of power spectrum of @sample
     corresponding to a signal at @ifreq (in MHz)
@@ -32,29 +42,29 @@ def power_plot(sample, norm, srate=6.25e6, ifreq=None, freqs=None):
     fig = plt.figure()
 
     ax = fig.add_subplot(111)
-    if freqs is not None:
-        f = ugradio.dft.dft(sample, f=freqs, vsamp=srate)
-    else:
-        f = ugradio.dft.dft(sample, vsamp=srate)    
-    P = np.abs(f[1]) ** 2
-    x = f[0] / 10 ** 6
+    f = np.fft.fft(sample)
+        #f = ugradio.dft.dft(sample, f=freqs, vsamp=srate)  
+    P = np.abs(f) ** 2
+    x = freq_range(srate, nsamps) / 10**6
     y = normalize(P, norm ** 2) / 1000 ** 2
-    ax.plot(x, y)
+    ax.plot(x, np.fft.fftshift(y))
     plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
     if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
-
     plt.show()
-    print(f[0][np.argmax(y)])
-    return [x, y]
+    print(f[np.argmax(y)])
+    return [x, y] #untested return... the x and y values
+        # may not be aligned properly
 
 def invf(transform):
     """
     Plot inverse Fourier transform of @transform
     and return the plotted array
+
+    NOT YET IMPLEMENTED with numpy
     """
-    i = ugradio.dft.idft(transform[1], transform[0])
+    #i = ugradio.dft.idft(transform[1], transform[0])
     plt.plot(i[0], i[1])
     plt.show()
     return i
@@ -66,6 +76,8 @@ def zoom_comparison(sample, cut, freq, norm):
     Third plot: power spectrum. Eyeballing is not very helpful, so
         the function also returns the index associated with the
         power-maximizing frequency.
+
+    NOT YET IMPLEMENTED with numpy
     """
     fig = plt.figure()
     ax1 = fig.add_subplot(311)
@@ -82,6 +94,7 @@ def zoom_comparison(sample, cut, freq, norm):
     plt.title('First ' + str(cut) + ' samples: ' + str(freq) + ' MHz sinusoid')
 
     ax3 = fig.add_subplot(313)
+    return 1 / 0
     f = ugradio.dft.dft(sample, vsamp=6.25e6)
     P = np.abs(f[1]) ** 2
     ax3.plot(f[0], normalize(P, norm ** 2))
@@ -104,11 +117,14 @@ def volt_spec(sample, ifreq, norm, srate=6.25e6):
     
     Unless there is great overlap between imaginary and real components,
         use mini_volt_spec instead
+
+    NOT YET IMPLEMENTED with numpy
     """
     
     fig = plt.figure()
     ax1 = fig.add_subplot(311)
 
+    return 1 / 0
     f = ugradio.dft.dft(sample, vsamp=srate)
 
     ax1.plot(f[0], normalize(np.real(f[1]), norm), label='real component')
@@ -144,11 +160,14 @@ def mini_volt_spec(sample, norm, srate=6.25e6, ifreq=None):
     Returns the Fourier transform.
     If there is excessive overlap between imaginary and real components,
         use volt_spec instead
+
+    NOT YET IMPLEMENTED with numpy
     """
     
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
 
+    return 1 / 0
     f = ugradio.dft.dft(sample, vsamp=srate)    
 
     x = f[0] / 10 ** 6
@@ -172,6 +191,8 @@ def full_comparison(sample, rate):
     Plot 1: original array @sample vs time 'times'
     Plot 2: power spectrum of @sample (frequency vs square volt)
     Plot 3: inverse fourier transform of power spectrum
+
+    NOT YET IMPLEMENTED with numpy
     """
     
     fig = plt.figure()
@@ -179,6 +200,7 @@ def full_comparison(sample, rate):
     ax1.plot(times[:len(sample)], sample)
 
     ax2 = fig.add_subplot(312)
+    return 1 / 0
     f = ugradio.dft.dft(sample, vsamp=rate)
     P = np.abs(f[1]) ** 2
     ax2.plot(f[0], P)
