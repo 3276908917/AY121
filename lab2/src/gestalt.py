@@ -1,3 +1,5 @@
+import pickle
+import glob, os
 # I need to switch to numpy fft
 
 def d2():
@@ -51,3 +53,12 @@ def gain(scal, scold):
 # I guess the line frequency is the accepted value for the HI line?
 def doppler(nu_0, nu):
     return 3e10 * (nu_0 - nu) / nu_0
+
+
+def unpickle_folder():
+    re_block, im_block = [], []
+    for file in glob.glob("./*"):
+        data = pickle.load(open(file, "rb"))
+        re_block.append(data['real'])
+        im_block.append(data['imaginary'])
+    return re_block, im_block
