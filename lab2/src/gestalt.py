@@ -4,9 +4,12 @@ def d2():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
     Acquire two streams of data through pico sampler channels A and B.
-    10V range, divisor=2
+    50 mV range, divisor=1
     """
     return ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True)
+
+def d200():
+	
 
 def complex_combine(real, imag=None):
     if imag is None:
