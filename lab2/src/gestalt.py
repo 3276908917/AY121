@@ -10,10 +10,16 @@ def d2():
 
 def d200():
     data_chunk = []
+    for i in range(100):
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, nblocks=100))
+        print(str(i + 1) + '% complete')
+    return data_chunk
+
+def d200_test():
+    data_chunk = []
     for i in range(10):
-        for j in range(100):
-            data_chunk.append(d2())
-        print(str((i + 1) * 10) + '% complete')
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, nblocks=10))
+        print(str(i + 1) + '% complete')
     return data_chunk
 
 def complex_combine(real, imag=None):
