@@ -26,6 +26,20 @@ def freq_range(v_s, N, W=1):
     interval = W * v_s / N
     return np.array([i * interval for i in range(-lobe, lobe)])
 
+# Hard-coded massive pack, based on Max's data
+def power_barrage(rblock, iblock, srate=62.5e6, nsamps=15800):
+    power_book = []    
+    #x = freq_range(srate, nsamps) / 10**6
+
+    for c in range(len(rblock)):
+        for k in range(len(rblock[0])):
+            sample = complex_combine(rblock[c][k], iblock[c][k])
+            f = np.fft.fft(sample)
+            P = np.abs(f) ** 2
+            power_book.append(P)
+            
+    return power_book
+
 def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None, freqs=None):
     """
     Clean, labeled plot of power spectrum of @sample
