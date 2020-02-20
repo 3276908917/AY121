@@ -40,7 +40,19 @@ def power_barrage(rblock, iblock, srate=62.5e6, nsamps=15800):
             
     return power_book
 
-def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None, freqs=None):
+# The normalization changes between trials?
+# If so, that may explain the limited utility of naive averaging
+def pp_skeleton(x, y):
+    fig = plt.figure()
+
+    ax = fig.add_subplot(111)
+
+    ax.plot(x, np.fft.fftshift(y))
+    plt.xlabel('Frequency (MHz)')
+    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
+    plt.show()
+
+def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
     """
     Clean, labeled plot of power spectrum of @sample
     corresponding to a signal at @ifreq (in MHz)
