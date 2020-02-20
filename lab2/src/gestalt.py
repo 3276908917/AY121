@@ -6,16 +6,15 @@ def d2():
     Acquire two streams of data through pico sampler channels A and B.
     50 mV range, divisor=1
     """
-    return ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True)
+    return ugradio.pico.capture_data('50mV', divisor=1)
 
 def d200():
     data_chunk = []
     for i in range(10):
         for j in range(100):
             data_chunk.append(d2())
-        print('10% increment')
+        print(str((i + 1) * 10) + '% complete')
     return data_chunk
-
 
 def complex_combine(real, imag=None):
     if imag is None:
