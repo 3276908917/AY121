@@ -1,6 +1,8 @@
 import pickle
 import glob, os
 # I need to switch to numpy fft
+import time
+
 
 def d2_ihatelife():
     """
@@ -8,7 +10,9 @@ def d2_ihatelife():
     Acquire two streams of data through pico sampler channels A and B.
     50 mV range, divisor=1
     """
-    return ugradio.pico.capture_data('50mV', divisor=1)
+    pack = ugradio.pico.capture_data('50mV', divisor=1, nsamples=16000, dual_mode=True)
+    pack.shape = (2, -1, 16000)
+    return pack
 
 def d200_broken():
     data_chunk = []
@@ -20,7 +24,15 @@ def d200_broken():
 def d200_new():
     data_chunk = []
     for i in range(100):
-        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, nblocks=100, dual_mode=True))
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True, nsamples=42000,nblocks=100))
+        print(str(i + 1) + '% complete')
+    return data_chunk
+
+def d100():
+    time.sleep(120)
+    data_chunk = []
+    for i in range(100):
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, dual_mode=True))
         print(str(i + 1) + '% complete')
     return data_chunk
 

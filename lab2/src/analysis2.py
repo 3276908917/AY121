@@ -13,7 +13,7 @@ def hist_gauss(sample, b=64, correction=6):
     count, bins, ignored = plt.hist(sample, b, density=True)
     plt.plot(bins, correction/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
     plt.ylabel(r'Frequency')
-    plt.xlabel('Voltage (V)')
+    plt.xlabel('Voltage [?]')
     plt.show()
 
 def freq_range(v_s, N, W=1):
@@ -85,7 +85,7 @@ def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
     if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
-    plt.show()
+    #plt.show()
     print(f[np.argmax(y)])
     return [x, y] #untested return... the x and y values
         # may not be aligned properly

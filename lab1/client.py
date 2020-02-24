@@ -1,7 +1,8 @@
 # I think I still wanted a routine somewhere that picked out
     # a number of maxima offered by the user
 
-exec(open('synthesis.py').read())                                            
+#exec(open('synthesis.py').read())                                            
+%run
 
 def ACF():
     redos = load_saves('data/redos.npz')
