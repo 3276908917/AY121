@@ -2,7 +2,7 @@ import pickle
 import glob, os
 # I need to switch to numpy fft
 
-def d2():
+def d2_ihatelife():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
     Acquire two streams of data through pico sampler channels A and B.
@@ -10,17 +10,17 @@ def d2():
     """
     return ugradio.pico.capture_data('50mV', divisor=1)
 
-def d200():
+def d200_broken():
     data_chunk = []
     for i in range(100):
         data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, nblocks=100))
         print(str(i + 1) + '% complete')
     return data_chunk
 
-def d200_test():
+def d200_new():
     data_chunk = []
-    for i in range(10):
-        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, nblocks=10))
+    for i in range(100):
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, nblocks=100, dual_mode=True))
         print(str(i + 1) + '% complete')
     return data_chunk
 
