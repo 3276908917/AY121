@@ -21,9 +21,10 @@ def d200_broken():
         print(str(i + 1) + '% complete')
     return data_chunk
 
-def d200_new():
+# recommended: loops=100
+def d200_new(loops):
     data_chunk = []
-    for i in range(100):
+    for i in range(loops):
         data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True, nsamples=42000,nblocks=100))
         print(str(i + 1) + '% complete')
     return data_chunk
