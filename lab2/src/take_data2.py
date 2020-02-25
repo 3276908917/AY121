@@ -4,7 +4,7 @@ import glob, os
 import time
 
 
-def d2_ihatelife():
+def d2():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
     Acquire two streams of data through pico sampler channels A and B.
