@@ -10,30 +10,15 @@ def d2():
     Acquire two streams of data through pico sampler channels A and B.
     50 mV range, divisor=1
     """
-    pack = ugradio.pico.capture_data('50mV', divisor=1, nsamples=16000, dual_mode=True)
+    pack = ugradio.pico.capture_data('50mV', divisor=6, nsamples=16000, dual_mode=True)
     pack.shape = (2, -1, 16000)
     return pack
 
-def d200_broken():
-    data_chunk = []
-    for i in range(100):
-        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, nblocks=100))
-        print(str(i + 1) + '% complete')
-    return data_chunk
-
 # recommended: loops=100
-def d200_new(loops):
+def d200(loops):
     data_chunk = []
     for i in range(loops):
-        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=1, dual_mode=True, nsamples=42000,nblocks=100))
-        print(str(i + 1) + '% complete')
-    return data_chunk
-
-def d100():
-    time.sleep(120)
-    data_chunk = []
-    for i in range(100):
-        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, dual_mode=True))
+        data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, dual_mode=True, nblocks=100))
         print(str(i + 1) + '% complete')
     return data_chunk
 
@@ -44,29 +29,19 @@ def complex_combine(real, imag=None):
         return r + 1j*i
     return real + 1j*imag
 
-# combines power level arrays, chiefly for use with the subsequent
-# average and median methods.
-def power_lists(P, N):
-    stack = [P[i][1] for i in range(1, N)]
+def data_to_comp(glob, sample_size=16000):
+    complex_combo = []    
+    #samples_per_block = len(glob[0][0])
+    offset = len(glob[0]) // 2    
+ #   num_pairs = offset / sample_size
 
-def samples_median(power_list):
-    return np.median(power_list, axis=0)
+    for c in glob:
+        for i in range(0, offset, sample_size):
+            real = c[i: i + sample_size]
+            imag = c[offset + i: offset + i + sample_size]
+            complex_combo.append(real + 1j*imag)
 
-def samples_mean(power_list):
-    return np.mean(power_list, axis=0)
-
-# "It's okay to degrade the frequency resolution to, say, 1 or 2 kHz'
-	# I should probably write a function to handle this.
-
-# Big: calculate reference frame adjustments
-
-def gain(scal, scold):
-    return sum(scold) * 300/sum(scal - scold)
-
-# I guess the line frequency is the accepted value for the HI line?
-def doppler(nu_0, nu):
-    return 3e10 * (nu_0 - nu) / nu_0
-
+    return complex_combo     
 
 def unpickle_folder():
     re_block, im_block = [], []
