@@ -32,7 +32,7 @@ def complex_combine(real, imag=None):
 def data_to_comp(glob, sample_size=16000):
     complex_combo = []    
     #samples_per_block = len(glob[0][0])
-    offset = len(glob[0]) // 2    
+    offset = len(glob[0]) // 2
  #   num_pairs = offset / sample_size
 
     for c in glob:
