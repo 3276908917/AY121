@@ -1,3 +1,6 @@
+# off.npz was saved at 155850 on 2/25/20
+# on.npz was saved at 152907 on 2/25/20
+
 import numpy as np
 import ugradio.timing
 
