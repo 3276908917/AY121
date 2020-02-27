@@ -12,7 +12,7 @@ def samples_median(power_list):
 def samples_mean(power_list):
     return np.mean(power_list, axis=0)
 
-# "It's okay to degrade the frequency resolution to, say, 1 or 2 kHz'
+# "It's okay to degrade the frequency resolution to, say, 1 or 2 kHz"
 	# I should probably write a function to handle this.
 
 # Big: calculate reference frame adjustments
@@ -23,6 +23,3 @@ def gain(scal, scold):
 # I guess the line frequency is the accepted value for the HI line?
 def doppler(nu_0, nu):
     return 3e10 * (nu_0 - nu) / nu_0
-
-def duo():
-    return freq_range, hist_gauss
