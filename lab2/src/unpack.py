@@ -39,6 +39,10 @@ def reduce_raw(case, reduction):
     block, then we perform the reduction algorithm on each group
     of complex arrays, then we perform the reduction on all blocks.
 
+    The two options for @reduction,
+        samples_median and samples_mean,
+    are described in data_appraisal.py
+
     Be careful about using this function in low-memory environments!
     The shell would either kill or be killed by the OS.
     '''
