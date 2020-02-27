@@ -9,3 +9,5 @@ lab2/off.npz
 lab2/on.npz
 lab2/power_off.npz
 lab2/thermal/*
+lab2/pres/*
+lab1/res/*

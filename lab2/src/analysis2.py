@@ -36,6 +36,9 @@ def power_barrage(bblock):
 # The normalization changes between trials?
 # If so, that may explain the limited utility of naive averaging
 def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
+    '''
+    power-plot skeleton
+    '''
     fig = plt.figure()
 
     ax = fig.add_subplot(111)
