@@ -9,6 +9,6 @@ exec(open('review2.py').read())
 exec(open('analysis2.py').read())
 exec(open('rotations.py').read())
 # sandbox, not to be published
-exec(open('fantasy.py').read())
+exec(open('reduce.py').read())
 
 os.chdir(r"../")
