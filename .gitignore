@@ -2,8 +2,9 @@
 lab2/src/cap_2458899_4388351864_s_off_lower_1229
 lab2/unpickled.npz
 lab2/UP.npz
-*.npz
-lab2/rprt/main.synctex.gz
-lab1/rprt/main.dvi
-lab1/rprt/main.synctex.gz
+*.synctex.gz
+*.dvi
 lab2/drive-download-20200227T013406Z-001.zip
+lab2/off.npz
+lab2/on.npz
+lab2/power_off.npz

@@ -23,3 +23,6 @@ def gain(scal, scold):
 # I guess the line frequency is the accepted value for the HI line?
 def doppler(nu_0, nu):
     return 3e10 * (nu_0 - nu) / nu_0
+
+def duo():
+    return freq_range, hist_gauss
