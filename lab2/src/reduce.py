@@ -19,5 +19,22 @@ def pipeline(case, reduction):
         compressor.append(reduction(P))
     return reduction(compressor)
 
-def attempt():
-    return samples_median, power_barrage
+def thermal():
+    block = []
+    for file in glob.glob("./*"):
+        samples = []
+        reader = open(file, 'r')
+        for line in reader:
+            trim = line.strip()
+            samples.append(float(trim))
+        block.append(samples)
+    return block
+
+def unpickle_folder():
+    re_block, im_block = [], []
+    for file in glob.glob("./*"):
+        data = pickle.load(open(file, "rb"))
+        re_block.append(data['real'])
+        im_block.append(data['imaginary'])
+    return re_block, im_block
+

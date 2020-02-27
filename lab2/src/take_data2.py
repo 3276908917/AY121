@@ -51,11 +51,3 @@ def complex_bblock(glob):
     return c
 
 # 100 blocks of 320000
-
-def unpickle_folder():
-    re_block, im_block = [], []
-    for file in glob.glob("./*"):
-        data = pickle.load(open(file, "rb"))
-        re_block.append(data['real'])
-        im_block.append(data['imaginary'])
-    return re_block, im_block
