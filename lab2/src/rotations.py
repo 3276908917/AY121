@@ -9,7 +9,7 @@ eq2g = np.array([[-.054876, -.873437, -.483835], [.494109, -.444830, .746982], [
 def eq_to_ha(LST):
     s = np.sin(LST)
     c = np.cos(LST)
-    return np.array([[c, s, 0], [-s, c, 0], [0, 0, 1]])
+    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
 
 #def topocentric(az, alt):
 #    return np.array([np.cos(az) * np.cos(alt), np.sin(az) * np.cos(alt), np.sin(alt)])
@@ -33,8 +33,10 @@ def gal_to_topo(el, be, lat, radians=False):
         phi = np.radians(lat)
     rct = rct_gal(l, b)
     ra_dec = np.dot(np.linalg.inv(eq2g), rct)
+    # The program at least works fine up until here
     hrd = np.dot(np.linalg.inv(eq_to_ha(ugradio.timing.lst())), ra_dec)
     topo = np.dot(ha_to_topo(phi), hrd)
+    # new_sphere has also been demonstrated to work
     return new_sphere(topo, radians)
 
 def new_sphere(out_arr, radians=False):
