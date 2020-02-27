@@ -1,14 +1,12 @@
 
-lab2/src/cap_2458899_4388351864_s_off_lower_1229
 lab2/unpickled.npz
 lab2/UP.npz
 *.synctex.gz
 *.dvi
-lab2/drive-download-20200227T013406Z-001.zip
-lab2/off.npz
-lab2/on.npz
+lab2/data/off.npz
+lab2/data/on.npz
 lab2/power_off.npz
-lab2/thermal/*
+lab2/data/thermal/*
 lab2/pres/*
 lab1/res/*
 lab1/data/old/*
