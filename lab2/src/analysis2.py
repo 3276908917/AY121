@@ -31,8 +31,11 @@ def freq_range(v_s, N, W=1):
     return np.array([i * interval for i in range(-lobe, lobe)])
 
 def power_barrage(bblock):
+    '''
+    Given a big block of arrays @bblock (each array is a data capture),
+    return a big block of their corresponding power spectra.
+    '''
     power_book = []    
-    #x = freq_range(srate, nsamps) / 10**6
     for c in bblock:
         f = np.fft.fft(c)
         P = np.abs(f) ** 2
@@ -43,7 +46,17 @@ def power_barrage(bblock):
 # If so, that may explain the limited utility of naive averaging
 def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
     '''
-    power-plot skeleton
+    Plot @y versus @x where @y is shifted to center the zero frequency
+        (more at numpy.fft.fftshift)
+    The plot is automatically labeled such that the
+        x-axis corresponds to frequency in megahertz
+        y-axis corrosponds to magnitude-squared voltage in square volts
+    One can include tuples @xBounds and @yBounds to zoom the graph appropriately
+        where each tuple is in the form (lower_bound, upper_bound).
+    One can ahead-of-time specify the y-axis to be logarithmic
+        with @logv=True. However, it is not clear whether this functionality is useful,
+        because one can simply press L (while focused on a matplotlib plot)
+        to achieve the same effect.
     '''
     fig = plt.figure()
 
@@ -61,7 +74,7 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
     plt.show()
 
 def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
-    """
+    '''
     Clean, labeled plot of power spectrum of @sample
     corresponding to a signal at @ifreq (in MHz)
     with maximum amplitude @norm (in mV)
@@ -73,21 +86,24 @@ def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
 	Note: @ifreq is not used in any calculations,
 		but rather is used to title the plot.
 		Leave this as None, and the plot will not be titled.
-    """
+    '''
     fig = plt.figure()
-
     ax = fig.add_subplot(111)
+    
     f = np.fft.fft(sample)
-        #f = ugradio.dft.dft(sample, f=freqs, vsamp=srate)  
     P = np.abs(f) ** 2
+    
     x = freq_range(srate, nsamps) / 10**6
     y = normalize(P, norm ** 2) / 1000 ** 2
+    
     ax.plot(x, np.fft.fftshift(y))
     plt.xlabel('Frequency (MHz)')
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
+    
     if ifreq is not None: # this is an awful way of giving a no-plot option
         plt.title('Power Spectrum: ' + str(ifreq) + ' MHz sinusoid')
-    #plt.show()
+
+    plt.show()
     print(f[np.argmax(y)])
-    return [x, y] #untested return... the x and y values
-        # may not be aligned properly
+    return [x, y] # untested return...
+        # ...the x and y values may not be aligned properly
