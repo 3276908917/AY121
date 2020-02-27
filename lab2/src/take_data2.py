@@ -1,14 +1,10 @@
-import pickle
-import glob, os
-# I need to switch to numpy fft
 import time
-
 
 def d2():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
     Acquire two streams of data through pico sampler channels A and B.
-    50 mV range, divisor=1
+    50 mV range, divisor=6
     """
     pack = ugradio.pico.capture_data('50mV', divisor=6, nsamples=16000, dual_mode=True)
     pack.shape = (2, -1, 16000)
@@ -22,6 +18,7 @@ def d200(loops):
         print(str(i + 1) + '% complete')
     return data_chunk
 
+# deprecated
 def complex_combine(real, imag=None):
     if imag is None:
         r = real[100:16000]
@@ -29,6 +26,7 @@ def complex_combine(real, imag=None):
         return r + 1j*i
     return real + 1j*imag
 
+# deprecated
 def data_to_comp(glob, sample_size=16000):
     complex_combo = []    
     #samples_per_block = len(glob[0][0])
@@ -43,11 +41,10 @@ def data_to_comp(glob, sample_size=16000):
 
     return complex_combo
 
+# deprecated
 def complex_bblock(glob):
     c = []
     offset = len(glob[0]) // 2
     for a in glob:
         c.append(a[0:offset] + 1j*a[offset:])
     return c
-
-# 100 blocks of 320000

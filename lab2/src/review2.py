@@ -32,10 +32,9 @@ def gain(scal, scold):
     '''
     return sum(scold) * 300/sum(scal - scold)
 
-# I guess the line frequency is the accepted value for the HI line?
 def doppler(nu_0, nu):
     '''
-    @nu_0
+    @nu_0: accepted value for HI line?
     @nu : current frequency in iteration over power spectrum
 
     This is a direct codification of the lab instructions on gain

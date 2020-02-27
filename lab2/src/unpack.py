@@ -1,3 +1,6 @@
+import pickle
+import glob, os
+
 # Change these values as you run
 offset = 1600000
 sample_size = 16000
