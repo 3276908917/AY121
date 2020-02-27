@@ -2,12 +2,18 @@ import pickle
 import glob, os
 
 # Change these values as you run
+
+# How many data points are there per axis (i.e. real + imaginary = 2)?
+# If you have real and imaginary data: what is half the length of a block?
 offset = 1600000
+
+# How many data points are there per axis per sample?
+# By default, the pico-sampler captures 16000 points per sample.
 sample_size = 16000
 
 # It's called bit because we are operating on a single block
 # i.e. pico-sampler concatenates samples into one giant array.
-def bit(chunk):
+def organize_bit(chunk):
     '''
     It is called bit because it is to be used on one block at a time.
 
@@ -25,7 +31,7 @@ def bit(chunk):
     return c
 
 # e.g. off = load_saves('../on.npz')['raw_off']
-def pipeline(case, reduction):
+def reduce_raw(case, reduction):
     '''
     Given a collection of blocks (pico-sampler concatenated samples),
     we turn each block into a group of arrays (in complex-conjugate
@@ -34,11 +40,11 @@ def pipeline(case, reduction):
     of complex arrays, then we perform the reduction on all blocks.
 
     Be careful about using this function in low-memory environments!
-    You would either kill or be killed by the OS.
+    The shell would either kill or be killed by the OS.
     '''
     compressor = []
     for a in case:
-        c_chunk = bit(a)
+        c_chunk = organize_bit(a)
         P = power_barrage(c_chunk)
         compressor.append(reduction(P))
     return reduction(compressor)
