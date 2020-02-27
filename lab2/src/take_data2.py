@@ -41,7 +41,16 @@ def data_to_comp(glob, sample_size=16000):
             imag = c[offset + i: offset + i + sample_size]
             complex_combo.append(real + 1j*imag)
 
-    return complex_combo     
+    return complex_combo
+
+def complex_bblock(glob):
+    c = []
+    offset = len(glob[0]) // 2
+    for a in glob:
+        c.append(a[0:offset] + 1j*a[offset:])
+    return c
+
+# 100 blocks of 320000
 
 def unpickle_folder():
     re_block, im_block = [], []
