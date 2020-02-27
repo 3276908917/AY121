@@ -1,4 +1,4 @@
-## Change these values as you run
+# Change these values as you run
 offset = 1600000
 sample_size = 16000
 
@@ -67,4 +67,3 @@ def unpickle_folder():
         re_block.append(data['real'])
         im_block.append(data['imaginary'])
     return re_block, im_block
-
