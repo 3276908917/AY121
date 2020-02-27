@@ -1,9 +1,13 @@
-def complex_combine(real, imag):
+#complex_combine
+def cc(real, imag):
     return real + 1j*imag
 
-# combines power level arrays, chiefly for use with the subsequent
-# average and median methods.
+# deprecated
 def power_lists(P, N):
+    '''
+    combines power level arrays, chiefly for use with the subsequent
+    average and median methods.
+    '''
     stack = [P[i][1] for i in range(1, N)]
 
 def samples_median(power_list):

@@ -3,7 +3,6 @@
 # todo: expand power_plot to return values of multiple spikes
     # this will make it re-usable for the mixed signals section
 
-#import ugradio
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
@@ -13,7 +12,7 @@ def hist_gauss(sample, b=64, correction=6):
     count, bins, ignored = plt.hist(sample, b, density=True)
     plt.plot(bins, correction/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
     plt.ylabel(r'Frequency')
-    plt.xlabel('Voltage [?]')
+    plt.xlabel('Voltage [?]') # normalization is not yet possible
     plt.show()
 
 def freq_range(v_s, N, W=1):
@@ -21,12 +20,10 @@ def freq_range(v_s, N, W=1):
     Return a N-length array
     Where frequencies range between plus or minus W * v_s / 2
     """
-    #lobe = round(W * v_s / 2)
     lobe = round(N / 2)
     interval = W * v_s / N
     return np.array([i * interval for i in range(-lobe, lobe)])
 
-# Hard-coded massive pack, based on Max's data
 def power_barrage(bblock):
     power_book = []    
     #x = freq_range(srate, nsamps) / 10**6
