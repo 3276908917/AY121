@@ -8,6 +8,12 @@ import matplotlib.pyplot as plt
 from scipy import signal
 
 def hist_gauss(sample, b=64, correction=6):
+    '''
+    Given an array of values @sample,
+    return a histogram consisting of @b bins (64 by default)
+    and over-plot what a zero-mean Gaussian would look like with the same standard deviation,
+    and with an amplitude correction factor given by @correction (6 by default). 
+    '''
     sigma = np.std(sample)
     count, bins, ignored = plt.hist(sample, b, density=True)
     plt.plot(bins, correction/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
@@ -16,10 +22,10 @@ def hist_gauss(sample, b=64, correction=6):
     plt.show()
 
 def freq_range(v_s, N, W=1):
-    """
+    '''
     Return a N-length array
     Where frequencies range between plus or minus W * v_s / 2
-    """
+    '''
     lobe = round(N / 2)
     interval = W * v_s / N
     return np.array([i * interval for i in range(-lobe, lobe)])
