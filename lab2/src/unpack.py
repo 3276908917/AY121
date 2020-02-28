@@ -1,24 +1,16 @@
 import pickle
 import glob, os
 
-# Change these values as you run
-
-# How many data points are there per axis (i.e. real + imaginary = 2)?
-# If you have real and imaginary data: what is half the length of a block?
-offset = 1600000
-
-# How many data points are there per axis per sample?
-# By default, the pico-sampler captures 16000 points per sample.
-sample_size = 16000
-
 # It's called bit because we are operating on a single block
 # i.e. pico-sampler concatenates samples into one giant array.
-def organize_bit(chunk):
+def organize_bit(chunk, offset=1600000, sample_size=16000):
     '''
     It is called bit because it is to be used on one block at a time.
 
     Return an array, equal in length to the number of blocks,
     of samples (arrays of complex voltages).
+
+    @offset : length of chunk divided by number of dimensions (2 for real and imaginary)
 
     For customization of the functionality, see global parameters
     in the header.
@@ -31,7 +23,7 @@ def organize_bit(chunk):
     return c
 
 # e.g. off = load_saves('../on.npz')['raw_off']
-def reduce_raw(case, reduction):
+def reduce_raw(case, reduction, offset=1600000, sample_size=16000):
     '''
     Given a collection of blocks (pico-sampler concatenated samples),
     we turn each block into a group of arrays (in complex-conjugate
@@ -43,12 +35,14 @@ def reduce_raw(case, reduction):
         samples_median and samples_mean,
     are described in data_appraisal.py
 
+    @offset : length of chunk divided by number of dimensions (2 for real and imaginary)
+
     Be careful about using this function in low-memory environments!
     The shell would either kill or be killed by the OS.
     '''
     compressor = []
     for a in case:
-        c_chunk = organize_bit(a)
+        c_chunk = organize_bit(a, offset, sample_size)
         P = power_barrage(c_chunk)
         compressor.append(reduction(P))
     return reduction(compressor)
@@ -67,9 +61,10 @@ def thermal():
         reader = open(file, 'r')
         for line in reader:
             trim = line.strip()
-            samples.append(float(trim))
+            samples.append(int(float(trim)))
         block.append(samples)
-    return block
+    # reformat and reshape the block to facilitate computation
+    return np.array(block)
 
 # This helped me with Max's data.
 # It may help again in the future, in case I shift to pickle format.
