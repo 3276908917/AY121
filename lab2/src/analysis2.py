@@ -21,15 +21,6 @@ def hist_gauss(sample, b=64, correction=6):
     plt.xlabel('Voltage [?]') # normalization is not yet possible
     plt.show()
 
-def freq_range(v_s, N, W=1):
-    '''
-    Return a N-length array
-    Where frequencies range between plus or minus W * v_s / 2
-    '''
-    lobe = round(N / 2)
-    interval = W * v_s / N
-    return np.array([i * interval for i in range(-lobe, lobe)])
-
 def power_barrage(bblock):
     '''
     Given a big block of arrays @bblock (each array is a data capture),
