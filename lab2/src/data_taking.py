@@ -1,5 +1,8 @@
 import time
 
+# vertical angle difficult to measure: plus or minus 10 degrees,
+# which is already the angular resolution, probably of the big horn
+
 def d2():
     """
     Abbreviation function: dual get hard-coded for week 1 data collection.
