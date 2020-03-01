@@ -10,3 +10,5 @@ lab2/data/thermal/*
 lab2/pres/*
 lab1/res/*
 lab1/data/old/*
+lab2/data/cass_off.npz
+lab2/data/cass_on.npz
