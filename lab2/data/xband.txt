@@ -1,3 +1,12 @@
+The width 'a' was measured with calipers to be about 22.29 mm +- .01 mm
+
+max of open?: "3.98 mV"
+max of shorted?: "1.42 mv"
+but because the output is power, we have to be careful
+	we want voltage RATIO, and furthermore,
+	we contend with an offset which makes the power wave
+	asymmetrical about the x-axis.
+
 Frequency (GHz)	Nulls (cm)
 7		8.8, 15.15
 7.5		10.35, 14.4
@@ -7,8 +16,23 @@ Frequency (GHz)	Nulls (cm)
 9.25		10.15, 12.45, 14.85, 17.2
 9.5		8.9, 11.15 (11), 13.35 (13.3), 15.45 (15.4), 17.7 (17.6)
 9.75		9.75, 11.8, 14.25, 16.05
-10		16.5, 14.35, 12.3, 10.45, 8.45
+10		8.45, 10.45, 12.3, 14.35, 16.5 
 10.5		9.95, 11.75, 13.5, 15.45, 17.3
 11		9.35, 11.4, 12.65, 14.45, 16.2, 17.85
 11.5		8.95, 10.45, 12, 13.8, 15.15, 16.8
 12		8.4, 9.85, 11.35, 12.85, 14.4, 15.9, 17.45
+
+Frequency (GHz)	Null spacings (cm)
+7		6.35
+7.5		4.05
+8		3.2, 3.35
+8.5		2.85, 2.55
+9		3, 1.95, 2.45
+9.25		2.3, 2.4, 2.35
+9.5		2.25, 2.2, 2.1, 2.25
+9.75		2.05, 2.45, 1.8
+10		
+10.5		
+11		
+11.5		
+12		
