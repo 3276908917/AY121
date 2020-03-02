@@ -9,5 +9,6 @@ exec(open('data_appraisal.py').read())
 exec(open('analysis2.py').read())
 exec(open('rotations.py').read())
 exec(open('unpack.py').read())
+exec(open('chi.py').read())
 
 os.chdir(r"../")
