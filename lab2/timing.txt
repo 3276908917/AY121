@@ -11,4 +11,15 @@ start
 stop
 1582938387.1761112
 
+
+new cass
+
+on:
+start: 1583192057.0592542
+stop: 1583192525.1027513
+
+off:
+start: 1583192580.4922442
+stop:  1583193131.8774302
+
 np.savez('cass_off', raw_off=off)
