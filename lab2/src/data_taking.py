@@ -1,6 +1,8 @@
 # vertical angle difficult to measure: plus or minus 10 degrees,
 # which is already the angular resolution, probably of the big horn
 
+import time
+
 def d2():
     '''
     Abbreviation function: dual get hard-coded for week 1 data collection.
@@ -26,3 +28,8 @@ def d200(loops):
         data_chunk.append(ugradio.pico.capture_data('50mV', divisor=6, dual_mode=True, nblocks=100))
         print(str(i + 1) + '% complete')
     return data_chunk
+
+def sleeper(seconds):
+    time.sleep(seconds)    
+    return ugradio.pico.capture_data('50mV', divisor=6, dual_mode=True, nblocks=100)
+

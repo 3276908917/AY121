@@ -22,4 +22,15 @@ off:
 start: 1583192580.4922442
 stop:  1583193131.8774302
 
-np.savez('cass_off', raw_off=off)
+
+cass part 3
+
+on:
+start: 1583199328.3047912
+stop:  close to 1583199862.2430577
+
+off:
+start: 1583200386.3279595
+stop: well after 1583200851.8508408
+
+
