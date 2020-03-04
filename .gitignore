@@ -3,6 +3,8 @@ lab2/unpickled.npz
 lab2/UP.npz
 *.synctex.gz
 *.dvi
+*.log
+*.blg
 lab2/data/off.npz
 lab2/data/on.npz
 lab2/power_off.npz
