@@ -19,11 +19,3 @@ def null_range(L):
 # c = \lambda \nu
 def guide_velocity(wl, frq):
     return wl * frq
-
-# past this point, L_g, L_fs, xband_y must be defined globally
-
-# this function shoud be equal to one, by equation (6)
-    # on the lab manual
-
-
-# I need to figure out what the third argument should be.
