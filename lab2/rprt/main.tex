@@ -1,11 +1,10 @@
-\documentclass[letter]{article}
+\documentclass[12pt]{article}
 
 %% Language and font encodings
-\usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-
-%\usepackage[margin=1in]{geometry}
+%\usepackage[english]{babel}
+%\usepackage[utf8x]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
 
 %% Sets page size and margins
 %\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
@@ -13,11 +12,12 @@
 %% Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[colorinlistoftodos]{todonotes}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+%\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{xcolor}
 
 \graphicspath{{res/}}
 
@@ -25,6 +25,7 @@
 \author{Lukas Finkbeiner}
 
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
@@ -35,23 +36,52 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 \quad * Ask Professor about the permissions thing (page 3), to make sure there are no technical difficulties.
 
+\textcolor{red}{Figure out how to make the section headers smaller. They are taking up far too much space.}
+
 \end{abstract}
 
 % No need to re-derive anything!!
 
 \section{Introduction and Background}
 
-Block diagram of the telescope electronics. Fortunately, it seems like the professor took care of most of this for you in lecture, February 11.
+\textcolor{red}{Block diagram of the telescope electronics}. Fortunately, it seems like the professor took care of most of this for you in lecture, February 11.
+
+% Leave the waveguide equations for the `models' section
+
+% 3. The equations for the two waveguides; scipy.optimize.fmin
 
 \section{Methods}
 
 To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
 
-\section{Results}
+\section{Observations}
 
-As a preface, I may want to include commentary on how I had to manually alter the data, based on readings from the oscilloscope, in order to account for the 
+As a preface, I may want to include commentary on how I had to manually alter the data, based on readings from the oscilloscope, in order to account for the imbalance in picoscope inputs?? I think not!
+
+% The times of observation and why that matters.
+
+% 1. scrap for time: initial calibration results. Here is a test signal. ``Our setup works!''
+% source of error: angles are not aligned well. 10% error becomes... 25%? in power plot. I do not remember.
+
+% 2. initial H1 observations: on-line and off-line, to get the line shape
+
+% 3. Gain observation: overplot hot and cold
+
+% 4. Plot waveguide results, at least for the xband, to talk about how weird everything is.
+% caliper measurement for a. 'This is what we hope to get from analysis'
+% sources of error.
+
+\section{Analysis}
+
+% 1. The poly fit to the baseline
+
+% 2. The Gaussian fits to the remaining curves
+
+% 3. 
 
 \section{Conclusions}
+
+
 
 \section{Acknowledgments}
 
