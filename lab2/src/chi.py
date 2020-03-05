@@ -6,6 +6,7 @@ def fit(L):
 def length(L, GHz):
     return fit(L)[0] * GHz * 1e9
 
+# free-space wavelength
 def fs(GHz):
     return 3e10 / (GHz * 1e9)
 
@@ -19,7 +20,10 @@ def null_range(L):
 def guide_velocity(wl, frq):
     return wl * frq
 
+# past this point, L_g, L_fs, xband_y must be defined globally
+
 # this function shoud be equal to one, by equation (6)
     # on the lab manual
-def a_finder(a, L_g, L_fs):
-    return L_fs / np.sqrt(1 - (L_fs / 2 / a) ** 2) / L_g
+
+
+# I need to figure out what the third argument should be.
