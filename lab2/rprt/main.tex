@@ -18,17 +18,7 @@
 
 \begin{abstract}
 
-\textcolor{red}{We need more narrative drive. Consider using powerful transition phrases}
-
-We investigated the hyperfine hydrogen transition by calibrating our measurements to thermal noise and by averaging over many blocks of data taken in optimal time windows of the day. We investigated the speed of light using waveguides (\textcolor{red}{How do they work?}). Our Chi-Squared analysis is completely deficient because our data were taken too broadly to show noticeable inconsistencies.
-
-This is a great place to have a to-do section, because I prefer to write abstracts at the end of the writing process.
-
-\quad * Ask Professor about the permissions thing (page 3), to make sure there are no technical difficulties.
-
-\textcolor{red}{Figure out how to make the section headers smaller. They are taking up far too much space.}
-
-We covered the process of thermal calibration and time-dependent conversions between astronomical coordinate systems. We have offered an example of a full calibration of a HI spectrum.
+We investigate the properties of the signal from the hyperfine hydrogen transition with a collector dish connected to an ADC by several layers of mixers and filters, so that we are left with frequencies more amenable to currently-realizable sampling rates. We calibrate our instruments to the thermal noise of our system and by averaging over many blocks of consecutive data. We use humans, as studied blackbodies, to demonstrate the principle behind thermal calibration. We also include rotation matrices and our timestamps for some of the data that we collected, as an illustration of the Doppler corrections to be applied when converting frequencies to Doppler velocities on a power spectrum. We offer examples of all these processes with a measurement of the HI line at zenith and when pointing at Cassiopeia. In a second experiment, we investigate the speed of light by measuring minima in the magnitude-squared voltages of standing waves in a waveguide. Only able to get meaningful results for the using waveguides.
 
 \end{abstract}
 
@@ -146,9 +136,9 @@ The reduced chi-squared function will provide something clear to minimize when f
 %\textcolor{red}{Decide whether you will discuss this test signal.}
 %To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
 
-\quad \quad After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward.
+\quad \quad After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward (zenith).
 
-However, these numbers changed when taking data for Cassiopeia, by which point our signal-to-noise ratio was too low. We switched to 10 dBm for both and proceeded with the pico-sampling at 62.5 / 6 MHz, the rate we used for all captures.
+However, these numbers changed when taking data for Cassiopeia--$(120^\circ, 0^\circ)$ in galactic coordinates, transformed to equatorial via the rotation matrices from the introduction--by which point our signal-to-noise ratio was too low. We switched to 10 dBm for both and proceeded with the pico-sampling at 62.5 / 6 MHz, the rate we used for all captures.
 
 Furthermore, for each source, we took 2 blocks of 10,000 samples of 16,000 time-voltage tuples. We labeled one block as the 'on-spectrum' and held the first local oscillator at 1230 MHz. We then switched to 1231 MHz (to push the HI signal closer to the 2MHz band-pass filter cut-off) and labeled that second block as the 'off-spectrum.'
 
@@ -158,7 +148,7 @@ Later on, we will see imperfections in the setup in the form of nearly symmetric
 
 To obtain the gain necessary for normalization of the spectrum (equation \ref{eq:normalize}), we took 100 samples with the Big Horn pointing up at the cold sky (the reduction of this creates our cold spectrum) and 100 samples with three humans attempting to cover up the collector (the reduction of this creates our hot spectrum).
 
-We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
+We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and attempt to compare this with our results from a least-squares fit to the data based on equation (ultimately I failed to produce results) \ref{eq:xband}.
 
 \section{Observations}
 
@@ -202,7 +192,7 @@ Other results surely point to some misunderstanding regarding the setup of the f
 
 For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
 
-All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
+All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm. We measured the width $a$ of the XBand waveguide to be 22.29 mm to, nominally, within ten microns.
 
 \begin{center}
  \begin{tabular}{||c c||} 
@@ -348,7 +338,7 @@ I was unable to correct my chi-squared minimization implementation for the XBand
 
 \section{Conclusions}
 
-\quad \quad In conclusion, we obtained results strongly in favor of expected values for the HI line observation. Despite hiccups in the experimental design manifesting as noise spikes in our first pair of blocks, we picked out a likely candidate for the HI line there. The Cassiopeia observations were even more promising. We considered how fitting individual Gaussians to the lumps on fully calibrated power spectra can provide insight into the temperatures and relative velocities of different clouds of hydrogen, when we exchange the frequency axis for doppler velocities via equation \ref{eq:doppler}. We briefly probed some least-squares fits in a simple linear scenario (measuring the speed of light), questioning our assessments of error in the data, and failing to affirm the superiority of the least-squares approach. We highlighted the relevance of voltage standing wave ratio to impedance matching, and reiterated the theory behind the XBand data-fitting without success with actual data. 
+\quad \quad In conclusion, we obtained results strongly in favor of expected values for the HI line observation. Despite hiccups in the experimental design manifesting as noise spikes in our first pair of blocks, we picked out a likely candidate for the HI line there. The Cassiopeia observations were even more promising. We considered how fitting individual Gaussians to the lumps on fully calibrated power spectra can provide insight into the temperatures and relative velocities of different clouds of hydrogen, when we exchange the frequency axis for doppler velocities via equation \ref{eq:velocity}. We briefly probed some least-squares fits in a simple linear scenario (measuring the speed of light), questioning our assessments of error in the data, and failing to affirm the superiority of the least-squares approach. We highlighted the relevance of voltage standing wave ratio to impedance matching, and reiterated the theory behind the XBand data-fitting without success with actual data. 
 % This would be a good place to talk about the difference between open and shorted waveguides, and perhaps even the significance to VSWR
 
 \section{Acknowledgments}
