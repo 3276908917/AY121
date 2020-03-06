@@ -115,37 +115,29 @@ We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths
 % scrap for time: justify the use of mean vs median. Actually, I simply lack a convenient graphical argument.
 % what, then, is the difference between mean and median?
 
-\quad \quad Say somethin!
+\quad \quad We collected data over many days of troubleshooting. The thermal data, as pictured in figure \ref{eq:thermal}, have a straightforward gap between them, but our gain calculation (of about 30) was well below that of other groups.
+
+Other results surely point to some misunderstanding regarding the setup of the filters and mixer stages. Consider the rippling spikes which run along figure \ref{fig:on_limits}; the noise detracts from our results, and seems to vanish (at least, as a clear problem) when we raise the local oscillator power levels for the Cassiopeia measurements (the comparative smoothness will become obvious with the fully calibrated spectra in the analysis section). However, when we raised power levels for this initial HI line capture, the signal got drowned out somewhere.
 
 \begin{figure}
-\centering
-\begin{minipage}{.45\textwidth}
 	\centering
-	\includegraphics[width=\linewidth]{limits_justification}
-	\captionof{figure}{A semi-log plot over the range of frequencies sampled. We assume that our 2 MHz low-pass filter works, so we will dismiss the signals farther than 2 MHz from the center. Additionally, the large central spike and smaller `bunny ear' spikes ($\pm$.5 MHz) appear on all data sets as persistent interference; we partially ignore these by limiting the y-axis. \textcolor{red}{Maybe you should use an initial test sample, to discuss this.}}
+	\includegraphics[width=.6\linewidth]{limits_justification}
+	\captionof{figure}{A semi-log plot over the range of frequencies sampled. We assume that our 2 MHz low-pass filter works, so we will dismiss the signals farther than 2 MHz from the center. Additionally, the large central spike and smaller `bunny ear' spikes ($\pm$.5 MHz) appear on all data sets as persistent interference; we partially ignore these by limiting the y-axis.}
 	\label{fig:on_limits}
-\end{minipage} \hfill%
-\begin{minipage}{.45\textwidth}
-	\centering
-	\includegraphics[width=\linewidth]{thermal}
-	\captionof{figure}{The `hot' data correspond to three humans standing in front of the collector. The `cold' data correspond to the collector pointing up at the cold sky. The noise is not an issue because of its regularity: observe the even discrepancy between the curves over the domain of interest.}
-	\label{fig:thermal}
-\end{minipage}
 \end{figure}
 
 \begin{figure}
-\centering
-\begin{minipage}{.45\textwidth}
 	\centering
-	\includegraphics[width=\linewidth]{up_on_off}
+	\includegraphics[width=.6\linewidth]{thermal}
+	\captionof{figure}{The `hot' data correspond to three humans standing in front of the collector. The `cold' data correspond to the collector pointing up at the cold sky. The noise is not an issue, because it is regular: observe the even discrepancy between the curves over the domain of interest.}
+	\label{fig:thermal}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.6\linewidth]{up_on_off}
 	\caption{Combined plot of the `on' and `off' (LO1 at 1230 and 1231 MHz, respectively) power spectra. As we expect, the HI signal shifts by about 1 MHz between the two plots. This also supports our interpretation of the other patterns as interference: these patterns do not move between spectra.}
 	\label{fig:up_on_off}
-\end{minipage} \hfill%
-\begin{minipage}{.45\textwidth}
-	\centering
-	\caption{\textcolor{red}{This one is not helpful. Replace it with the final, calibrated spectrum, thermal power units.}}
-	\label{fig:up_shape}
-\end{minipage}
 \end{figure}
 
 % 4. Plot waveguide results?
@@ -155,7 +147,7 @@ We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths
 % caliper measurement for a. 'This is what we hope to get from analysis'
 % sources of error.
 
-For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
+\textcolor{red}{Bad need here for a transition}For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
 
 Data from the XBand waveguide section, frequency and resulting null positions. All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
 
