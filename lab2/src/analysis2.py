@@ -148,8 +148,8 @@ def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
     ax.plot(x, np.fft.fftshift(dist1), label='Major Gaussian')
     ax.plot(x, np.fft.fftshift(dist2), label='Minor Gaussian')
     
-    plt.xlabel('Frequency (MHz)', fontsize=12)
-    plt.ylabel(r'$T_{sys} + T_{ant, HI}$', fontsize=12)
+    plt.xlabel('Frequency (MHz)', fontsize=12, weight='bold')
+    plt.ylabel(r'$T_{sys} + T_{ant, HI}$', fontsize=12, weight='bold')
     if xBounds is not None:
         plt.xlim(xBounds)
     if yBounds is not None:
