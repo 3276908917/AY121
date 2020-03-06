@@ -1,19 +1,9 @@
 \documentclass[12pt]{article}
 
-%% Language and font encodings
-%\usepackage[english]{babel}
-%\usepackage[utf8x]{inputenc}
-%\usepackage[T1]{fontenc}
 \usepackage[margin=1in]{geometry}
 
-%% Sets page size and margins
-%\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-%% Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
-%\usepackage[colorinlistoftodos]{todonotes}
-%\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \usepackage{caption, subcaption, xcolor}
 
@@ -50,10 +40,6 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 	\caption{To reduce the frequencies of incoming signals to manageable levels, we employ a multi-stage combination of filters and mixers. The signal enters via transformer connected to the collector. The ADC represents the final step, when the PicoScope translates voltages over time into digital arrays.}
 	\label{fig:block}
 \end{figure}
-
-% Leave the waveguide equations for the `models' section
-
-% 3. The equations for the two waveguides; scipy.optimize.fmin
 
 The data that we sample from the Big Horn via the PicoScope will feature arbitrary units which depend on our setup. To calibrate the intensity of the spectrum, we first calculate the gain:
 
@@ -119,11 +105,6 @@ However, these numbers changed when taking data for Cassiopeia, by which point o
 
 Later on, we will see imperfections in the setup in the form of nearly symmetric 'bunny ear' spikes as well as an extreme spike at the center; we found the PicoScope to sometimes artifically attenuate and offset the signal going into the second port, because we would switch the cables going into A and B and we would see the same shape; if there were a problem in our mixer stages, we would expect the output to switch similarly. 
 
-% We sampled in the dual channel with this DIVISOR. The DC offset between channels, as well as the amplitude differences, will help to justify the rabbit ears!
-
-% For the cass. data, we switched the local oscillator powers
-% talk about changes in the power levels for the local oscillators
-
 We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
 
 \section{Observations}
@@ -151,8 +132,6 @@ We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths
 	\label{fig:thermal}
 \end{minipage}
 \end{figure}
-
-%Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of the imperfections in our setup (such as low signal-to-noise ratio from low power on the local oscillators). \textcolor{red}{How can I justify ignoring the 2 MHz spikes? Aren't those bad?}
 
 \begin{figure}
 \centering
@@ -219,15 +198,7 @@ Data from the XBand waveguide section, frequency and resulting null positions. A
 
 \section{Analysis}
 
-% 1. The poly fit to the baseline
-
-% 2. The Gaussian fits to the remaining curves
-
-% 3. 
-
 \quad \quad Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873199^\circ \approx 0.661012$ radians. The right ascension is equal to the local sidereal time (LST) of data-capture.
-
-%I forgot when we did the cold sky data
 
 We labeled all of our samples with unix time. Included below is a table including examples of date conversions to Doppler corrections for the events of interest. For the sake of brevity, we omit the counterparts for the Cassiopeia measurements.
 
