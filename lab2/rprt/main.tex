@@ -98,6 +98,8 @@ Here we define reduced chi-squared as follows:
 \chi_r^2 = \frac{1}{N - M} \sum_i \frac{|y_i - \hat{y_i}|^2}{\sigma_i^2}
 \end{equation}
 
+Where $N$ is the number of data and $M$ is the number of fit parameters. For each measurement $i$, $y_i$ is the observed value, $\hat{y_i}$ is the value predicted by the fit, and $\sigma_i$ is the expected error on that measurement. 
+
 \section{Methods}
 
 % We used local oscillators at these power levels and at these frequencies.
@@ -169,7 +171,9 @@ Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of
 % caliper measurement for a. 'This is what we hope to get from analysis'
 % sources of error.
 
-Data from the XBand waveguide section, frequency and resulting null positions.:
+For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
+
+Data from the XBand waveguide section, frequency and resulting null positions. All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
 
 \begin{center}
  \begin{tabular}{||c c||} 

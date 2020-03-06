@@ -19,3 +19,6 @@ def null_range(L):
 # c = \lambda \nu
 def guide_velocity(wl, frq):
     return wl * frq
+
+def red_chi(N, M, err, y, yh):
+    return 1 / (N - M) / err ** 2 sum(abs(y - yh) ** 2)     
