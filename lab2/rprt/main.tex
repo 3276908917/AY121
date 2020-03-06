@@ -15,9 +15,7 @@
 %\usepackage[colorinlistoftodos]{todonotes}
 %\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{xcolor}
+\usepackage{caption, subcaption, xcolor}
 
 \graphicspath{{res/}}
 
@@ -50,12 +48,15 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 % 3. The equations for the two waveguides; scipy.optimize.fmin
 
-Gain calculation:
+The data that we sample from the Big Horn via the PicoScope will feature arbitrary units which depend on our setup. To calibrate the intensity of the spectrum, we first calculate the gain:
 
 \begin{equation}
-G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold}
+G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold} \approx \frac{\text{300 K}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold}
 \end{equation}
 
+Where $T_\text{sys, cal} \approx 98.6^\circ$ F $\approx 310$ K represents the temperature of the human flesh that we use to cover most of the telescope. $T_\text{sys, cold}$ represents the temperature of the cold sky. We expect $T_\text{sys, cold} \ll T_\text{sys, cal}$, whereby we get the approximated form on the right. $s_\text{cal}$ represents the spectrum for which we attempt to maximize thermal noise in the collector, and $s_\text{cold}$ represents the spectrum for which we attempt to minimize.
+
+To remove constant sources of interference in our data, we take an `on-spectrum' where 
 Line shape:
 
 \begin{equation}
@@ -68,22 +69,33 @@ Putting it all together:
 T_\text{line} = s_{line} \times G
 \end{equation}
 
-Waveguide part 1:
+For our first experiment with waveguides, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We use the following equation for this first experiment; we expect a linear dependence of null spacings on $\lambda_\text{sl}$.
 
 \begin{equation}
 x_m = A + m \frac{\lambda_\text{sl}}{2}
 \end{equation}
 
-X-band waveguide (this one requires more motivation):
+$m$ is the index of the null, $x_m$ is the position of the null $m$, and $A$ represents a constant offset which can represent whether the far end of the waveguide is open or shorted.
 
-\begin{equation}
+X-band waveguide \textcolor{red}{(this one requires more motivation):}
+
+\begin{equation} \label{eq:xband}
 \lambda_g = \frac{\lambda_\text{fs}}{[1 - (\frac{\lambda_\text{fs}}{2a})^2]^{1/2}}
 \end{equation}
 
+$\lambda_g$ is the guide wavelength, which we directly measure. $\lambda_\text{fs}$ is the free-space wavelength of the signal, which we will calculate using the known input frequency and the relation $c = f \lambda_\text{fs}$. $a$ is the width of the waveguide.
+
+Here we define reduced chi-squared as follows:
+
+\begin{equation}
+\chi_r^2 = \frac{1}{N - M} \sum_i \frac{|y_i - \hat{y_i}|^2}{\sigma_i^2}
+\end{equation}
 
 \section{Methods}
 
 To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
+
+We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
 
 \section{Observations}
 
