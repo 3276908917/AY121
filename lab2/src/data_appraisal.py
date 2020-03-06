@@ -53,7 +53,8 @@ def gain(scal, scold):
     '''
     return sum(scold) * 300/sum(scal - scold)
 
-def doppler(nu_0, nu):
+# Doppler velocity in megameters per second
+def doppler(nu, nu_0, offset):
     '''
     @nu_0: accepted value for HI line?
     @nu : current frequency in iteration over power spectrum
@@ -61,7 +62,7 @@ def doppler(nu_0, nu):
     This is a direct codification of the lab instructions on gain
     calculation; refer to the lab for explication of parameters.
     '''
-    return 3e10 * (nu_0 - nu) / nu_0
+    return -3e2 * (nu - nu_0) / nu_0 + offset
 
 # deprecated
 def power_lists(P, N):
