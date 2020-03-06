@@ -123,6 +123,31 @@ def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
         
     plt.show()
 
+# each gauss should be a triple (amp, avg, sig)
+def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
+        fig = plt.figure(figsize=(6,3))
+    plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
+
+    ax = fig.add_subplot(111)
+
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+
+    ax.plot(x, np.fft.fftshift(y1), label=y1L)
+    ax.plot(x, np.fft.fftshift(y2), label=y2L)
+    plt.xlabel('Frequency (MHz)', fontsize=12)
+    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    if xBounds is not None:
+        plt.xlim(xBounds)
+    if yBounds is not None:
+        plt.ylim(yBounds)
+    if logv:
+        plt.yscale('log')
+
+    ax.legend(bbox_to_anchor=(1, 1))
+        
+    plt.show()
+
 def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):
     '''
     Clean, labeled plot of power spectrum of @sample
