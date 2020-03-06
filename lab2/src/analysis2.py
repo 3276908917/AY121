@@ -35,7 +35,8 @@ def power_barrage(bblock):
 
 # The normalization changes between trials?
 # If so, that may explain the limited utility of naive averaging
-def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
+def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequency (MHz)',
+    yLabel = r'Magnitude-squared Voltage (V$^2$)'):
     '''
     Plot @y versus @x where @y is shifted to center the zero frequency
         (more at numpy.fft.fftshift)
@@ -58,8 +59,8 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
     ax.tick_params(axis="y", labelsize=12)
 
     ax.plot(x, np.fft.fftshift(y))
-    plt.xlabel('Frequency (MHz)', fontsize=12)
-    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    plt.xlabel(xLabel, fontsize=12)
+    plt.ylabel(yLabel, fontsize=12)
     if xBounds is not None:
         plt.xlim(xBounds)
     if yBounds is not None:
