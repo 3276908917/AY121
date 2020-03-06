@@ -304,25 +304,21 @@ because each cloud will have its own velocity distribution with an overall avera
 \begin{figure}
 \centering
 	\includegraphics[width=.6\linewidth]{cass_vs_frq}
-	\caption{...}
-	\label{fig:cass_vs_frq}
+	\caption{This is the fully calibrated spectrum for our Cassiopeia data. Notice how much smoother this curve is than its counterpart from when we pointed the Big Horn directly up. We also see that, although we implemented identical frequency switching tactics for both sets of data, we see the line land much more closely to the anticipated value of .4 MHz away from 0 (which, taking back through the mixer stages, should correspond to 1230.4 MHz)}
+	\label{fig:cass_vs_freq}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.6\linewidth]{cass_vs_vel}
-	\caption{Just as before, we can modify the calibrated power spectrum to use an x-axis of velocities. }
+	\caption{Just as before, we can modify the calibrated power spectrum to use an x-axis of velocities. Because we have two separate real (as opposed to instrumental) signals, we can procure information on relative velocities of the sources, if we apply a Gaussian fit.}
 	\label{fig:cass_vs_vel}
 \end{figure}
-
-\
-
-\textcolor{red}{What was the point of fitting anything to a Gaussian? Furthermore, include the parameters of the two Gaussians that you have here put forward.}
 
 \begin{figure}
 \centering
 	\includegraphics[width=.6\linewidth]{gauss}
-	\caption{The minor Gaussian, I cannot say for sure it is there. The major one, by contrast, looks pretty neat.}
+	\caption{A close-up of figure \ref{fig:cass_vs_vel}, where we have used the ugradiocode.gauss module to calculate best fits, assuming that each lump here is a Gaussian. The `major' Gaussian is a very strong fit: it hugs the data closely and over a long interval. By contrast, we may doubt the statistical significance of the `minor' Gaussian: the interval, over which the fit and the data align, is comparatively thin. Furthermore, the ratio of the Gaussian's amplitude to the noise along the curve is quite low.}
 	\label{fig:gauss}
 \end{figure}
 
