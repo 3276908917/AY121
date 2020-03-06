@@ -5,7 +5,11 @@ import numpy as np
 import ugradio.timing
 
 # The change-of-basis matrix between equatorial and galactic coordinate systems
-eq_to_gal = np.array([[-.054876, -.873437, -.483835], [.494109, -.444830, .746982], [-.867666, -.198076, .455984]])
+eq_to_gal = np.array([
+    [-.054876, -.873437, -.483835],
+    [.494109, -.444830, .746982],
+    [-.867666, -.198076, .455984]
+])
 
 def gal_to_eq(el, be, lat, radians=False):
     if not radians:

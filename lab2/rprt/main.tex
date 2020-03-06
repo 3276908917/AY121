@@ -66,7 +66,52 @@ To plot our calibrated spectrum against Doppler velocity, we use the following r
 v = -c \frac{\Delta \nu}{\nu_0}
 \end{equation}
 
-\textcolor{red}{I should probably enumerate the rotation matrices that I plan to use.}
+Finally, to account for the times at which we observed, as well as to convert from galactic coordinates to topocentric coordinates (for which telescope pointing is more intuitive), we used the following rotation matrices:
+
+Equatorial to galactic (radians):
+
+\begin{equation}
+\begin{bmatrix}
+-.054876 & -.873437 & -.483835 \\
+.494109 & -.444830 & .74698 \\
+-.867666 & -.198706 & .455984
+\end{bmatrix}
+\end{equation}
+
+Equatorial to hour-angle:
+
+\begin{equation}
+\begin{bmatrix}
+\cos(\text{LST}) & \sin(\text{LST}) & 0 \\
+\sin(\text{LST}) & -\cos(\text{LST}) & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+Hour-angle to topocentric:
+
+\begin{equation}
+\begin{bmatrix}
+-\sin(\text{latitude}) & 0 & \cos(\text{latitude}) \\
+0 & -1 & 0 \\
+\cos(\text{latitude}) & 0 & \sin(\text{latitude})
+\end{bmatrix}
+\end{equation}
+
+To apply these matrices, we convert between angle pairs and rectangular vectors via
+
+\begin{equation}
+\vec{x} = 
+\begin{bmatrix}
+\cos(\phi) \cos(\theta) \\
+\cos(\phi) \sin(\theta) \\
+\sin(\phi)
+\end{bmatrix}
+\end{equation}
+and
+\begin{equation}
+(\theta, \phi) = \text{atan2}(y, x), \sin^{-1}(z))
+\end{equation}
 
 For our second experiment, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We expect a linear dependence of null spacings on $\lambda_\text{sl}$. We use the following equation for this first experiment:
 
@@ -102,6 +147,10 @@ The reduced chi-squared function will provide something clear to minimize when f
 \quad \quad After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward.
 
 However, these numbers changed when taking data for Cassiopeia, by which point our signal-to-noise ratio was too low. We switched to 10 dBm for both and proceeded with the pico-sampling at 62.5 / 6 MHz, the rate we used for all captures.
+
+Furthermore, for each source, we took 2 blocks of 10,000 samples of 16,000 time-voltage tuples. We labeled one block as the 'on-spectrum' and held the first local oscillator at 1230 MHz. We then switched to 1231 MHz (to push the HI signal closer to the 2MHz band-pass filter cut-off) and labeled that second block as the 'off-spectrum.'
+
+The results as they are shown here are the products of reducing these larger data blocks into single arrays of 16,000 time-voltage$^2$ tuples via unweighted averaging; first, all 10,000 samples in a block are Fourier transformed, then we average the square magnitudes of each Fourier transform. We chose to reduce via the mean rather than the median, because the aforementioned attenuation of the PicoScope was inconsistent and thus the mean was more effective at capturing the true signal.
 
 Later on, we will see imperfections in the setup in the form of nearly symmetric 'bunny ear' spikes as well as an extreme spike at the center; we found the PicoScope to sometimes artifically attenuate and offset the signal going into the second port, because we would switch the cables going into A and B and we would see the same shape; if there were a problem in our mixer stages, we would expect the output to switch similarly. 
 
