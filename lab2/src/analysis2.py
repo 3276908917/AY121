@@ -53,15 +53,71 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
 
     ax = fig.add_subplot(111)
 
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+
     ax.plot(x, np.fft.fftshift(y))
-    plt.xlabel('Frequency (MHz)')
-    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)')
+    plt.xlabel('Frequency (MHz)', fontsize=12)
+    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
     if xBounds is not None:
         plt.xlim(xBounds)
     if yBounds is not None:
         plt.ylim(yBounds)
     if logv:
         plt.yscale('log')
+    plt.show()
+
+# I am giving up on this one for now. The label is unbearably
+    # irritating!!
+def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
+
+    #fig.add_subplot(111, frameon=False)
+    # hide tick and tick label of the big axes
+    #plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
+    #plt.grid(False)
+
+    plt.xlabel('Frequency (MHz)', fontsize=12)
+    fig.text(0, 0.5, r'Magnitude-squared Voltage (V$^2$)',
+             va='center', rotation='vertical', fontsize=12)
+
+    ax1.tick_params(axis="x", labelsize=12)
+    ax2.tick_params(axis="x", labelsize=12)
+    ax1.tick_params(axis="y", labelsize=12)
+    ax2.tick_params(axis="y", labelsize=12)
+    
+
+    ax1.plot(x, np.fft.fftshift(y1))
+    ax2.plot(x, np.fft.fftshift(y2))    
+    
+    if xBounds is not None:
+        plt.xlim(xBounds)
+    if yBounds is not None:
+        plt.ylim(yBounds)
+    if logv:
+        plt.yscale('log')
+
+def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
+    fig = plt.figure()
+
+    ax = fig.add_subplot(111)
+
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+
+    ax.plot(x, np.fft.fftshift(y1), label=y1L)
+    ax.plot(x, np.fft.fftshift(y2), label=y2L)
+    plt.xlabel('Frequency (MHz)', fontsize=12)
+    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    if xBounds is not None:
+        plt.xlim(xBounds)
+    if yBounds is not None:
+        plt.ylim(yBounds)
+    if logv:
+        plt.yscale('log')
+
+    ax.legend(bbox_to_anchor=(1, 1))
+        
     plt.show()
 
 def power_plot(sample, norm, srate=6.25e6, nsamps=16000, ifreq=None):

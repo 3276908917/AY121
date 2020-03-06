@@ -1,2 +1,0 @@
-* How to make Python plots bolder so that they print well (it's in these resources somewhere)
-* How to add lab partners in smaller text (other people have done it before)
