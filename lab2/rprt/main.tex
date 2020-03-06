@@ -42,9 +42,7 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 \section{Introduction and Background}
 
-\
-
-In the first of two experiments, we seek to observe the 21-cm HI line, at 1420.4 MHz. However, we want to look at frequencies better suited to our lab equipment. For example, our PicoScope has a maximum sampling rate of 62.5 MHz, so anything above 125 MHz would be aliased.
+\quad \quad In the first of two experiments, we seek to observe the 21-cm HI line, at 1420.4 MHz. However, we want to look at frequencies better suited to our lab equipment. For example, our PicoScope has a maximum sampling rate of 62.5 MHz, so anything above 125 MHz would be aliased.
 
 \begin{figure}
 \centering
@@ -115,18 +113,18 @@ The reduced chi-squared function will provide something clear to minimize when f
 %\textcolor{red}{Decide whether you will discuss this test signal.}
 %To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
 
-After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward.
+\quad \quad After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward.
 
 However, these numbers changed when taking data for Cassiopeia, by which point our signal-to-noise ratio was too low. We switched to 10 dBm for both and proceeded with the pico-sampling at 62.5 / 6 MHz, the rate we used for all captures.
 
-Later on, we will see imperfections in the setup in the form of nearly symmetric 'bunny ear' spikes as well as an extreme spike at the center. We found the PicoScope to sometimes artifically attenuate and offset the signal going into the second port, because we would switch the cables going into A and B and we would see the same shape; if there were a problem in our mixer stages, we would expect the output to switch similarly. 
+Later on, we will see imperfections in the setup in the form of nearly symmetric 'bunny ear' spikes as well as an extreme spike at the center; we found the PicoScope to sometimes artifically attenuate and offset the signal going into the second port, because we would switch the cables going into A and B and we would see the same shape; if there were a problem in our mixer stages, we would expect the output to switch similarly. 
 
 % We sampled in the dual channel with this DIVISOR. The DC offset between channels, as well as the amplitude differences, will help to justify the rabbit ears!
 
 % For the cass. data, we switched the local oscillator powers
 % talk about changes in the power levels for the local oscillators
 
-We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
+We measure $\lambda_{sl}$ and its counterpart $\lambda_g$, the guide wavelengths, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
 
 \section{Observations}
 
@@ -135,6 +133,8 @@ We measure $\lambda_g$, the guide wavelength, as the distance between the nulls 
 
 % scrap for time: justify the use of mean vs median. Actually, I simply lack a convenient graphical argument.
 % what, then, is the difference between mean and median?
+
+\quad \quad Say somethin!
 
 \begin{figure}
 \centering
@@ -152,7 +152,7 @@ We measure $\lambda_g$, the guide wavelength, as the distance between the nulls 
 \end{minipage}
 \end{figure}
 
-Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of the imperfections in our setup (such as low signal-to-noise ratio from low power on the local oscillators). \textcolor{red}{How can I justify ignoring the 2 MHz spikes? Aren't those bad?}
+%Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of the imperfections in our setup (such as low signal-to-noise ratio from low power on the local oscillators). \textcolor{red}{How can I justify ignoring the 2 MHz spikes? Aren't those bad?}
 
 \begin{figure}
 \centering
@@ -225,7 +225,7 @@ Data from the XBand waveguide section, frequency and resulting null positions. A
 
 % 3. 
 
-Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873199^\circ \approx 0.661012$ radians. The right ascension is equal to the local sidereal time (LST) of data-capture.
+\quad \quad Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873199^\circ \approx 0.661012$ radians. The right ascension is equal to the local sidereal time (LST) of data-capture.
 
 %I forgot when we did the cold sky data
 
@@ -324,12 +324,12 @@ Plot: data (position versus null), fit line, error bars...
 
 \section{Conclusions}
 
-On the bright side, if you cannot reach ten pages, that means that you can expand all graphs until the font size is no longer a problem!
+\quad \quad On the bright side, if you cannot reach ten pages, that means that you can expand all graphs until the font size is no longer a problem!
 
 % This would be a good place to talk about the difference between open and shorted waveguides, and perhaps even the significance to VSWR
 
 \section{Acknowledgments}
 
-\textcolor{red}{You have to remedy your complete ignorance of BibTex}
+\quad \quad \textcolor{red}{You have to remedy your complete ignorance of BibTex}
 
 \end{document}
