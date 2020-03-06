@@ -156,39 +156,44 @@ Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of
 
 \textcolor{red}{These data were recorded between x and y, which corresponds to, via the rotation matrices}. Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873188^\circ \approx 0.661012$ radians.
 
-The right ascension is equal to the local sidereal time of data-capture. We began our data capture at 1582937209.9447305 seconds after 1970 and completed our data capture at 1582937704.4486437 seconds after 1970.
+The right ascension is equal to the local sidereal time (LST) of data-capture. We began our data capture at 1582937209.9447305 seconds after 1970 and completed our data capture at 1582937704.4486437 seconds after 1970.
+
+We took all of our data in unix time. Here is the conversion table.
+
+\textcolor{red}{I forgot when we did the cold sky data}
+
+Included below is a table including examples of date conversions for the events of interest to Doppler corrections. \textcolor{red}{When converting from galactic to $equatorial$, we do not need to take into account the time at which we measured}. Therefore, we omit those data from the table. %For the sake of brevity, we omit the counterparts for the Cassiopeia measurements.
 
 \
 
 \begin{center}
- \begin{tabular}{||c c c c||} 
+ \begin{tabular}{||c c c||} 
  \hline
- Col1 & Col2 & Col2 & Col3 \\ [0.5ex] 
+ Label & Unix Time & Julian Date \\ [0.5ex] 
  \hline\hline
- 1 & 6 & 87837 & 787 \\ 
+ On-line start & 1582937209.9447305 & 2458908.5325225084 \\ 
  \hline
- 2 & 7 & 78 & 5415 \\
+ On-line stop & 1582937704.4486437 & 2458908.5382459336 \\
  \hline
- 3 & 545 & 778 & 7507 \\
+ Off-line start & 1582937837.5090616 & 2458908.5397859844 \\
  \hline
- 4 & 545 & 18744 & 7560 \\
- \hline
- 5 & 88 & 788 & 6344 \\ [1ex] 
+ Off-line stop & 1582938387.1761112 & 2458908.5461478718 \\ [1ex] 
  \hline
 \end{tabular}
-\begin{tabular}{||c c c c||} 
+\end{center}
+
+\begin{center}
+ \begin{tabular}{||c c c||} 
  \hline
- Col1 & Col2 & Col2 & Col3 \\ [0.5ex] 
+ Label & LST & PST\\ [0.5ex] 
  \hline\hline
- 1 & 6 & 87837 & 787 \\ 
+ On-line start & 0.8334479646673989 & 2/28/20 @ 16:46:49 \\ 
  \hline
- 2 & 7 & 78 & 5415 \\
+ On-line stop & 0.8695077621535888 & 2/28/20 @ 16:55:04 \\
  \hline
- 3 & 545 & 778 & 7507 \\
+ Off-line start & 0.8792106794915676 & 2/28/20 @ 16:57:17 \\
  \hline
- 4 & 545 & 18744 & 7560 \\
- \hline
- 5 & 88 & 788 & 6344 \\ [1ex] 
+ Off-line stop & 0.9192930359644231 & 2/28/20 @ 17:06:27 \\ [1ex] 
  \hline
 \end{tabular}
 \end{center}

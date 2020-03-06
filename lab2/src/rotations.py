@@ -7,6 +7,19 @@ import ugradio.timing
 # The change-of-basis matrix between equatorial and galactic coordinate systems
 eq_to_gal = np.array([[-.054876, -.873437, -.483835], [.494109, -.444830, .746982], [-.867666, -.198076, .455984]])
 
+def gal_to_eq(el, be, lat, radians=False):
+    if not radians:
+        l = np.radians(el)
+        b = np.radians(be)
+        phi = np.radians(lat)
+    else:
+        l = el
+        b = be
+        phi = np.radians(lat)
+    rct = rct_gal(l, b)
+    ra_dec = np.dot(np.linalg.inv(eq_to_gal), rct)
+    return new_sphere(ra_dec, radians)
+
 def eq_to_ha(LST):
     '''
     Return the change-of-basis matrix between the equatorial and
