@@ -50,6 +50,37 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 % 3. The equations for the two waveguides; scipy.optimize.fmin
 
+Gain calculation:
+
+\begin{equation}
+G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold}
+\end{equation}
+
+Line shape:
+
+\begin{equation}
+s_\text{line} = \frac{s_\text{on}}{s_\text{off}}
+\end{equation}
+
+Putting it all together:
+
+\begin{equation}
+T_\text{line} = s_{line} \times G
+\end{equation}
+
+Waveguide part 1:
+
+\begin{equation}
+x_m = A + m \frac{\lambda_\text{sl}}{2}
+\end{equation}
+
+X-band waveguide (this one requires more motivation):
+
+\begin{equation}
+\lambda_g = \frac{\lambda_\text{fs}}{[1 - (\frac{\lambda_\text{fs}}{2a})^2]^{1/2}}
+\end{equation}
+
+
 \section{Methods}
 
 To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
@@ -65,10 +96,7 @@ As a preface, I may want to include commentary on how I had to manually alter th
 
 % scrap for time: justify the use of mean vs median
 
-% acknowledge that from now on, you are setting the y limits to ignore both the central
-% spike as well as the bunny ears
-
-% acknowledge that, for shape spectra, we are deliberately ignoring the spikes at +- 2 MHz
+% talk about changes in the power levels for the local oscillators
 
 % 2. initial H1 observations: on-line and off-line, to get the line shape
 % difference between mean and median
@@ -78,7 +106,7 @@ As a preface, I may want to include commentary on how I had to manually alter th
 \begin{minipage}{.45\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{limits_justification}
-	\captionof{figure}{A semi-log plot over the range of frequencies sampled. We assume that our 2 MHz low-pass filter works, so we will dismiss the signals farther than 2 MHz from the center. Additionally, the large central spike and smaller `bunny ear' spikes ($\pm$.5 MHz) appear on all data sets as persistent interference; we partially ignore these by limiting the y-axis.}
+	\captionof{figure}{A semi-log plot over the range of frequencies sampled. We assume that our 2 MHz low-pass filter works, so we will dismiss the signals farther than 2 MHz from the center. Additionally, the large central spike and smaller `bunny ear' spikes ($\pm$.5 MHz) appear on all data sets as persistent interference; we partially ignore these by limiting the y-axis. \textcolor{red}{Maybe you should use an initial test sample, to discuss this.}}
 	\label{fig:on_limits}
 \end{minipage} \hfill%
 \begin{minipage}{.45\textwidth}
@@ -89,15 +117,17 @@ As a preface, I may want to include commentary on how I had to manually alter th
 \end{minipage}
 \end{figure}
 
+Figure \ref{fig:on_limits} shows a host of interfering signals, a consequence of the imperfections in our setup (such as low signal-to-noise ratio from low power on the local oscillators). \textcolor{red}{How can I justify ignoring the 2 MHz spikes? Aren't those bad?}
+
 \begin{figure}
 \centering
-\begin{minipage}{.5\textwidth}
+\begin{minipage}{.45\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{up_on_off}
-	\caption{Watch it move.}
+	\caption{Combined plot of the `on' and `off' (LO1 at 1230 and 1231 MHz, respectively) power spectra. As we expect, the HI signal shifts by about 1 MHz between the two plots. This also supports our interpretation of the other patterns as interference: these patterns do not move between spectra.}
 	\label{fig:up_on_off}
-\end{minipage}%
-\begin{minipage}{.5\textwidth}
+\end{minipage} \hfill%
+\begin{minipage}{.45\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{up_shape}
 	\caption{\textcolor{red}{This one is not helpful. Replace it with the final, calibrated spectrum, thermal power units.}}
