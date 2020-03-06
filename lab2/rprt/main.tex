@@ -84,15 +84,15 @@ v = -c \frac{\Delta \nu}{\nu_0}
 
 \textcolor{red}{I should probably enumerate the rotation matrices that I plan to use.}
 
-For our first experiment with waveguides, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We use the following equation for this first experiment; we expect a linear dependence of null spacings on $\lambda_\text{sl}$.
+For our second experiment, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We expect a linear dependence of null spacings on $\lambda_\text{sl}$. We use the following equation for this first experiment:
 
 \begin{equation}
 x_m = A + m \frac{\lambda_\text{sl}}{2}
 \end{equation}
 
-$m$ is the index of the null, $x_m$ is the position of the null $m$, and $A$ represents a constant offset which can represent whether the far end of the waveguide is open or shorted.
+$m$ is the index of the null, $x_m$ is the position of null $m$, and $A$ represents a constant offset which can relate whether the far end of the waveguide is open or shorted.
 
-X-band waveguide \textcolor{red}{(this one requires more motivation):}
+The rectangular waveguide, to which we switch for the X-band phase of the experiment, abides a nonlinear relationship between the waveguide's width and the wavelengths of the input in the waveguide and in free space.
 
 \begin{equation} \label{eq:xband}
 \lambda_g = \frac{\lambda_\text{fs}}{[1 - (\frac{\lambda_\text{fs}}{2a})^2]^{1/2}}
@@ -100,13 +100,15 @@ X-band waveguide \textcolor{red}{(this one requires more motivation):}
 
 $\lambda_g$ is the guide wavelength, which we directly measure. $\lambda_\text{fs}$ is the free-space wavelength of the signal, which we will calculate using the known input frequency and the relation $c = f \lambda_\text{fs}$. $a$ is the width of the waveguide.
 
-Here we define reduced chi-squared as follows:
+Finally, to analyze our results we define the reduced chi-squared function as follows:
 
 \begin{equation}
 \chi_r^2 = \frac{1}{N - M} \sum_i \frac{|y_i - \hat{y_i}|^2}{\sigma_i^2}
 \end{equation}
 
-Where $N$ is the number of data and $M$ is the number of fit parameters. For each measurement $i$, $y_i$ is the observed value, $\hat{y_i}$ is the value predicted by the fit, and $\sigma_i$ is the expected error on that measurement. 
+Where $N$ is the number of data and $M$ is the number of fit parameters. For each measurement $i$, $y_i$ is the observed value, $\hat{y_i}$ is the value predicted by the fit, and $\sigma_i$ is the expected error on that measurement.
+
+The reduced chi-squared function will provide something clear to minimize when fitting the data to a model. Specifically, we want to calculate the width $a$ based on our observations of null spacings, so we will calculate the value of $a$ which minimizes the reduced chi-squared.
 
 \section{Methods}
 
@@ -119,25 +121,15 @@ To place our test signal in the upper and lower sidebands, we use these two freq
 We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
 
 % For the cass. data, we switched the local oscillator powers
+% talk about changes in the power levels for the local oscillators
 
 \section{Observations}
-
-As a preface, I may want to include commentary on how I had to manually alter the data, based on readings from the oscilloscope, in order to account for the imbalance in picoscope inputs?? I think not!
-
-% The times of observation and why that matters.
 
 % 1. initial calibration results. Here is a test signal. ``Our setup works!''
 % source of error: angles are not aligned well. 10% error becomes... 25%? in power plot. I do not remember.
 
-% scrap for time: justify the use of mean vs median
-
-% talk about changes in the power levels for the local oscillators
-
-% 2. initial H1 observations: on-line and off-line, to get the line shape
-% difference between mean and median
-
-% scrap for time: it doesn't look like our Cass data actually need a polyfit. We can probably
-% just assume that it's flat already
+% scrap for time: justify the use of mean vs median. Actually, I simply lack a convenient graphical argument.
+% what, then, is the difference between mean and median?
 
 \begin{figure}
 \centering
