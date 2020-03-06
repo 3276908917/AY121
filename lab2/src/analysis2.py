@@ -123,7 +123,8 @@ def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
         
     plt.show()
 
-# each gauss should be a gaussfit dictionary
+# each gauss should be an AUGMENTED gaussfit dictionary,
+    # i.e. it also contains a vertical offset 'off'
 def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
     '''
     For the labels to be accurate,
@@ -134,10 +135,10 @@ def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
 
     ax = fig.add_subplot(111)
 
-    dist1 = ugradio.gauss.gaussval(x,
+    dist1 = gauss1['off'] + ugradio.gauss.gaussval(x,
         gauss1['amp'], gauss1['avg'], gauss1['sig'])
 
-    dist2 = ugradio.gauss.gaussval(x,
+    dist2 = gauss2['off'] + ugradio.gauss.gaussval(x,
         gauss2['amp'], gauss2['avg'], gauss2['sig'])
 
     ax.tick_params(axis="x", labelsize=12)
@@ -148,13 +149,11 @@ def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
     ax.plot(x, np.fft.fftshift(dist2), label='Minor Gaussian')
     
     plt.xlabel('Frequency (MHz)', fontsize=12)
-    plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
+    plt.ylabel(r'$T_{sys} + T_{ant, HI}$', fontsize=12)
     if xBounds is not None:
         plt.xlim(xBounds)
     if yBounds is not None:
         plt.ylim(yBounds)
-    if logv:
-        plt.yscale('log')
 
     ax.legend(bbox_to_anchor=(1, 1))
         
