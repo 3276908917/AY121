@@ -112,16 +112,21 @@ The reduced chi-squared function will provide something clear to minimize when f
 
 \section{Methods}
 
-% We used local oscillators at these power levels and at these frequencies.
+%\textcolor{red}{Decide whether you will discuss this test signal.}
+%To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
+
+After setting the two local oscillators to 1230 and 190 MHz, as labeled in figure \ref{fig:block}, we set the power levels to 8 and 0 dBm, respectively. These numbers are difficult to theoretically justify; through trial and error, and particularly through consultation with other groups, we found that these numbers led to the greatest HI resolution for the Big Horn pointed directly upward.
+
+However, these numbers changed when taking data for Cassiopeia, by which point our signal-to-noise ratio was too low. We switched to 10 dBm for both and proceeded with the pico-sampling at 62.5 / 6 MHz, the rate we used for all captures.
+
+Later on, we will see imperfections in the setup in the form of nearly symmetric 'bunny ear' spikes as well as an extreme spike at the center. We found the PicoScope to sometimes artifically attenuate and offset the signal going into the second port, because we would switch the cables going into A and B and we would see the same shape; if there were a problem in our mixer stages, we would expect the output to switch similarly. 
 
 % We sampled in the dual channel with this DIVISOR. The DC offset between channels, as well as the amplitude differences, will help to justify the rabbit ears!
 
-To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
-
-We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
-
 % For the cass. data, we switched the local oscillator powers
 % talk about changes in the power levels for the local oscillators
+
+We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
 
 \section{Observations}
 
