@@ -40,11 +40,18 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 \end{abstract}
 
-% No need to re-derive anything!!
-
 \section{Introduction and Background}
 
-\textcolor{red}{Block diagram of the telescope electronics}. Fortunately, it seems like the professor took care of most of this for you in lecture, February 11.
+\
+
+In the first of two experiments, we seek to observe the 21-cm HI line, at 1420.4 MHz. However, we want to look at frequencies better suited to our lab equipment. For example, our PicoScope has a maximum sampling rate of 62.5 MHz, so anything above 125 MHz would be aliased.
+
+\begin{figure}
+\centering
+	\includegraphics[angle=-90, width=.6\linewidth]{block}
+	\caption{To reduce the frequencies of incoming signals to manageable levels, we employ a multi-stage combination of filters and mixers. The signal enters via transformer connected to the collector. The ADC represents the final step, when the PicoScope translates voltages over time into digital arrays.}
+	\label{fig:block}
+\end{figure}
 
 % Leave the waveguide equations for the `models' section
 
@@ -52,31 +59,32 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 The data that we sample from the Big Horn via the PicoScope will feature arbitrary units which depend on our setup. To calibrate the intensity of the spectrum, we first calculate the gain:
 
-\begin{equation}
+\begin{equation} \label{eq:thermal}
 G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold} \approx \frac{\text{300 K}}{\sum (s_\text{cal} - s_\text{cold})} \sum s_\text{cold}
 \end{equation}
 
 Where $T_\text{sys, cal} \approx 98.6^\circ$ F $\approx 310$ K represents the temperature of the human flesh that we use to cover most of the telescope. $T_\text{sys, cold}$ represents the temperature of the cold sky. We expect $T_\text{sys, cold} \ll T_\text{sys, cal}$, whereby we get the approximated form on the right. $s_\text{cal}$ represents the spectrum for which we attempt to maximize thermal noise in the collector, and $s_\text{cold}$ represents the spectrum for which we attempt to minimize.
 
-To remove constant sources of interference in our data, we take an `on-spectrum' where 
-Line shape:
+To remove constant sources of interference in our data and to obtain the shape of the line, we divide an `on' spectrum by an `off' spectrum. 
 
 \begin{equation}
 s_\text{line} = \frac{s_\text{on}}{s_\text{off}}
 \end{equation}
 
-Putting it all together:
+The fully-calibrated spectrum represents a scaling of this $s_\text{line}$ by the thermal gain from equation \ref{eq:thermal}:
 
 \begin{equation}
 T_\text{line} = s_{line} \times G
 \end{equation}
 
-For our first experiment with waveguides, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We use the following equation for this first experiment; we expect a linear dependence of null spacings on $\lambda_\text{sl}$.
-
 To plot our calibrated spectrum against Doppler velocity, we use the following relation:
 \begin{equation}
 v = -c \frac{\Delta \nu}{\nu_0}
 \end{equation}
+
+\textcolor{red}{I should probably enumerate the rotation matrices that I plan to use.}
+
+For our first experiment with waveguides, we seek to calculate to calculate the wavelength $\lambda_\text{sl}$ of a signal inside the waveguide based on the positions of the minima in the squared voltage, which we call nulls. We use the following equation for this first experiment; we expect a linear dependence of null spacings on $\lambda_\text{sl}$.
 
 \begin{equation}
 x_m = A + m \frac{\lambda_\text{sl}}{2}

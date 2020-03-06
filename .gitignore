@@ -14,4 +14,4 @@ lab1/res/*
 lab1/data/old/*
 lab2/data/cass_off.npz
 lab2/data/cass_on.npz
-lab2/rprt/res/.DS_Store
+*.DS_Store
