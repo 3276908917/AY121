@@ -49,7 +49,8 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
         because one can simply press L (while focused on a matplotlib plot)
         to achieve the same effect.
     '''
-    fig = plt.figure()
+    fig = plt.figure(figsize=(6,3))
+    plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
 
     ax = fig.add_subplot(111)
 
@@ -98,7 +99,8 @@ def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
         
 # over-plotting of two distributions on the same graph.
 def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(6,3))
+    plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
 
     ax = fig.add_subplot(111)
 
