@@ -123,18 +123,30 @@ def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
         
     plt.show()
 
-# each gauss should be a triple (amp, avg, sig)
+# each gauss should be a gaussfit dictionary
 def tau_cannon(x, y, gauss1, gauss2, xBounds=None, yBounds=None):
-        fig = plt.figure(figsize=(6,3))
+    '''
+    For the labels to be accurate,
+    allocate gauss1 to the dominant Gaussian.
+    '''
+    fig = plt.figure(figsize=(6,3))
     plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
 
     ax = fig.add_subplot(111)
 
+    dist1 = ugradio.gauss.gaussval(x,
+        gauss1['amp'], gauss1['avg'], gauss1['sig'])
+
+    dist2 = ugradio.gauss.gaussval(x,
+        gauss2['amp'], gauss2['avg'], gauss2['sig'])
+
     ax.tick_params(axis="x", labelsize=12)
     ax.tick_params(axis="y", labelsize=12)
 
-    ax.plot(x, np.fft.fftshift(y1), label=y1L)
-    ax.plot(x, np.fft.fftshift(y2), label=y2L)
+    ax.plot(x, np.fft.fftshift(y), label='Observed Spectrum')
+    ax.plot(x, np.fft.fftshift(dist1), label='Major Gaussian')
+    ax.plot(x, np.fft.fftshift(dist2), label='Minor Gaussian')
+    
     plt.xlabel('Frequency (MHz)', fontsize=12)
     plt.ylabel(r'Magnitude-squared Voltage (V$^2$)', fontsize=12)
     if xBounds is not None:
