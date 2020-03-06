@@ -102,6 +102,8 @@ Here we define reduced chi-squared as follows:
 
 % We used local oscillators at these power levels and at these frequencies.
 
+% We sampled in the dual channel with this DIVISOR. The DC offset between channels, as well as the amplitude differences, will help to justify the rabbit ears!
+
 To place our test signal in the upper and lower sidebands, we use these two frequencies. To put the hydgrogen in the upper and lower sidebands, we set the first local oscillator to these other two frequencies.
 
 We measure $\lambda_g$, the guide wavelength, as the distance between the nulls in the guide output. We measure $a$ with a set of calipers and compare this with our results from a least-squares fit to the data based on equation \ref{eq:xband}.
@@ -257,9 +259,25 @@ We labeled all of our samples with unix times. Included below is a table includi
 
 \
 
-The Doppler correction exhibits a critical time sensitivity. Observe that, just for one source (directly overhead), the final Doppler correction differed from the initial by about 550 m / s. \textcolor{red}{Okay. What now?}
+The Doppler correction exhibits, at first glance, a critical time sensitivity. Observe that, just for one source (directly overhead), the final Doppler correction differed from the initial by about 550 m / s. However, as we shall soon see, the velocity axis will span many mega-meters, so taking the average of the Doppler corrections should suffice for a global correction.
 
 \textcolor{red}{If I have extra space, put the results from the Cass. Doppler correction calculation}
+
+\begin{figure}
+\centering
+\begin{minipage}{.45\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{up_on_off}
+	\caption{Here is a fully calibrated line. We see HI for sure!}
+	\label{fig:up_on_off}
+\end{minipage} \hfill%
+\begin{minipage}{.45\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{up_shape}
+	\caption{Here is that same line, now with a velocity axis. \textcolor{red}{What is the point I am trying to make with this plot?}}
+	\label{fig:up_shape}
+\end{minipage}
+\end{figure}
 
 \section{Conclusions}
 
