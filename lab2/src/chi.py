@@ -4,7 +4,7 @@ def fit(L):
     return np.polyfit(null_range(len(L)), L, 1)
 
 def length(L, GHz):
-    return fit(L)[0] * GHz * 1e9
+    return fit(L)[0]
 
 # free-space wavelength
 def fs(GHz):
