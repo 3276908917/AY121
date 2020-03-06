@@ -28,6 +28,8 @@ This is a great place to have a to-do section, because I prefer to write abstrac
 
 \textcolor{red}{Figure out how to make the section headers smaller. They are taking up far too much space.}
 
+We covered the process of thermal calibration and time-dependent conversions between astronomical coordinate systems. We have offered an example of a full calibration of a HI spectrum.
+
 \end{abstract}
 
 \section{Introduction and Background}
@@ -198,9 +200,9 @@ Other results surely point to some misunderstanding regarding the setup of the f
 % caliper measurement for a. 'This is what we hope to get from analysis'
 % sources of error.
 
-\textcolor{red}{Bad need here for a transition}For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
+For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
 
-\textcolor{red}{Another transition} All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
+All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
 
 \begin{center}
  \begin{tabular}{||c c||} 
@@ -329,9 +331,13 @@ Figure \ref{fig:3GHz} represents a potentially more obvious flaw in experimental
 
 % I need uncertainty in these fit parameters.
 
-The least-squares model did not largely improve on a simple averaging of differences, but it may be coincidence that the data came out in this fashion. A simple average of the null spacings for the open 3GHz waveguide gave a wavelength of 5.00556, while a least-squares calculation gave 5.00758.
+The least-squares model did not largely improve on a simple averaging of differences, but it may be coincidence that the data came out in this fashion. A simple average of the null spacings for the open 3GHz waveguide gave a wavelength of 5.00556 cm ($c \approx 15.017 \times 10^5$ cm/s), while a least-squares calculation gave 5.00758 cm ($c \approx 15.023 \times 10^5$ cm/s).
 
-We calculated the fit for the closed waveguide to be $x_m = 5.00167 m + .43611$ and $x_m = 5.00758 m - .57667$. We also calculated the standing wave ratios to be 
+We calculated the fit for the closed waveguide to be $x_m = 5.00167 m + .43611$ ($c \approx 15.005 \times 10^5$ cm/s) and $x_m = 5.00758 m - .57667$ ($c \approx 15.023 \times 10^5$ cm/s). I lack specific uncertainties on those parameters. The discrepancy in the y-intercept is the parameter of interest to the comparison of the two types of standing waves. Reflections from open ends will invert as they travel back, whereas reflections from shorted ends will maintain prior sign. Consequently, we observe that the voltage-squared pattern shows a simple translation in the positions of the nulls.
+
+We calculated the standing wave ratio on the XBand to be 2.56. The standing wave with the waveguide open at the far end featured a higher amplitude because the impedance was matched far less well than it was for the shorted data. Therefore, more of the wave was reflected.
+
+I was unable to correct my chi-squared minimization implementation for the XBand section.
 
 \begin{figure}
 \centering
@@ -342,12 +348,13 @@ We calculated the fit for the closed waveguide to be $x_m = 5.00167 m + .43611$ 
 
 \section{Conclusions}
 
-\quad \quad 
-
+\quad \quad In conclusion, we obtained results strongly in favor of expected values for the HI line observation. Despite hiccups in the experimental design manifesting as noise spikes in our first pair of blocks, we picked out a likely candidate for the HI line there. The Cassiopeia observations were even more promising. We considered how fitting individual Gaussians to the lumps on fully calibrated power spectra can provide insight into the temperatures and relative velocities of different clouds of hydrogen, when we exchange the frequency axis for doppler velocities via equation \ref{eq:doppler}. We briefly probed some least-squares fits in a simple linear scenario (measuring the speed of light), questioning our assessments of error in the data, and failing to affirm the superiority of the least-squares approach. We highlighted the relevance of voltage standing wave ratio to impedance matching, and reiterated the theory behind the XBand data-fitting without success with actual data. 
 % This would be a good place to talk about the difference between open and shorted waveguides, and perhaps even the significance to VSWR
 
 \section{Acknowledgments}
 
-\quad \quad \textcolor{red}{You have to remedy your complete ignorance of BibTex}
+\quad \quad I collected and re-collected data for the zenith and Cassiopeia spectra. Mehdi calculated the on and off frequencies for the local oscillator and helped me debug my data-taking code. Mehdi and Rebecca collected the XBand waveguide data, and I helped with the 3GHz data. Rebecca also helped to lay out data-collection schedules.
+
+Theory and background provided by Aaron Parsons. ``LAB 2: Astronomy with the 21-cm Line and Waveguides.'' Updated February 2020.
 
 \end{document}
