@@ -149,7 +149,7 @@ Other results surely point to some misunderstanding regarding the setup of the f
 
 \textcolor{red}{Bad need here for a transition}For the sake of brevity, we will plot the data for the 3GHz section later, in the analysis, along with the least-squares fit model.
 
-Data from the XBand waveguide section, frequency and resulting null positions. All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
+\textcolor{red}{Another transition} All measurements come with an intrinsic reading error ($\pm .025$ cm) and, more importantly, poor resolution of the null's location. This poor resolution was partially due to variation in human judgment, but principally to the low signal-to-noise ratio. Near the null, the derivative of the magnitude-squared voltage with respect to waveguide slider position is at its most shallow. Consequently, there is a sort of range of positions over which the same null can be argued to appear. We decided that this uncertainty probably corresponds to a universal uncertainty of $\pm .2$ cm.
 
 \begin{center}
  \begin{tabular}{||c c||} 
@@ -190,11 +190,9 @@ Data from the XBand waveguide section, frequency and resulting null positions. A
 
 \section{Analysis}
 
-\quad \quad Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873199^\circ \approx 0.661012$ radians. The right ascension is equal to the local sidereal time (LST) of data-capture.
+\quad \quad Since the Horn was pointing straight up, we may say that the declination is equal to the latitude of the telescope. In our case, that is $37.873199^\circ \approx 0.661012$ radians. In the directly upward case, we also may say that the right ascension is equal to the local sidereal time (LST) of data-capture. % I am just regurgitating here and it would be more demonstrative if I intuitied why these must be so.
 
 We labeled all of our samples with unix time. Included below is a table including examples of date conversions to Doppler corrections for the events of interest. For the sake of brevity, we omit the counterparts for the Cassiopeia measurements.
-
-\
 
 \begin{center}
  \begin{tabular}{||c c c c||} 
@@ -228,11 +226,13 @@ We labeled all of our samples with unix time. Included below is a table includin
 \end{tabular}
 \end{center}
 
-\
-
 The Doppler correction exhibits, at first glance, a critical time sensitivity. Observe that, just for one source (directly overhead), the final Doppler correction differed from the initial by about 550 m / s. However, as we shall soon see, the velocity axis will span many mega-meters, so taking the average of the Doppler corrections should suffice for a global correction.
 
-\textcolor{red}{If I have extra space, put the results from the Cass. Doppler correction calculation}
+%\textcolor{red}{If I have extra space, put the results from the Cass. Doppler correction calculation}
+* Because our on-off method is arbitrary and changes as we change the Local Oscillator, the single Gaussian does not tell us much, except the rough temperature of the cloud by the width of the Gaussian. 
+
+* Each Gaussian represents a cloud that we can pick out,
+because each cloud will have its own velocity distribution with an overall average determined by the motion of the cloud itself.
 
 \begin{figure}
 	\centering
@@ -258,7 +258,7 @@ The Doppler correction exhibits, at first glance, a critical time sensitivity. O
 \begin{figure}
 	\centering
 	\includegraphics[width=.6\linewidth]{cass_vs_vel}
-	\caption{...}
+	\caption{Just as before, we can modify the calibrated power spectrum to use an x-axis of velocities. }
 	\label{fig:cass_vs_vel}
 \end{figure}
 
