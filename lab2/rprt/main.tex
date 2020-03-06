@@ -63,6 +63,8 @@ As a preface, I may want to include commentary on how I had to manually alter th
 % 1. scrap for time: initial calibration results. Here is a test signal. ``Our setup works!''
 % source of error: angles are not aligned well. 10% error becomes... 25%? in power plot. I do not remember.
 
+% scrap for time: justify the use of mean vs median
+
 % acknowledge that from now on, you are setting the y limits to ignore both the central
 % spike as well as the bunny ears
 
@@ -70,6 +72,22 @@ As a preface, I may want to include commentary on how I had to manually alter th
 
 % 2. initial H1 observations: on-line and off-line, to get the line shape
 % difference between mean and median
+
+\begin{figure}
+\centering
+\begin{minipage}{.45\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{limits_justification}
+	\captionof{figure}{A semi-log plot over the range of frequencies sampled. We assume that our 2 MHz low-pass filter works, so we will dismiss the signals farther than 2 MHz from the center. Additionally, the large central spike and smaller `bunny ear' spikes ($\pm$.5 MHz) appear on all data sets as persistent interference; we partially ignore these by limiting the y-axis.}
+	\label{fig:on_limits}
+\end{minipage} \hfill%
+\begin{minipage}{.45\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{thermal}
+	\captionof{figure}{The `hot' data correspond to three humans standing in front of the collector. The `cold' data correspond to the collector pointing up at the cold sky. The noise is not an issue because of its regularity: observe the even discrepancy between the curves over the domain of interest.}
+	\label{fig:thermal}
+\end{minipage}
+\end{figure}
 
 \begin{figure}
 \centering
@@ -82,7 +100,7 @@ As a preface, I may want to include commentary on how I had to manually alter th
 \begin{minipage}{.5\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{up_shape}
-	\caption{Les dans}
+	\caption{\textcolor{red}{This one is not helpful. Replace it with the final, calibrated spectrum, thermal power units.}}
 	\label{fig:up_shape}
 \end{minipage}
 \end{figure}
