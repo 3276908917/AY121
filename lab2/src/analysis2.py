@@ -67,8 +67,7 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False):
         plt.yscale('log')
     plt.show()
 
-# I am giving up on this one for now. The label is unbearably
-    # irritating!!
+# Double power plot. We share an axis and stack vertically
 def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
@@ -96,7 +95,8 @@ def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
         plt.ylim(yBounds)
     if logv:
         plt.yscale('log')
-
+        
+# over-plotting of two distributions on the same graph.
 def over_pp(x, y1, y2, y1L, y2L, xBounds=None, yBounds=None, logv=False):
     fig = plt.figure()
 
