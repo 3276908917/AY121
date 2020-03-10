@@ -8,14 +8,14 @@ class Interferometery:
 	
 	def __init__(self, Total_recording_time, Update_position_time , data_saved_time, julian_day, latitude, longitude, altitude, equinox ): # input all the location informations
 	
-		self.Total_recording_time= Total_recording_time
-		self.Update_position_time = Update_position_time
-		self.julian_day = julian_day
+		self.Total_recording_time= Total_recording_time  # total reading time, 1.1 hour in our case
+		self.Update_position_time = Update_position_time  # time to switch the pointing position of the telecopes, 1 min is good i guess
+		self.julian_day = julian_day 
 		self.latitude = latitude
 		self.longitude = longitude
 		self.altitude = altitude
 		self.equinox = equinox
-		self.data_saved_time = data_saved_time
+		self.data_saved_time = data_saved_time # time to save every data set, 10 mins is good i guess
 		
 	def initialize_control(self):	
 		return ugradio.interf.interferometer()
@@ -96,21 +96,21 @@ class Interferometery:
 		
 			count = 0
 			
-			Ra, Dec = ugradio.coord.sunpos([self.julian_day])
+			Ra, Dec = ugradio.coord.sunpos([self.julian_day]) # get's RA and dec of the sun
 			
 			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ self.equinox ]]]]])
 			
 			ifm.point(Alt, azimuth) # we can add (wait=true) to wait until it's pointed to proceed
 			
-			time.sleep(2) # to give it time to point 
+			time.sleep(2) # to give our telecopes time to point at the sun
 			
 
 			time_1 = time.time()
 			
 							
-			while self.Update_position_time >= time.time() - time_1: # it will read data untill it's time to switch position ( every 1 minute is better ) 
+			while self.Update_position_time >= time.time() - time_1: # it will read data untill it's time to switch position ( every 1 minute is better i guess) 
 											
-				hpm.start_recording(recording_time) 
+				hpm.start_recording(recording_time) # record 1 data every 'recording_time' seconds
 				
 							
 #			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
