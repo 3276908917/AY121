@@ -6,13 +6,16 @@ import time
 
 class Interferometery:
 	
-	def __init__(self, Update_position_time , julian_day, latitude, longitude, altitude ):
+	def __init__(self, Total_recording_time, Update_position_time , data_saved_time, julian_day, latitude, longitude, altitude, equinox ): # input all the location informations
+	
+		self.Total_recording_time= Total_recording_time
 		self.Update_position_time = Update_position_time
 		self.julian_day = julian_day
 		self.latitude = latitude
 		self.longitude = longitude
 		self.altitude = altitude
-		
+		self.equinox = equinox
+		self.data_saved_time = data_saved_time
 		
 	def initialize_control(self):	
 		return ugradio.interf.interferometer()
@@ -74,9 +77,10 @@ class Interferometery:
 		
 		data = hpm.read_voltage()
 		
-		Interferometery.fourier_frequency(self, data, sampling_frequency)
+		print (data)
+#		Interferometery.fourier_frequency(self, data, sampling_frequency)
 						
-		return np.save('test_data', data)
+		return np.savez('test_data', data)
 		
 		
 	def Record_sun(self, recording_time, time_delay=0):
@@ -84,98 +88,115 @@ class Interferometery:
 		
 		ifm = initialize_control(self)
 		hpm = initialize_voltage(self)
+		initial_time = time.time()
 		
-		time_1 = time.time()
+		a=1
 		
-		while self.Update_position_time >= time.time() - time_1:		
-			
+		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
+		
 			count = 0
 			
 			Ra, Dec = ugradio.coord.sunpos([self.julian_day])
 			
-			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ equinox ]]]]])
+			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ self.equinox ]]]]])
 			
-			ifm.point(Alt, azimuth)
+			ifm.point(Alt, azimuth) # we can add (wait=true) to wait until it's pointed to proceed
 			
-			initial_time = time.time()
-					
+			time.sleep(2) # to give it time to point 
 			
-			while recording_time >= time.time() - initial_time :
+
+			time_1 = time.time()
+			
+							
+			while self.Update_position_time >= time.time() - time_1: # it will read data untill it's time to switch position ( every 1 minute is better ) 
+											
+				hpm.start_recording(recording_time) 
 				
-				time.sleep(time_delay)				
-				hpm.start_recording(recording_time)
+							
+#			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
 			
-									
-			data = hpm.get_recording_data()
-			
-			data_name = 'data_sun_'+ str(count)
+				if 	self.data_saved_time * a >= time.time() - initial_time:
 					
-			np.save( data_name, data)		
-			
+					data = hpm.get_recording_data()
 					
-			hpm.end_recording()
+					data_name = 'data_sun_' + str(count)
+							
+					np.savez(data_name, data)		
+							
+					hpm.end_recording()
+					
+					a+=1
 			
-			
-			count+=1
+		
+					count+=1
 		
 			
 		ifm.stow()
 			
 		return count
-			
+	
 	def Record_moon(self, recording_time, time_delay=0):
 		
-
+		
 		ifm = initialize_control(self)
 		hpm = initialize_voltage(self)
+		initial_time = time.time()
 		
-		time_1 = time.time()
+		a=1
 		
-		while time_1 - time.time() <= self.Update_position_time:		
-			
+		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
+		
 			count = 0
 			
 			Ra, Dec = ugradio.coord.moonpos([ self.julian_day [ self.latitude [ self.longitude [ self.altitude  ]]]])
 			
-			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ equinox ]]]]])
+			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ self.equinox ]]]]])
 			
-			ifm.point(Alt, azimuth)
+			ifm.point(Alt, azimuth) # we can add (wait=true) to wait until it's pointed to proceed
 			
-			initial_time = time.time()
-					
+			time.sleep(2) # to give it time to point 
 			
+
+			time_1 = time.time()
 			
-			while time.time() <= initial_time + recording_time:	
-				
-				time.sleep(time_delay)				
-				hpm.start_recording(recording_time)
 							
+			while self.Update_position_time >= time.time() - time_1: # it will read data untill it's time to switch position ( every 1 minute is better ) 
+											
+				hpm.start_recording(recording_time) 
+				
+							
+#			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
 			
-			data = hpm.get_recording_data()
-			
-			data_name = 'data_moon_'+ str(count)
+				if 	self.data_saved_time * a >= time.time() - initial_time:
 					
-			np.save( data_name, data)		
-			
+					data = hpm.get_recording_data()
 					
-			hpm.end_recording()
+					data_name = 'data_sun_' + str(count)
+							
+					np.savez(data_name, data)		
+							
+					hpm.end_recording()
+					
+					a+=1
 			
-			
-			count+=1
+		
+					count+=1
 		
 			
 		ifm.stow()
 			
 		return count
-		
-	def Record_star(self, ra, dec, equinox, recording_time, total_observation_time):
+			
+			
+					
+	def Record_star(self, ra, dec, recording_time, total_observation_time):
 		
 		count=0
 		
 		ifm = initialize_control(self)
 		hpm = initialize_voltage(self)
 		
-		Ra, Dec = ugradio.coord.precess(ra, dec [ self.julian_day [ equinox ]])
+		Ra, Dec = ugradio.coord.precess(ra, dec [ self.julian_day [ self.equinox ]])
 		
 		Alt, azimuth = Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec [ self.julian_day [self.latitude [ self.longitude [ self.altitude [ equinox ]]]]])
 		
