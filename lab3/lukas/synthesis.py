@@ -2,7 +2,7 @@
 
 import os
 
-os.chdir(r"../lab1")
+os.chdir(r"../../lab1")
 exec(open('synthesis.py').read())
 
 os.chdir(r"../lab2")
