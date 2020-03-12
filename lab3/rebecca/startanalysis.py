@@ -20,17 +20,28 @@ def plotsun(time,data):
     freq = The frequencies from the transform, calculated using the time array
     power = The Fourier transform of the data array'''
     
-    trans = np.fft.fft(data)
+    timefix,datafix= [],[]
+    for i in range(0,1500):
+        timefix.append(time[i])
+        datafix.append(data[i])
+    for j in range(1650,len(time)):
+        timefix.append(time[j])
+        datafix.append(data[j])
+
+    timefix = np.array(timefix)
+    datafix = np.array(datafix)
+    
+    trans = np.fft.fft(datafix)
     power = np.abs(trans)**2
-    freq = np.fft.fftfreq(time.shape[-1])
+    freq = np.fft.fftfreq(timefix.shape[-1])
 
     plt.subplot(1,2,1)
-    plt.plot(time,data)
+    plt.plot(timefix,datafix)
     plt.xlabel('Time (s)')
     plt.ylabel('Voltage (V)')
 
     plt.subplot(1,2,2)
-    plt.scatter(freq,np.fft.fftshift(power))
+    plt.semilogy(freq,np.fft.fftshift(power))
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Arbitrary Units (log(V$^2$))')
 
