@@ -6,7 +6,11 @@ import time
 
 class Interferometery:
 	
-	def __init__(self, Total_recording_time, Update_position_time, data_saved_time, julian_day=ugradio.timing.julian_date(), latitude=ugradio.coord.nch.lat, longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt, equinox='J2000'): # input all the location informations
+	def __init__(
+                self, Total_recording_time, Update_position_time, data_saved_time,
+                julian_day=ugradio.timing.julian_date(), latitude=ugradio.coord.nch.lat,
+                longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt, equinox='J2000'):
+                # input all the location informations
 	
 		self.Total_recording_time= Total_recording_time  # total reading time, 1.1 hour in our case
 		self.Update_position_time = Update_position_time  # time to switch the pointing position of the telecopes, 1 min is good i guess
@@ -90,7 +94,8 @@ class Interferometery:
 		hpm = self.initialize_voltage()
 		initial_time = time.time()
 		
-		index = 1
+		index = 0
+                hpm.start_recording(recording_time)
 		
 		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
 			
@@ -107,7 +112,7 @@ class Interferometery:
 							
 			while self.Update_position_time >= time.time() - time_1: # it will read data until it's time to switch position ( every 1 minute is better i guess) 
 											
-				hpm.start_recording(recording_time) # record 1 data every 'recording_time' seconds
+				 # record 1 data every 'recording_time' seconds
 				
 							
 #			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
@@ -116,7 +121,7 @@ class Interferometery:
 					
 					data = hpm.get_recording_data()
 					
-					data_name = 'data_sun_' + str(index)
+					data_name = 'data_sun_' + str(index + 1)
 							
 					np.savez(data_name, data)		
 							
@@ -127,7 +132,7 @@ class Interferometery:
 			
 		ifm.stow()
 			
-		return count
+		return index
 	
 	def Record_moon(self, recording_time):
 		
