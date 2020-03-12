@@ -56,11 +56,11 @@ class Irf:
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
         
-        if abs(alt_target - actual['ant_w'][0]) > .2 \
-            or abs(az_target - actual['ant_w'][1]) > .2 \
-            or abs(alt_target - actual['ant_e'][0]) > .2 \
-            or abs(az_target - actual['ant_e'][1]) > .2:
-            raise AssertionError('Target is out of range!')
+        #if abs(alt_target - actual['ant_w'][0]) > .2 \
+        #    or abs(az_target - actual['ant_w'][1]) > .2 \
+        #    or abs(alt_target - actual['ant_e'][0]) > .2 \
+        #    or abs(az_target - actual['ant_e'][1]) > .2:
+        #    raise AssertionError('Target is out of range!')
         return True
 
     def capture(self, label,
