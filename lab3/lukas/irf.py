@@ -27,17 +27,7 @@ class Irf:
         self.ctrl.stow()
         return np.savez('test_data', data)
 
-# We can worry about user utilities later. Right now we just need some data
-   # def user_record(self):
-   #     tt = input('For how many hours would you like to record?')
-   #     print(tt == '')
-
-    def fast_record(self, coord_func, total_time=3960, reposition_interval=60, backup_interval=600, dt=1):
-        '''
-        @coords is one parameter, because it is much easier to pass in the tuple that
-            the abbreviation functions returns than to calculate them oneself
-        '''
-        self.user_record()
+    # Idea: query user for inputs, then run the data collection routine
 
     ### Section: positioning functions. Get altitude and azimuth for...
 
@@ -60,12 +50,22 @@ class Irf:
         return stargazer
 
     ### end section
+    def point(self):
+        alt_target, az_target = self.coord()
+        self.ctrl.point(alt_target, az_target, wait = True)
+        actual = self.ctrl.get_pointing()
+        if abs(alt_target - actual['ant_w'][0]) > .1
+            or abs(az_target - actual['ant_w'][1]) > .1
+            or abs(alt_target - actual['ant_e'][0]) > .1
+            or abs(az_target - actual['ant_e'][1]) > .1:
+            raise AssertionError('Target is out of range!')
+        return True
 
     def capture(self, label, coord,
                 total_capture_time = 3960, reposition_interval = 60,
                 backup_interval = 600, capture_interval = 1):
         '''
-        Capture data of the sun every @dt seconds
+        ?
         '''
         recording_start = lasst_backup = time.time()
 
@@ -73,9 +73,8 @@ class Irf:
         self.multi.start_recording(dt)
 
         while total_time >= time.time() - recording_start :
-            alt_target, az_target = coord()
-            self.ctrl.point(alt_target, az_target, wait=True)
-
+            self.point():
+                
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
                 # create a time-stamp for the data
@@ -87,29 +86,3 @@ class Irf:
 
         self.ctrl.stow()
         print('No runtime errors encountered.')
-
-    def Record_star(self, old_ra, old_dec, recording_time, total_observation_time):
-        count = 0
-
-        ifm = self.initialize_control()
-        hpm = self.initialize_voltage()
-
-        ifm.point(Alt, azimuth)
-
-        intitial_time = time.time()
-
-        while time.time() <= total_observation_time + intitial_time:
-            print(ifm.get_pointing())
-
-            while time.time() <= initial_time + recording_time:
-                time.sleep(time_delay)
-                hpm.start_recording(recording_time)
-                data = hpm.get_recording_data()
-                data_name = 'data_moon_'+ str(count)
-                np.save(data_name, data)
-                hpm.end_recording()
-                count += 1
-
-        ifm.stow()
-
-        return count
