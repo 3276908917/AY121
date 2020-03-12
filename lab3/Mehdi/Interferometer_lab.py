@@ -95,7 +95,7 @@ class Interferometery:
 		initial_time = time.time()
 		
 		index = 0
-                hpm.start_recording(recording_time)
+		hpm.start_recording(recording_time)
 		
 		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
 			
