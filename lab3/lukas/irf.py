@@ -73,8 +73,6 @@ class Irf:
         @label : string used to prefix each .npz file name
         '''
         recording_start = last_backup = time.time()
-
-        index = 0
         self.multi.start_recording(capture_interval)
 
         while total_capture_time >= time.time() - recording_start :
