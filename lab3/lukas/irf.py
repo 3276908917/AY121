@@ -9,7 +9,9 @@ def jd():
 
 class Irf:
     def __init__(self, equinox='J2000',
-        latitude=ugradio.coord.nch.lat, longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt,
+        latitude=ugradio.coord.nch.lat,
+        longitude=ugradio.coord.nch.lon,
+        altitude=ugradio.coord.nch.alt,
     ):
         self.lat = latitude
         self.lon = longitude
@@ -31,21 +33,35 @@ class Irf:
     ### Section: positioning functions. Get altitude and azimuth for...
 
     def sun(self):
+        '''
+        Calculate the position of the sun at the time of request.
+        '''
         ra_sun, dec_sun = ugradio.coord.sunpos(jd())
         return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
 
+    # This was an ad-hoc function and should probably be trashed.
     def sun_at(self, jd):
+        '''
+        Calculate the position of the sun at a given julian date.
+        '''
         ra_sun, dec_sun = ugradio.coord.sunpos(jd)
         return ugradio.coord.get_altaz(ra_sun, dec_sun, jd, self.lat, self.lon, self.alt, self.eq)
     
     def moon(self):
+        '''
+        Calculate the position of the moon at the time of request.
+        '''
         ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
         return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt, self.eq)
 
+    # I am not sure about my syntax here, it looks a little fishy.
+    # Specifically, I am not sure if the child function will keep track of the variables.
     def star(self, old_ra, old_dec):
         '''
-        I am not sure about my syntax here, it looks a little fishy.
-        Specifically, I am not sure if the child function will keep track of the variables.
+        Return a function which calculates the precessed azimuth and altitude
+        for a point source based on its declination and the time of request.
+        @old_ra : original right ascension for the epoch
+        @old_da : original declanation for the epoch
         '''
         def stargazer():
             new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.eq)
