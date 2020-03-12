@@ -62,22 +62,32 @@ class Irf:
 			
 		
 		
-	
+	# Choosing the coordinate, we might not need the functions, but it's ok.
 	def coord(self, name='sun', old_ra=50, old_dec=50):	
 			
 		if name=='sun' or name=='Sun' :
+# 			ra_sun, dec_sun = ugradio.coord.sunpos(jd())
+# 			return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
+
 			return irf.sun(self)
 			
 		elif name=='moon' or name=='Moon':
+# 			ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
+# 			return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt, self.eq)
+	
 			return irf.moon(self)
 			
 		elif name=='star' or name=='Star':
+# 			new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.eq)
+# 			return ugradio.coord.get_altaz(new_ra, new_dec, jd(), self.lat, self.lon, self.alt, self.eq)
+		
 			return irf.star(self, old_ra, old_dec)
 			
 			
 
 
 	### end section
+	 
 	def point(self, name='sun', old_ra=50, old_dec=50)):
 		
 		alt_target, az_target = irf.coord(self, name, old_ra=50, old_dec=50))
@@ -101,9 +111,7 @@ class Irf:
 	def capture(self, label,
 				total_capture_time = 3960, reposition_interval = 60,
 				backup_interval = 600, capture_interval = 1):
-		'''
-		The telecopes will start to collect data before pointing at the source, it's ok, we can just eliminate the first minute of data collection
-		'''
+		
 		
 		recording_start = last_backup = pointng_time = time.time()
 
@@ -118,16 +126,23 @@ class Irf:
 			
 			"""
 				
-			Remarks:
-				
-			- Using your setup , the telecopes will point continuously at the target and only stops pointing when we collect data every 10 minutes. 
+			Remarks when using your setup:
+
+			- The telecopes will start to collect data before pointing at the source, it's ok, we can just eliminate the first minute of data collection
+
+			- The telecopes will point continuously at the target and only stops pointing when we collect data every 10 minutes. 
 			
-			- time.sleep(reposition_interval) will stop the code for 60 seconds. If time.sleep doesn't interupt collecting data then it's ok. if not, it will be collecting only one data set after it's pointed. Also just noticed that get_pointing had wait=true, so 
+			- time.sleep(reposition_interval) will stop the code for 60 seconds. If time.sleep doesn't interupt collecting data then it's ok. if not, it will be collecting only one data set after it's pointed. 
+			
+			Also just noticed that get_pointing had wait=true the code will freeze untill the telescopes are pointed all the way.  
 			
 			- Using backup_interval and last_backup and resetting the last_backup to the actual time was a good idea. 
 			
-			- I wonder if it will save accumulated data instead if we don't end the recording hpm.end_recoding(). But in your setup, if we end the recording it won't save anything anymore, since you called it before the while loop.   ????
+			- I wonder if it will save accumulated data instead if we don't end the recording hpm.end_recoding(). But in your setup, if we end the recording it won't save anything anymore, since you called it before the while loop????
 			
+			
+			
+			You can try this set up if something goes wrong, and i would love to hear from you.
 		
 			"""
 			
@@ -141,7 +156,7 @@ class Irf:
 				
 				pointng_time=time.time()
 				
-				time.sleep(3)
+				
 								
 #			irf.point(self)
 				
