@@ -42,7 +42,9 @@ def plotsun(time,data):
     
     trans = np.fft.fft(datafix)
     power = np.abs(trans)**2
+    print(timefix.shape[-1])
     freq = np.fft.fftfreq(timefix.shape[-1])
+    print(freq)
 
     plt.subplot(1,2,1)
     plt.plot(timefix,datafix)
@@ -52,7 +54,7 @@ def plotsun(time,data):
     plt.subplot(1,2,2)
     x = freq_range(1, len(time) - 150)
     
-    plt.semilogy(x, np.fft.fftshift(power))
+    plt.semilogy(np.fft.fftshift(freq), np.fft.fftshift(power))
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Arbitrary Units (log(V$^2$))')
 

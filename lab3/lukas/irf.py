@@ -1,5 +1,8 @@
 # 3/12 @ 090323 = start time
 
+#start: 1584029003 unix time
+#stop: 1584032827
+
 import ugradio
 import time
 import numpy as np
@@ -37,6 +40,10 @@ class Irf:
     def sun(self):
         ra_sun, dec_sun = ugradio.coord.sunpos(jd())
         return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
+
+    def sun_at(self, jd):
+        ra_sun, dec_sun = ugradio.coord.sunpos(jd)
+        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd, self.lat, self.lon, self.alt, self.eq)
     
     def moon(self):
         ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
