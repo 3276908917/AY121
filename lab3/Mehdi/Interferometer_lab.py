@@ -86,61 +86,14 @@ class Interferometery:
 						
 		return np.savez('test_data', data)
 		
-		
-	def Record_sun(self, recording_time):
-		
-		
-		ifm = self.initialize_control()
-		hpm = self.initialize_voltage()
-		initial_time = time.time()
-		
-		index = 0
-		hpm.start_recording(recording_time)
-		
-		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
-			
-			Ra, Dec = ugradio.coord.sunpos(self.julian_day) # get's RA and dec of the sun
-			
-			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec, self.julian_day, self.latitude, self.longitude, self.altitude, self.equinox)
-			
-			ifm.point(Alt, azimuth, wait=True) # we can add (wait=True) to wait until it's pointed to proceed
-			
-			#time.sleep(2) # to give our telecopes time to point at the sun
-
-
-			if self.data_saved_time * index <= time.time() - initial_time:
-					
-				data = hpm.get_recording_data()
-					
-				data_name = 'data/data_sun_' + str(index + 1)
-							
-				np.savez(data_name, data)		
-							
-				hpm.end_recording()
-					
-				index += 1
-
-			time_1 = time.time()
-							
-			while self.Update_position_time >= time.time() - time_1: # it will read data until it's time to switch position ( every 1 minute is better i guess) 
-				time.sleep(1)                        								
-				 # record 1 data every 'recording_time' seconds
-				
-							
-#			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
-			
-		ifm.stow()
-			
-		return index
 	
 	def Record_moon(self, recording_time):
 		
 		
 		ifm = self.initialize_control()
 		hpm = self.initialize_voltage()
-		initial_time = time.time()
-		
-		a=1
+		initial_time = colleting_data = time.time()
+
 		
 		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
 		
@@ -165,22 +118,73 @@ class Interferometery:
 							
 #			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
 			
-				if 	self.data_saved_time * a >= time.time() - initial_time:
+				if 	self.data_saved_time  >= time.time() - colleting_data:
 					
 					data = hpm.get_recording_data()
 					
 					data_name = 'data_sun_' + str(count)
-							
+					
+					colleting_data= time.time()
+					
 					np.savez(data_name, data)		
 							
 					hpm.end_recording()
 					
-					a+=1
 			
 					count+=1
 			
 		ifm.stow()
 			
+		return count
+	
+	def Record_sun(self, recording_time):
+
+
+		ifm = self.initialize_control()
+		hpm = self.initialize_voltage()
+		initial_time = colleting_data = time.time()
+
+
+		while self.Total_recording_time >= time.time() - initial_time : # it will read for an hour if total recording time is an hour
+
+			count = 0
+
+			Ra, Dec = ugradio.coord.sunpos(self.julian_day) # get's RA and dec of the sun
+
+			Alt, azimuth = ugradio.coord.get_altaz(Ra, Dec, self.julian_day, self.latitude, self.longitude, self.altitude, self.equinox)
+
+			ifm.point(Alt, azimuth, wait=True) # we can add (wait=true) to wait until it's pointed to proceed
+
+			#time.sleep(2) # to give it time to point 
+
+
+			time_1 = time.time()
+
+
+			while self.Update_position_time >= time.time() - time_1: # it will read data untill it's time to switch position ( every 1 minute is better ) 
+
+				hpm.start_recording(recording_time) 
+
+
+	#			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
+
+				if 	self.data_saved_time  >= time.time() - colleting_data:
+
+					data = hpm.get_recording_data()
+
+					data_name = 'data_sun_' + str(count)
+
+					colleting_data= time.time()
+
+					np.savez(data_name, data)		
+
+					hpm.end_recording()
+
+
+					count+=1
+
+		ifm.stow()
+
 		return count
 		
 					
