@@ -41,7 +41,7 @@ def plotsun(time,data):
     plt.ylabel('Voltage (V)')
 
     plt.subplot(1,2,2)
-    plt.semilogy(freq,np.fft.fftshift(power))
+    plt.semilogy(np.fft.fftshift(freq),np.fft.fftshift(power))
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Arbitrary Units (log(V$^2$))')
 
