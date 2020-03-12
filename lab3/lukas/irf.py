@@ -1,17 +1,9 @@
-import numpy as np
-import scipy as sp
 import ugradio
-import matplotlib.pyplot as plt
-import time
-
-## end section
 
 class Irf:
-    def __init__(self,
-        julian_day=ugradio.timing.julian_date(), latitude=ugradio.coord.nch.lat,
-        longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt, equinox='J2000'
+    def __init__(self, equinox='J2000',
+        latitude=ugradio.coord.nch.lat, longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt,
     ):
-        self.jd = julian_day
         self.lat = latitude
         self.lon = longitude
         self.alt = altitude
@@ -19,49 +11,6 @@ class Irf:
 
         self.ctrl = ugradio.interf.Interferometer()
         self.multi = ugradio.hp_multi.HP_Multimeter()
-
-    def fourier_frequency(self, signal, sampling_frequency):
-        '''
-        TODO: this function does NOT plot the real
-        and imaginary components of the spectrum,
-        so the current output is a cast!
-        '''
-        signal_fft = np.fft.fft(signal)
-        time_step = 1 / sampling_frequency
-        freqs = np.fft.fftfreq(signal_fft.size, time_step)
-        index = np.argsort(freqs)
-
-        plt.plot(freqs[index] / 1e6, ps[index])
-        plt.xlabel('Frequency (MHz)')
-        plt.ylabel('Amplitude (V)')
-        plt.title('Fourier transform')
-
-        plt.legend()
-        plt.show()
-
-        return freqs[index], signal_fft[index]
-
-    def power_spectrum(self, signal):
-        fourier_transform = np.fft.fft(signal)
-        return np.abs(fourier_transform) ** 2
-
-    def spectrum_frequency(self, signal, sampling_frequency):
-        ps = power_spectrum(signal)
-        time_step = 1 / sampling_frequency
-        freqs = np.fft.fftfreq(signal.size, time_step)
-        index = np.argsort(freqs)
-
-        #plot the frequency power spectrum
-        plt.plot(freqs[index] / 1e6, ps[index])
-        plt.xlabel('Frequency (MHz)')
-        plt.ylabel(r'Amplitude ($V^2$)')
-        plt.title('Power spectrum')
-        # plt.yscale('log')
-
-        plt.legend()
-        plt.show()
-
-        return freqs[index], ps[index]
 
     def test_system(self, sampling_frequency):
         self.controller.maintenance()
@@ -77,15 +26,16 @@ class Irf:
         tt = input('For how many hours would you like to record?')
         print(tt == '')
 
-    def fast_record(self, total_time=3960, reposition_interval=60, backup_interval=600, dt=1, coords)
+    def fast_record(self, coord_func, total_time=3960, reposition_interval=60, backup_interval=600, dt=1):
         '''
         @coords is one parameter, because it is much easier to pass in the tuple that
             the abbreviation functions returns than to calculate them oneself
         '''
+        self.user_record()
 
     ## Section: abbreviation functions. Get altitude and azimuth for...
 
-    def sun(self)
+    def sun(self):
         ra_sun, dec_sun = ugradio.coord.sunpos(self.julian_day)
         return ugradio.coord.get_altaz(ra_sun, dec_sun, self.jd, self.lat, self.lon, self.alt. self.eq)
 
