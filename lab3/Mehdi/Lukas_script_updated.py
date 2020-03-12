@@ -102,7 +102,8 @@ class Irf:
 			or 300 > actual['ant_e'][1] > 90:					
 			raise AssertionError('Target is out of range!')
 		
-		print ( 'Actual coordinates' ,	actual )
+		print ( 'Actual coordinates west' ,	actual['ant_w'] )
+		print ( 'Actual coordinates east' ,	actual['ant_e]'] )
 		return True
 			
 
@@ -126,7 +127,7 @@ class Irf:
 			
 			"""
 				
-			Remarks when using your setup:
+			Remarks when using lukas' setup:
 
 			- The telecopes will start to collect data before pointing at the source, it's ok, we can just eliminate the first minute of data collection
 
