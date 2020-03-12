@@ -18,11 +18,11 @@ class Irf:
         self.ctrl = ugradio.interf.Interferometer()
         self.multi = ugradio.hp_multi.HP_Multimeter()
 
-    def test_system(self, sampling_frequency):
-        self.controller.maintenance()
+    def test_system(self):
+        self.ctrl.maintenance()
 
         data = self.multi.read_voltage()
-        print (data)
+        print(data)
 
         self.ctrl.stow()
         return np.savez('test_data', data)
@@ -33,20 +33,20 @@ class Irf:
 
     def sun(self):
         ra_sun, dec_sun = ugradio.coord.sunpos(jd())
-        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt. self.eq)
-
+        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
+    
     def moon(self):
         ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
-        return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt. self.eq)
+        return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt, self.eq)
 
     def star(self, old_ra, old_dec):
         '''
         I am not sure about my syntax here, it looks a little fishy.
         Specifically, I am not sure if the child function will keep track of the variables.
         '''
-        def stargazer(self):
-            new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.equinox)
-            ugradio.coord.get_altaz(new_ra, new_dec, jd(), self.lat, self.lon, self.alt, self.eq)
+        def stargazer():
+            new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.eq)
+            return ugradio.coord.get_altaz(new_ra, new_dec, jd(), self.lat, self.lon, self.alt, self.eq)
         return stargazer
 
     ### end section
@@ -54,14 +54,15 @@ class Irf:
         alt_target, az_target = self.coord()
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
-        if abs(alt_target - actual['ant_w'][0]) > .1
-            or abs(az_target - actual['ant_w'][1]) > .1
-            or abs(alt_target - actual['ant_e'][0]) > .1
+        
+        if abs(alt_target - actual['ant_w'][0]) > .1 \
+            or abs(az_target - actual['ant_w'][1]) > .1 \
+            or abs(alt_target - actual['ant_e'][0]) > .1 \
             or abs(az_target - actual['ant_e'][1]) > .1:
             raise AssertionError('Target is out of range!')
         return True
 
-    def capture(self, label, coord,
+    def capture(self, label,
                 total_capture_time = 3960, reposition_interval = 60,
                 backup_interval = 600, capture_interval = 1):
         '''
@@ -70,10 +71,10 @@ class Irf:
         recording_start = lasst_backup = time.time()
 
         index = 0
-        self.multi.start_recording(dt)
+        self.multi.start_recording(capture_interval)
 
-        while total_time >= time.time() - recording_start :
-            self.point():
+        while total_capture_time >= time.time() - recording_start :
+            self.point()
                 
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
