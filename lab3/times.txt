@@ -1,0 +1,9 @@
+# 3/12 @ 090323 = start time
+
+#start: 1584029003 unix time
+
+start az, alt = (29.826072388726786, 121.39281713935357)
+
+#stop: 1584032827
+
+stop az, alt = Idea: query user for inputs, then run the data collection routine

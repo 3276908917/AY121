@@ -77,7 +77,7 @@ class Irf:
                 total_capture_time = 3960, reposition_interval = 60,
                 backup_interval = 600, capture_interval = 1):
         '''
-        ?
+        @label : string used to prefix each .npz file name
         '''
         recording_start = last_backup = time.time()
 
@@ -98,8 +98,6 @@ class Irf:
             time.sleep(reposition_interval)
 
         self.ctrl.stow()
-        # We should save the data one last time since the
-            # if statements are a little iffy
-        # np.savez('data/' + label + '_final', data=data)
-        #Need something like self.multi.stop_recording()
+        np.savez('data/' + label + '_final', data=data)
+        self.multi.stop_recording()
         print('No runtime errors encountered.')
