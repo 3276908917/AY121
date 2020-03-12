@@ -112,7 +112,7 @@ class Interferometery:
 					
 				data = hpm.get_recording_data()
 					
-				data_name = 'data_sun_' + str(index + 1)
+				data_name = 'data/data_sun_' + str(index + 1)
 							
 				np.savez(data_name, data)		
 							
