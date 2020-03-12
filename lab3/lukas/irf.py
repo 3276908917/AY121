@@ -1,5 +1,10 @@
 import ugradio
 
+## aliasing
+
+def jd():
+    return ugradio.timing.julian_date()
+
 class Irf:
     def __init__(self, equinox='J2000',
         latitude=ugradio.coord.nch.lat, longitude=ugradio.coord.nch.lon, altitude=ugradio.coord.nch.alt,
@@ -15,10 +20,10 @@ class Irf:
     def test_system(self, sampling_frequency):
         self.controller.maintenance()
 
-        data = self.multimeter.read_voltage()
+        data = self.multi.read_voltage()
         print (data)
 
-        self.controller.stow()
+        self.ctrl.stow()
         return np.savez('test_data', data)
 
 
@@ -33,11 +38,27 @@ class Irf:
         '''
         self.user_record()
 
-    ## Section: abbreviation functions. Get altitude and azimuth for...
+    ### Section: positioning functions. Get altitude and azimuth for...
 
     def sun(self):
-        ra_sun, dec_sun = ugradio.coord.sunpos(self.julian_day)
-        return ugradio.coord.get_altaz(ra_sun, dec_sun, self.jd, self.lat, self.lon, self.alt. self.eq)
+        ra_sun, dec_sun = ugradio.coord.sunpos(jd())
+        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt. self.eq)
+
+    def moon(self):
+        ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
+        return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt. self.eq)
+
+    def star(self, old_ra, old_dec):
+        '''
+        I am not sure about my syntax here, it looks a little fishy.
+        Specifically, I am not sure if the child function will keep track of the variables.
+        '''
+        def stargazer(self):
+            new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.equinox)
+            ugradio.coord.get_altaz(new_ra, new_dec, jd(), self.lat, self.lon, self.alt, self.eq)
+        return stargazer
+
+    ### end section
 
     def Record_sun(self, total_time=3960, reposition_interval=60, backup_interval=600, dt=1):
         '''
@@ -80,7 +101,7 @@ class Irf:
 
         return index
 
-    # Ra, Dec = ugradio.coord.moonpos(self.julian_day, self.latitude, self.longitude, self.altitude)
+    # Ra, Dec = 
 
     def Record_star(self, old_ra, old_dec, recording_time, total_observation_time):
         count = 0
@@ -88,9 +109,9 @@ class Irf:
         ifm = self.initialize_control()
         hpm = self.initialize_voltage()
 
-        new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, self.julian_day, self.equinox)
+        
 
-        Alt, azimuth = ugradio.coord.get_altaz(new_ra, new_dec, self.julian_day, self.latitude, self.longitude, self.altitude, self.equinox)
+        Alt, azimuth = 
 
         ifm.point(Alt, azimuth)
 
