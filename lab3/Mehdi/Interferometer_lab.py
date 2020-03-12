@@ -106,29 +106,28 @@ class Interferometery:
 			ifm.point(Alt, azimuth, wait=True) # we can add (wait=True) to wait until it's pointed to proceed
 			
 			#time.sleep(2) # to give our telecopes time to point at the sun
-		    
+
+
+			if self.data_saved_time * index >= time.time() - initial_time:
+					
+				data = hpm.get_recording_data()
+					
+				data_name = 'data_sun_' + str(index + 1)
+							
+				np.savez(data_name, data)		
+							
+				hpm.end_recording()
+					
+				index += 1
+
 			time_1 = time.time()
-			
 							
 			while self.Update_position_time >= time.time() - time_1: # it will read data until it's time to switch position ( every 1 minute is better i guess) 
-											
+				time.sleep(1)                        								
 				 # record 1 data every 'recording_time' seconds
 				
 							
 #			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position. 
-			
-				if 	self.data_saved_time * index >= time.time() - initial_time:
-					
-					data = hpm.get_recording_data()
-					
-					data_name = 'data_sun_' + str(index + 1)
-							
-					np.savez(data_name, data)		
-							
-					hpm.end_recording()
-					
-					index += 1
-		
 			
 		ifm.stow()
 			
