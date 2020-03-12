@@ -1,5 +1,6 @@
 import ugradio
 import time
+import numpy as np
 
 ## aliasing
 
@@ -68,7 +69,7 @@ class Irf:
         '''
         ?
         '''
-        recording_start = lasst_backup = time.time()
+        recording_start = last_backup = time.time()
 
         index = 0
         self.multi.start_recording(capture_interval)
@@ -79,9 +80,10 @@ class Irf:
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
                 # create a time-stamp for the data
-                minutes = str((time.time() - recording_start) / 60)
+                minutes = str(np.around((time.time() - recording_start) / 60, 2))
                 data_name = 'data/' + label + '_' + minutes + '_minutes'
-                np.savez(data_name, data)
+                np.savez(data_name, data=data)
+                last_backup = time.time()
     
             time.sleep(reposition_interval)
 
