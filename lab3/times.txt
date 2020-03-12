@@ -6,4 +6,4 @@ start az, alt = (29.826072388726786, 121.39281713935357)
 
 #stop: 1584032827
 
-stop az, alt = Idea: query user for inputs, then run the data collection routine
+stop az, alt = (18.442089722157053, 109.16958444148882)

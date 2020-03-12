@@ -1,8 +1,3 @@
-# 3/12 @ 090323 = start time
-
-#start: 1584029003 unix time
-#stop: 1584032827
-
 import ugradio
 import time
 import numpy as np
@@ -32,8 +27,6 @@ class Irf:
 
         self.ctrl.stow()
         return np.savez('test_data', data)
-
-    # Idea: query user for inputs, then run the data collection routine
 
     ### Section: positioning functions. Get altitude and azimuth for...
 
