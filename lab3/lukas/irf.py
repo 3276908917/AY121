@@ -53,7 +53,8 @@ class Irf:
         return stargazer
 
     ### end section
-    def point(self):
+    
+    def reposition(self):
         alt_target, az_target = self.coord()
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
@@ -77,7 +78,7 @@ class Irf:
         self.multi.start_recording(capture_interval)
 
         while total_capture_time >= time.time() - recording_start :
-            self.point()
+            self.reposition()
                 
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
@@ -90,6 +91,8 @@ class Irf:
             time.sleep(reposition_interval)
 
         self.ctrl.stow()
+        # We should save the data one last time since the
+            # if statements are a little iffy
         # np.savez('data/' + label + '_final', data=data)
         #Need something like self.multi.stop_recording()
         print('No runtime errors encountered.')
