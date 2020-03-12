@@ -1,3 +1,5 @@
+# 3/12 @ 090323 = start time
+
 import ugradio
 import time
 import numpy as np
@@ -88,4 +90,6 @@ class Irf:
             time.sleep(reposition_interval)
 
         self.ctrl.stow()
+        # np.savez('data/' + label + '_final', data=data)
+        #Need something like self.multi.stop_recording()
         print('No runtime errors encountered.')
