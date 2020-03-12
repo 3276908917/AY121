@@ -108,7 +108,7 @@ class Interferometery:
 			#time.sleep(2) # to give our telecopes time to point at the sun
 
 
-			if self.data_saved_time * index >= time.time() - initial_time:
+			if self.data_saved_time * index <= time.time() - initial_time:
 					
 				data = hpm.get_recording_data()
 					
