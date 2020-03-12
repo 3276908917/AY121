@@ -1,4 +1,5 @@
 import ugradio
+import time
 
 ## aliasing
 
@@ -26,10 +27,10 @@ class Irf:
         self.ctrl.stow()
         return np.savez('test_data', data)
 
-
-    def user_record(self):
-        tt = input('For how many hours would you like to record?')
-        print(tt == '')
+# We can worry about user utilities later. Right now we just need some data
+   # def user_record(self):
+   #     tt = input('For how many hours would you like to record?')
+   #     print(tt == '')
 
     def fast_record(self, coord_func, total_time=3960, reposition_interval=60, backup_interval=600, dt=1):
         '''
@@ -60,58 +61,38 @@ class Irf:
 
     ### end section
 
-    def Record_sun(self, total_time=3960, reposition_interval=60, backup_interval=600, dt=1):
+    def capture(self, label, coord,
+                total_capture_time = 3960, reposition_interval = 60,
+                backup_interval = 600, capture_interval = 1):
         '''
         Capture data of the sun every @dt seconds
         '''
-
-        ifm = self.initialize_control()
-        hpm = self.initialize_voltage()
-        initial_time = time.time()
+        recording_start = lasst_backup = time.time()
 
         index = 0
-        hpm.start_recording(recording_time)
+        self.multi.start_recording(dt)
 
-        while self.Total_recording_time >= time.time() - initial_time :
-            ra_target, dec_target = ugradio.coord.sunpos(self.julian_day)
+        while total_time >= time.time() - recording_start :
+            alt_target, az_target = coord()
+            self.ctrl.point(alt_target, az_target, wait=True)
 
-            alt_target, az_target = ugradio.coord.get_altaz(
-                ra_target, dec_target, self.julian_day, self.latitude,
-                self.longitude, self.altitude, self.equinox
-            )
-
-            ifm.point(Alt, azimuth, wait=True)
-
-            if self.data_saved_time * index <= time.time() - initial_time:
-                data = hpm.get_recording_data()
-                data_name = 'data/data_sun_' + str(index + 1)
+            if time.time() - last_backup >= backup_interval:
+                data = self.multi.get_recording_data()
+                # create a time-stamp for the data
+                minutes = str((time.time() - recording_start) / 60)
+                data_name = 'data/' + label + '_' + minutes + '_minutes'
                 np.savez(data_name, data)
-                index += 1
+    
+            time.sleep(reposition_interval)
 
-                time_1 = time.time()
-
-            while self.Update_position_time >= time.time() - time_1: # it will read data until it's time to switch position ( every 1 minute is better i guess)
-                time.sleep(1)
-                             # record 1 data every 'recording_time' seconds
-
-
-    #			the data will be saved every time the telescope change position (1 minute) not sure if it's convinient, probably 10 mins is better, so i concidered saving the data every 10th time that we change our position.
-
-        ifm.stow()
-
-        return index
-
-    # Ra, Dec = 
+        self.ctrl.stow()
+        print('No runtime errors encountered.')
 
     def Record_star(self, old_ra, old_dec, recording_time, total_observation_time):
         count = 0
 
         ifm = self.initialize_control()
         hpm = self.initialize_voltage()
-
-        
-
-        Alt, azimuth = 
 
         ifm.point(Alt, azimuth)
 
