@@ -132,7 +132,7 @@ class Irf:
                 # create a time-stamp for the data
                 minutes = str(np.around((time.time() - recording_start) / 60, 2))
                 data_name = 'data/' + label + '_' + minutes + '_minutes'
-                np.savez(data_name, data=data)
+                np.savez(data_name, data=data, stamp=coord_record)
                 last_backup = time.time()
     
             time.sleep(reposition_interval)
