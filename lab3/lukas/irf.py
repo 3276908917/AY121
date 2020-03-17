@@ -22,6 +22,9 @@ class Irf:
         self.multi = ugradio.hp_multi.HP_Multimeter()
 
     def test_system(self):
+        '''
+        Credit to Mehdi Ahror
+        '''
         self.ctrl.maintenance()
 
         data = self.multi.read_voltage()
@@ -69,13 +72,28 @@ class Irf:
         return stargazer
 
     ### end section
+
+    def constrain_flip(self, alt_plan, az_plan):
+        '''
+        Credit for concept: Rebecca Gore
+        '''
+        if az_plan <= ugradio.interf.AZ_MIN or \
+           az_plan >= ugradio.interf.AZ_MAX:
+            # We need to subtract because we are mirroring the
+            # altitude across the vertical line 90 degrees
+            alt_flip = (180 - alt_plan) % 360
+            # We need to add because we are rotating by a
+            # a half-circle and not mirroring
+            az_flip = (180 + az_plan) % 360
+            return alt_flip, az_flip
+        return alt_plan, az_plan
     
     def reposition(self):
         '''
         The object uses its current coordinate function to re-calculate the
         altitude and azimuth of the target of interest.
         '''
-        alt_target, az_target = self.coord()
+        alt_target, az_target = constrain_flip(self.coord())
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
 
@@ -92,6 +110,8 @@ class Irf:
                 backup_interval = 600, capture_interval = 1):
         '''
         @label : string used to prefix each .npz file name
+
+        Credit for original write: Mehdi Arhror
         '''
         recording_start = last_backup = time.time()
         self.multi.start_recording(capture_interval)
