@@ -103,23 +103,28 @@ class Irf:
         #    or abs(alt_target - actual['ant_e'][0]) > .2 \
         #    or abs(az_target - actual['ant_e'][1]) > .2:
         #    raise AssertionError('Target is out of range!')
-        return True
+        return alt_target, az_target
 
-    def capture(self, label,
-                total_capture_time = 3960, reposition_interval = 60,
-                backup_interval = 600, capture_interval = 1):
+    def capture(self, label, total_capture_time = 3960,
+                reposition_interval = 60, backup_interval = 600,
+                capture_interval = 1, snooze_time=0):
         '''
         @label : string used to prefix each .npz file name
 
         Credit for original write: Mehdi Arhror
         '''
+        time.sleep(snooze_time)
+        
         recording_start = last_backup = time.time()
         self.multi.start_recording(capture_interval)
-
-        # you should include altitude and azimuth in the data!
-
+        coord_record = []
+        
         while total_capture_time >= time.time() - recording_start :
-            self.reposition()
+            try:
+                az, alt = self.reposition()
+            except:
+                az, alt = constrain_flip(self.coord())
+            coord_record.append(az, alt, time.time())
                 
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
