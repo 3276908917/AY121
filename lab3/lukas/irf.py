@@ -71,10 +71,15 @@ class Irf:
     ### end section
     
     def reposition(self):
+        '''
+        The object uses its current coordinate function to re-calculate the
+        altitude and azimuth of the target of interest.
+        '''
         alt_target, az_target = self.coord()
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
-        
+
+        # I think this may have been broken because of competition for the dishes
         #if abs(alt_target - actual['ant_w'][0]) > .2 \
         #    or abs(az_target - actual['ant_w'][1]) > .2 \
         #    or abs(alt_target - actual['ant_e'][0]) > .2 \
@@ -90,6 +95,8 @@ class Irf:
         '''
         recording_start = last_backup = time.time()
         self.multi.start_recording(capture_interval)
+
+        # you should include altitude and azimuth in the data!
 
         while total_capture_time >= time.time() - recording_start :
             self.reposition()
