@@ -7,6 +7,22 @@ import numpy as np
 def jd():
     return ugradio.timing.julian_date()
 
+def constrain_flip(alt_plan, az_plan):
+    '''
+    Credit for concept: Rebecca Gore
+    '''
+    if az_plan <= ugradio.interf.AZ_MIN or \
+       az_plan >= ugradio.interf.AZ_MAX:
+        # We need to subtract because we are mirroring the
+        # altitude across the vertical line 90 degrees
+        alt_flip = (180 - alt_plan) % 360
+        # We need to add because we are rotating by a
+        # a half-circle and not mirroring
+        az_flip = (180 + az_plan) % 360
+        return alt_flip, az_flip
+    return alt_plan, az_plan
+    
+
 class Irf:
     def __init__(self, equinox='J2000',
         latitude=ugradio.coord.nch.lat,
@@ -73,27 +89,12 @@ class Irf:
 
     ### end section
 
-    def constrain_flip(self, alt_plan, az_plan):
-        '''
-        Credit for concept: Rebecca Gore
-        '''
-        if az_plan <= ugradio.interf.AZ_MIN or \
-           az_plan >= ugradio.interf.AZ_MAX:
-            # We need to subtract because we are mirroring the
-            # altitude across the vertical line 90 degrees
-            alt_flip = (180 - alt_plan) % 360
-            # We need to add because we are rotating by a
-            # a half-circle and not mirroring
-            az_flip = (180 + az_plan) % 360
-            return alt_flip, az_flip
-        return alt_plan, az_plan
-    
     def reposition(self):
         '''
         The object uses its current coordinate function to re-calculate the
         altitude and azimuth of the target of interest.
         '''
-        alt_target, az_target = constrain_flip(self.coord())
+        alt_target, az_target = constrain_flip(self.coord()[0], self.coord()[1])
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
 
@@ -123,8 +124,8 @@ class Irf:
             try:
                 az, alt = self.reposition()
             except:
-                az, alt = constrain_flip(self.coord())
-            coord_record.append(az, alt, time.time())
+                az, alt = constrain_flip(self.coord()[0], self.coord()[1])
+            coord_record.append(np.array([az, alt, time.time()]))
                 
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
