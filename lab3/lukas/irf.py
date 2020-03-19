@@ -8,6 +8,8 @@ def jd():
 
 def constrain_flip(alt_plan, az_plan):
     '''
+    Return adjusted altitude and azimuth so that we take advantage of the
+    dish-flip technique for expanding the angular range of the dishes.
     Credit for concept: Rebecca Gore
     '''
     if az_plan <= ugradio.interf.AZ_MIN or \
@@ -43,7 +45,8 @@ class Irf:
 
     def test_system(self):
         '''
-        Credit to Mehdi Ahror
+        One datum collected by putting the dishes in maintenance mode.
+        Credit to Mehdi Ahror.
         '''
         self.ctrl.maintenance()
 
@@ -56,24 +59,18 @@ class Irf:
     ### Section: positioning functions. Get altitude and azimuth for...
 
     def sun(self):
-        '''
-        Calculate the position of the sun at the time of request.
-        '''
+        ''' Return the current position of the Sun. '''
         ra_sun, dec_sun = ugradio.coord.sunpos(jd())
         return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
 
     # This was an ad-hoc function and should probably be trashed.
     def sun_at(self, jd):
-        '''
-        Calculate the position of the sun at a given julian date.
-        '''
+        ''' Return the position of the Sun at a given julian date. '''
         ra_sun, dec_sun = ugradio.coord.sunpos(jd)
         return ugradio.coord.get_altaz(ra_sun, dec_sun, jd, self.lat, self.lon, self.alt, self.eq)
     
     def moon(self):
-        '''
-        Calculate the position of the moon at the time of request.
-        '''
+        ''' Return the current position of the Moon. '''
         ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
         return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt, self.eq)
 
@@ -125,7 +122,6 @@ class Irf:
                 capture_interval = 1, snooze_time=0):
         '''
         @label : string used to prefix each .npz file name
-
         Credit for original write: Mehdi Arhror
         '''
         # Sleeping risks pipe breaks. The alternative is to start the
