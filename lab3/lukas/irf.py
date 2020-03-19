@@ -2,9 +2,8 @@ import ugradio
 import time
 import numpy as np
 
-## aliasing
-
 def jd():
+    ''' abbreviation function for current julian date. '''
     return ugradio.timing.julian_date()
 
 def constrain_flip(alt_plan, az_plan):
@@ -29,6 +28,11 @@ class Irf:
         longitude=ugradio.coord.nch.lon,
         altitude=ugradio.coord.nch.alt,
     ):
+        '''
+        Initialize an interferometery observation object.
+        The default parameters are correct for
+        New Campbell Hall after the year 2000.
+        '''
         self.lat = latitude
         self.lon = longitude
         self.alt = altitude
@@ -89,6 +93,18 @@ class Irf:
 
     ### end section
 
+    def verify_repos(self, alt_target, az_target, actual):
+        '''
+        If there is a discrepancy of more than a fifth of a degree,
+        between the angles that we desire and the angles that the
+        dish reports, we raise an exception.
+        '''
+        if abs(alt_target - actual['ant_w'][0]) > .2 \
+           or abs(az_target - actual['ant_w'][1]) > .2 \
+           or abs(alt_target - actual['ant_e'][0]) > .2 \
+           or abs(az_target - actual['ant_e'][1]) > .2:
+            raise AssertionError('Target is out of range!')
+
     def reposition(self):
         '''
         The object uses its current coordinate function to re-calculate the
@@ -98,16 +114,12 @@ class Irf:
         self.ctrl.point(alt_target, az_target, wait = True)
         actual = self.ctrl.get_pointing()
 
-        # I think this may have been broken because of competition for the dishes
-        #if abs(alt_target - actual['ant_w'][0]) > .2 \
-        #    or abs(az_target - actual['ant_w'][1]) > .2 \
-        #    or abs(alt_target - actual['ant_e'][0]) > .2 \
-        #    or abs(az_target - actual['ant_e'][1]) > .2:
-        #    raise AssertionError('Target is out of range!')
+        # I still have not confirmed this one
+        # verify_repos(alt_target, az_target, actual)
+        
         return alt_target, az_target
 
-    # to-do: need to catch keyboard interrupt
-        # and then save a final data file
+    # catch keyboard interrupt? low priority issue
     def capture(self, label, total_capture_time = 3960,
                 reposition_interval = 60, backup_interval = 600,
                 capture_interval = 1, snooze_time=0):
@@ -116,6 +128,8 @@ class Irf:
 
         Credit for original write: Mehdi Arhror
         '''
+        # Sleeping risks pipe breaks. The alternative is to start the
+        # script regardless of the current time, then to pare down in post.
         time.sleep(snooze_time)
         
         recording_start = last_backup = time.time()
@@ -123,13 +137,18 @@ class Irf:
         coord_record = []
         
         while total_capture_time >= time.time() - recording_start :
+            # Did we succed in repositioning the dish?
             repos_success = False
             try:
+                # Attempt to reposition
                 az, alt = self.reposition()
                 repos_success = True
             except:
+                # If we fail, record the angle we intended
                 az, alt = constrain_flip(self.coord()[0], self.coord()[1])
 
+            # meta_record is a parallel array which records
+            # the angle (or intended angle) of the dish at a given time
             meta_record.append(
                 np.array([az, alt, time.time(), repos_success])
             )
