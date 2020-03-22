@@ -108,7 +108,7 @@ class Irf:
 
     # to-do: need to catch keyboard interrupt
         # and then save a final data file
-    def capture(self, label, total_capture_time = 3960,
+    def capture(self, label, total_capture_time = 46800,
                 reposition_interval = 60, backup_interval = 600,
                 capture_interval = 1, snooze_time=0):
         '''
@@ -130,21 +130,22 @@ class Irf:
             except:
                 az, alt = constrain_flip(self.coord()[0], self.coord()[1])
 
-            meta_record.append(
-                np.array([az, alt, time.time(), repos_success])
-            )
+#            meta_record.append(
+#                np.array([az, alt, time.time(), repos_success])
+#            )
                 
             if time.time() - last_backup >= backup_interval:
                 data = self.multi.get_recording_data()
                 # create a time-stamp for the data
                 minutes = str(np.around((time.time() - recording_start) / 60, 2))
                 data_name = 'data/' + label + '_' + minutes + '_minutes'
-                np.savez(data_name, data=data, stamp=meta_record)
+                np.savez(data_name, data=data)
                 last_backup = time.time()
     
             time.sleep(reposition_interval)
 
         self.ctrl.stow()
-        np.savez('data/' + label + '_final', data=data, stamp=meta_record)
+        np.savez('data/' + label + '_final', data=data)
         self.multi.stop_recording()
         print('No pipe breaks encountered.')
+

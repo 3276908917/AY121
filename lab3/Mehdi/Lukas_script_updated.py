@@ -88,9 +88,9 @@ class Irf:
 
 	### end section
 	 
-	def point(self, name='sun', old_ra=50, old_dec=50)):
+	def point(self, name='sun', old_ra=50, old_dec=50):
 		
-		alt_target, az_target = irf.coord(self, name, old_ra=50, old_dec=50))
+		alt_target, az_target = irf.coord(self, name, old_ra=50, old_dec=50)
 		
 		self.ctrl.point(alt_target, az_target, wait = True)
 		
