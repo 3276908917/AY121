@@ -1,7 +1,7 @@
 import os
 
 os.chdir(r"./../lab1")
-exec(open('synthesis.py').read())
+exec(open('synthesis1.py').read())
 
 os.chdir(r"./../lab2/src")
 exec(open('./data_taking.py').read())
