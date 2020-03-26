@@ -3,76 +3,86 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ugradio import timing
 
+#dc = ugradio.interf_delay.DelayClient()
+#dc.delay_ns(0.)
+
 #returns dictionary with arrays of collected data
 def load_saves(filename):
     a = np.load(filename)
     return dict(zip(("{}".format(k) for k in a), (a[k] for k in a)))
 
+def getsun():
+    sun = load_saves('suntrial_772.16_minutes.npz')
+    sundat = sun['data']
+    sunv,sunt = sundat[0],sundat[1]
+    sunv,sunt = sunv[1750:41000],sunt[1750:41000]
+    return sunt, sunv
+
 def getfft(t,v):
     '''Calculates the fourier transform of a voltage data set.
     Inputs:
-    t = array-like of times
-    v = array-like of voltages
+    t = array of times
+    v = array of voltages
 
     Outputs:
-    freq = array-like of the corresponding frequencies
-    power = arra-like of the fourier transform'''
+    freq = array of the corresponding frequencies
+    power = array of the fourier transform'''
     trans = np.fft.fft(v)
     power = np.abs(trans)**2
     freq = np.fft.fftfreq(t.shape[-1])
-    return freq, power
+    return freq, power, trans
 
-def plotsun(time,data):
-    '''Takes the raw output from the multimeter and gives back its plot and the Fourier Transform. Edit for initial sun trial hardcoded.
-
+def fftfilter(t,v):
+    '''Filters out lowest thirty frequencies of the transform, positive and negative.
+    
     Inputs:
-    time = array of times from the multimeter
-    data = array of voltages from the multimeter
-
+    t = array of times
+    v = array of voltages
+    
     Outputs:
-    A graph displaying the data and its transform
-    freq = The frequencies from the transform, calculated using the time array
-    power = The Fourier transform of the data array'''
-    
-    timefix,datafix= [],[] #hardcoded for 1 hour data
-    for i in range(0,1500):
-        timefix.append(time[i])
-        datafix.append(data[i])
-    for j in range(1501,1649):
-        timefix.append(0)
-        datafix.append(0)
-    for k in range(1650,len(time)):
-        timefix.append(time[k])
-        datafix.append(data[k])
+    freq = array of frequencies
+    trans = array of filtered transform values
+    '''
+    freq,power,trans = getfft(t,v)
+    for i in range(0,30):
+        trans[i] = 0
+        trans[-i] = 0
+    return freq, trans
 
-    timefix = np.array(timefix)
-    datafix = np.array(datafix)
+def filterplot(t,v):
+    '''Plots the filtered signal and its transform
     
-    freq, power = gettfft(timefix,datafix)
+    Inputs:
+    t = array of times
+    v = array of voltages
+    
+    Outputs:
+    Graph of both the filtered signal and its transform    
+    '''
+    freq,trans = fftfilter(t,v)
+    filtered = np.fft.ifft(trans)
+    power = np.abs(trans)**2
 
     plt.subplot(2,1,1)
-    plt.plot(timefix,datafix)
+    plt.plot(t,filtered)
     plt.xlabel('Time (s)')
     plt.ylabel('Voltage (V)')
 
     plt.subplot(2,1,2)
     plt.plot(np.fft.fftshift(freq),np.fft.fftshift(power))
     plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Arbitrary Units (log(V$^2$))')
+    plt.ylabel('Arbitrary Unites (log(V$^2$))')
 
-    plt.tight_layout()
     plt.show()
 
-    return freq, power
-
 def getplot(t,v):
-    time = []
-    for i in range(len(t)):
-        jd = ugradio.timing.julian_date(t[i])
-        time.append(ugradio.timing.lst(jd))
-    plt.plot(time,v)
-    #plt.xlabel('Time (s)')
-    #plt.ylabel('Voltage (V)')
+    #time = []
+    #for i in range(len(t)):
+    #    jd = ugradio.timing.julian_date(t[i])
+    #    time.append(ugradio.timing.lst(jd))
+    plt.plot(t,v)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Voltage (V)')
 
 def dualplot(t,v):
     freq,power = getfft(t,v)
@@ -80,41 +90,12 @@ def dualplot(t,v):
     getplot(t,v)
 
     plt.subplot(1,2,2)
-    plt.semilogy(np.fft.fftshift(freq),np.fft.fftshift(power))
+    plt.plot(np.fft.fftshift(freq),np.fft.fftshift(power))
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Arbitrary Unites (log(V$^2$))')
 
     plt.tight_layout()
     plt.show()
-
-def fourplot(t1,t2,v1,v2):
-    '''For plotting both initial moon trials. Edits hardcoded'''
-    t1,v1 = t1[:3000],v1[:3000]
-    t2,v2 = t2[1000:],v2[1000:]
-    freq1,power1 = getfft(t1,v1)
-    freq2,power2 = getfft(t2,v2)
-    
-    plt.subplot(2,2,1)
-    getplot(t1,v1)
-    plt.xlabel('Time (s)')
-    plt.ylabel('Voltage (V)')
-
-    plt.subplot(2,2,2)
-    getplot(t2,v2)
-    plt.xlabel('Time (s)')
-
-    plt.subplot(2,2,3)
-    plt.semilogy(np.fft.fftshift(freq1),np.fft.fftshift(power1))
-    plt.xlabel('First Set; Frequency (Hz)')
-    plt.ylabel('Arbitrary Unites (log(V$^2$))')
-
-    plt.subplot(2,2,4)
-    plt.semilogy(np.fft.fftshift(freq2),np.fft.fftshift(power2))
-    plt.xlabel('Second Set; Frequency (Hz)')
-
-    plt.tight_layout()
-    plt.show()
-
 
 def declination(day):
     '''Derives the declination of the sun based on how many days have past since Jan 1 of the current year
