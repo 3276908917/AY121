@@ -2,6 +2,9 @@ import ugradio
 import time
 import numpy as np
 
+dc = ugradio.interf_delay.DelayClient()
+dc.delay_ns(0.)
+
 def jd():
     ''' abbreviation function for current julian date. '''
     return ugradio.timing.julian_date()
@@ -130,7 +133,7 @@ class Irf:
         
         recording_start = last_backup = time.time()
         self.multi.start_recording(capture_interval)
-        coord_record = []
+        meta_record = []
         
         while total_capture_time >= time.time() - recording_start :
             # Did we succed in repositioning the dish?
