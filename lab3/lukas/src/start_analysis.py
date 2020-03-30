@@ -3,6 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ugradio import timing
 
+'''
+
+Notes to self:
+    sunburst seems to stop at about 1.5853214e9
+        and resumes at about        1.58535819e9
+    indices 11k to 42k seem safe
+
+    since we took data at 1 Hz, the recommended 10 minutes
+        will correspond to 600 indices.
+
+'''
+
+''' uNtr HIs puNkt -ai wrk aser> b RbekO '''
+
 #returns dictionary with arrays of collected data
 def load_saves(filename):
     a = np.load(filename)
