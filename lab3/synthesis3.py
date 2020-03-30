@@ -1,7 +1,6 @@
 import os
 
-# Grab Lukas' code from labs 1 and 2
-# because 2 automatically also grabs 1
+# Grab Lukas' code from labs 1 and 2 (2 automatically also grabs 1)
 os.chdir(r"../lab2")
 
 try:
@@ -14,8 +13,7 @@ except:
 os.chdir(r"../lab3/lukas/src")
 
 try:
-    exec(open('./plotter.py').read())
-    exec(open('./start_analysis.py').read())
+    exec(open('./analysis3.py').read())
     exec(open('./utils.py').read())
 except:
     print('Failed to import lab 3 materials.')

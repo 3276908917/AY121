@@ -3,6 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ugradio import timing
 
+def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequency (Hz)',
+    yLabel = r'Voltage (mV)'):
+    fig = plt.figure(figsize=(6,3))
+    plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
+
+    ax = fig.add_subplot(111)
+
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+
+    ax.plot(x, np.real(np.fft.fftshift(y * 1000)), label='real')
+    ax.plot(x, np.imag(np.fft.fftshift(y * 1000)), label='imaginary')
+    
+    plt.xlabel(xLabel, fontsize=12)
+    plt.ylabel(yLabel, fontsize=12)
+    if xBounds is not None:
+        plt.xlim(xBounds)
+    if yBounds is not None:
+        plt.ylim(yBounds)
+    if logv:
+        plt.yscale('log')
+    plt.show()
+
 '''
 
 Notes to self:
