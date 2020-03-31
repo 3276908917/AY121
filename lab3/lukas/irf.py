@@ -169,16 +169,19 @@ class Irf:
             )
                 
             if time.time() - last_backup >= backup_interval:
-                data = self.multi.get_recording_data()
+                readings = self.multi.get_recording_data()
                 # create a time-stamp for the data
                 minutes = str(np.around((time.time() - recording_start) / 60, 2))
                 data_name = 'data/' + label + '_' + minutes + '_minutes'
-                np.savez(data_name, data=data, stamp=meta_record)
+                np.savez(data_name, data=readings, stamp=meta_record)
                 last_backup = time.time()
     
             time.sleep(reposition_interval)
 
         self.ctrl.stow()
-        np.savez('data/' + label + '_final', data=data, stamp=meta_record)
-        self.multi.stop_recording()
+        
+        readings = self.multi.get_recording_data()
+        np.savez('data/' + label + '_final', data=readings, stamp=meta_record)
+
+        self.multi.end_recording()
         print('No pipe breaks encountered.')
