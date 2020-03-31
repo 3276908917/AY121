@@ -4,7 +4,7 @@ import time
 import numpy as np
 
 # always return this to false before committing
-dev_mode = True
+dev_mode = False
 
 dc = ugradio.interf_delay.DelayClient()
 if dev_mode == False:
