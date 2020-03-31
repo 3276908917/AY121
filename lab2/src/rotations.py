@@ -101,3 +101,32 @@ def ha_to_topo(ha, dec, lat=ugradio.nch.lat, radians=False):
     rct = rectangle(r, d)
     topo = np.dot(M_ha_to_topo(phi), rct)
     return new_sphere(topo, radians)
+
+def ha(hour, minute, second):
+    '''
+    Convert hour-minute-second to a single-value angle in degrees.
+    '''
+    return (hour * 3600 + minute * 60 + second) / 240
+
+def dec(degrees, minutes, seconds, radians=False):
+    '''
+    Convert declination to a single-value angle in degrees.
+    '''
+    return degrees + minutes / 60 + seconds / 3600
+
+def ha_to_eq(ha, dec, lat=ugradio.nch.lat, radians=False):
+    '''
+    Take a position in hour-angle right-ascension / declination
+        to regular right-ascension / declination.
+    '''
+    if not radians:
+        r = np.radians(ha)
+        d = np.radians(dec)
+        phi = np.radians(lat)
+    else:
+        r = ha
+        d = dec
+        phi = lat
+    rct = rectangle(r, d)
+    eq = np.dot(np.linalg.inv(M_eq_to_ha(phi)), rct)
+    return new_sphere(eq, radians)
