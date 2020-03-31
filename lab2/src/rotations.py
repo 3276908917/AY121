@@ -1,17 +1,14 @@
-# off.npz was saved at 155850 on 2/25/20
-# on.npz was saved at 152907 on 2/25/20
-
 import numpy as np
-import ugradio.timing
+import ugradio
 
 # The change-of-basis matrix between equatorial and galactic coordinate systems
-eq_to_gal = np.array([
+M_eq_to_gal = np.array([
     [-.054876, -.873437, -.483835],
     [.494109, -.444830, .746982],
     [-.867666, -.198076, .455984]
 ])
 
-def gal_to_eq(el, be, lat, radians=False):
+def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
     if not radians:
         l = np.radians(el)
         b = np.radians(be)
@@ -19,12 +16,12 @@ def gal_to_eq(el, be, lat, radians=False):
     else:
         l = el
         b = be
-        phi = np.radians(lat)
-    rct = rct_gal(l, b)
-    ra_dec = np.dot(np.linalg.inv(eq_to_gal), rct)
+        phi = lat
+    rct = rectangle(l, b)
+    ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
     return new_sphere(ra_dec, radians)
 
-def eq_to_ha(LST):
+def M_eq_to_ha(LST=ugradio.timing.lst()):
     '''
     Return the change-of-basis matrix between the equatorial and
     hour angle declination coordinate systems.
@@ -34,7 +31,7 @@ def eq_to_ha(LST):
     c = np.cos(LST)
     return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
 
-def ha_to_topo(phi):
+def M_ha_to_topo(phi=np.radians(ugradio.nch.lat)):
     '''
     Return the change-of-basis matrix between the hour angle declination
     and topocentric coordinate systems.
@@ -45,14 +42,14 @@ def ha_to_topo(phi):
     c = np.cos(phi)
     return np.array([[-s, 0, c], [0, -1, 0], [c, 0, s]])
 
-def rct_gal(l, b):
+def rectangle(a, b):
     '''
-    Given a pair of angles @l, @b (both angles must be in radians),
+    Given a pair of angles (both angles must be in radians),
     return the corresponding 3x1 rectangular vector.
     '''
-    return np.array([np.cos(b) * np.cos(l), np.cos(b) * np.sin(l), np.sin(b)])
+    return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-def gal_to_topo(el, be, lat, radians=False):
+def gal_to_topo(el, be, lat=ugradio.nch.lat, radians=False):
     '''
     @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
@@ -66,12 +63,12 @@ def gal_to_topo(el, be, lat, radians=False):
     else:
         l = el
         b = be
-        phi = np.radians(lat)
-    rct = rct_gal(l, b)
-    ra_dec = np.dot(np.linalg.inv(eq_to_gal), rct)
+        phi = lat
+    rct = rectangle(l, b)
+    ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
     # The program at least works fine up until here
-    hrd = np.dot(np.linalg.inv(eq_to_ha(ugradio.timing.lst())), ra_dec)
-    topo = np.dot(ha_to_topo(phi), hrd)
+    hrd = np.dot(np.linalg.inv(M_eq_to_ha(ugradio.timing.lst())), ra_dec)
+    topo = np.dot(M_ha_to_topo(phi), hrd)
     # new_sphere has also been demonstrated to work
     return new_sphere(topo, radians)
 
@@ -86,3 +83,21 @@ def new_sphere(out_arr, radians=False):
     if not radians:
         return np.degrees(gp), np.degrees(tp)   
     return gp, tp
+
+def ha_to_topo(ha, dec, lat=ugradio.nch.lat, radians=False):
+    '''
+    Take a position in hour-angle right ascension / declination
+        to local altitude and azimuth.
+    This performs NO precession.
+    '''
+    if not radians:
+        r = np.radians(ha)
+        d = np.radians(dec)
+        phi = np.radians(lat)
+    else:
+        r = ha
+        d = dec
+        phi = lat
+    rct = rectangle(r, d)
+    topo = np.dot(M_ha_to_topo(phi), rct)
+    return new_sphere(topo, radians)

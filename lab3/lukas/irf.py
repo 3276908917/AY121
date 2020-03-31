@@ -1,9 +1,14 @@
 import ugradio
+from ugradio import interf_delay
 import time
 import numpy as np
 
+# always return this to false before committing
+dev_mode = True
+
 dc = ugradio.interf_delay.DelayClient()
-dc.delay_ns(0.)
+if dev_mode == False:
+    dc.delay_ns(0.)
 
 def jd():
     ''' abbreviation function for current julian date. '''
