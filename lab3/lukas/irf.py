@@ -68,19 +68,23 @@ class Irf:
 
     def sun(self):
         ''' Return the current position of the Sun. '''
-        ra_sun, dec_sun = ugradio.coord.sunpos(jd())
-        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd(), self.lat, self.lon, self.alt, self.eq)
+        ra_sun, dec_sun = ugradio.coord.sunpos()
+        return ugradio.coord.get_altaz(ra_sun, dec_sun,
+            lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
 
     # This was an ad-hoc function and should probably be trashed.
-    def sun_at(self, jd):
-        ''' Return the position of the Sun at a given julian date. '''
-        ra_sun, dec_sun = ugradio.coord.sunpos(jd)
-        return ugradio.coord.get_altaz(ra_sun, dec_sun, jd, self.lat, self.lon, self.alt, self.eq)
+    def sun_at(self, j_date):
+        ''' Return the position of the Sun at a given julian date j_date. '''
+        ra_sun, dec_sun = ugradio.coord.sunpos(j_date)
+        return ugradio.coord.get_altaz(ra_sun, dec_sun, j_date,
+            lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
     
     def moon(self):
         ''' Return the current position of the Moon. '''
-        ra_moon, dec_moon = ugradio.coord.moonpos(jd(), self.lat, self.lon, self.alt)
-        return ugradio.coord.get_altaz(ra_moon, dec_moon, jd(), self.lat, self.lon, self.alt, self.eq)
+        ra_moon, dec_moon = ugradio.coord.moonpos(
+            lat=self.lat, lon=self.lon, alt=self.alt)
+        return ugradio.coord.get_altaz(ra_moon, dec_moon,
+            lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
 
     # I am not sure about my syntax here, it looks a little fishy.
     # Specifically, I am not sure if the child function will keep track of the variables.
@@ -89,11 +93,18 @@ class Irf:
         Return a function which calculates the precessed azimuth and altitude
         for a point source based on its declination and the time of request.
         @old_ra : original right ascension for the epoch
+            Convert hour angle directly to an angle via ha(hour, minute, second)
+                from rotations.py
+            !DO NOT use the intuitive conversion
+                right-ascension = LST - hour-angle
         @old_da : original declanation for the epoch
+            For convenience of precision, we have
+                dec(degree, minute, second) from rotations.py
         '''
         def stargazer():
-            new_ra, new_dec = ugradio.coord.precess(old_ra, old_dec, jd(), self.eq)
-            return ugradio.coord.get_altaz(new_ra, new_dec, jd(), self.lat, self.lon, self.alt, self.eq)
+            prec_ra, prec_dec = ugradio.coord.precess(old_ra, old_dec, equinox=self.eq)
+            return ugradio.coord.get_altaz(prec_ra, prec_dec,
+                lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
         return stargazer
 
     ### end section
