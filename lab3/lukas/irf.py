@@ -122,21 +122,6 @@ class Irf:
            or abs(az_target - actual['ant_e'][1]) > .2:
             raise AssertionError('Target is out of range!')
 
-    def reposition(self):
-        '''
-        The object uses its current coordinate function to re-calculate the
-        altitude and azimuth of the target of interest.
-        '''
-        alt_target, az_target = constrain_flip(self.coord()[0], self.coord()[1])
-        self.ctrl.point(alt_target, az_target, wait = True)
-        actual = self.ctrl.get_pointing()
-
-        # I still have not confirmed this one
-        # verify_repos(alt_target, az_target, actual)
-        
-        return alt_target, az_target
-
-    # catch keyboard interrupt? low priority issue
     def capture(self, label, total_capture_time = 3960,
                 reposition_interval = 60, backup_interval = 600,
                 capture_interval = 1, snooze_time=0):
@@ -153,20 +138,21 @@ class Irf:
         meta_record = []
         
         while total_capture_time >= time.time() - recording_start:
+            alt_target, az_target = self.coord()
+            alt_adjusted, az_adjusted = constrain_flip(alt_target, az_target)
             # Did we succed in repositioning the dish?
             repos_success = False
             try:
                 # Attempt to reposition
-                alt, az = self.reposition()
+                self.ctrl.point(alt_adjusted, az_adjusted, wait=True)
                 repos_success = True
             except:
-                # If we fail, record the angle we intended and alert the environment
+                # If we fail, alert the environment
                 print('Reposition failure around', ugradio.timing.local_time())
-                alt, az = constrain_flip(self.coord()[0], self.coord()[1])
 
             # meta_record is a parallel array which records
-            # the angle (or intended angle) of the dish at a given time
-            meta_record.append(np.array([alt, az, time.time(), repos_success]))
+            # the angle intended angle) of the dish at a given time
+            meta_record.append(np.array([alt_adjusted, az_adjusted, time.time(), repos_success]))
                 
             if time.time() - last_backup >= backup_interval:
                 readings = self.multi.get_recording_data()
