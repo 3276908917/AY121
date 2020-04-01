@@ -41,7 +41,7 @@ class Irf:
         '''
         Initialize an interferometery observation object.
         The default parameters are correct for
-        New Campbell Hall after the year 2000.
+        New Campbell Hall for the J2000 epoch.
         '''
         self.lat = latitude
         self.lon = longitude
@@ -74,7 +74,7 @@ class Irf:
 
     # This was an ad-hoc function and should probably be trashed.
     def sun_at(self, j_date):
-        ''' Return the position of the Sun at a given julian date j_date. '''
+        ''' Return the position of the Sun at a given julian date @j_date. '''
         ra_sun, dec_sun = ugradio.coord.sunpos(j_date)
         return ugradio.coord.get_altaz(ra_sun, dec_sun, j_date,
             lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
@@ -86,9 +86,7 @@ class Irf:
         return ugradio.coord.get_altaz(ra_moon, dec_moon,
             lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
 
-    # I am not sure about my syntax here, it looks a little fishy.
-    # Specifically, I am not sure if the child function will keep track of the variables.
-    def star(self, old_ra, old_dec):
+    def define_star(self, old_ra, old_dec):
         '''
         Return a function which calculates the precessed azimuth and altitude
         for a point source based on its declination and the time of request.
@@ -97,11 +95,11 @@ class Irf:
                 from rotations.py
             !DO NOT use the intuitive conversion
                 right-ascension = LST - hour-angle
-        @old_da : original declanation for the epoch
+        @old_dec : original declanation for the epoch
             For convenience of precision, we have
                 dec(degree, minute, second) from rotations.py
         '''
-        def stargazer():
+        def star_position():
             prec_ra, prec_dec = ugradio.coord.precess(old_ra, old_dec, equinox=self.eq)
             return ugradio.coord.get_altaz(prec_ra, prec_dec,
                 lat=self.lat, lon=self.lon, alt=self.alt, equinox=self.eq)
@@ -112,8 +110,11 @@ class Irf:
     def verify_repos(self, alt_target, az_target, actual):
         '''
         If there is a discrepancy of more than a fifth of a degree,
-        between the angles that we desire and the angles that the
-        dish reports, we raise an exception.
+        between the angles that we desire
+            @alt_target and @az_target
+        and the angles that the dish reports
+            @actual (size-2 dictionary of size-2 arrays)
+        we raise an exception.
         '''
         if abs(alt_target - actual['ant_w'][0]) > .2 \
            or abs(az_target - actual['ant_w'][1]) > .2 \
@@ -151,7 +152,7 @@ class Irf:
         self.multi.start_recording(capture_interval)
         meta_record = []
         
-        while total_capture_time >= time.time() - recording_start :
+        while total_capture_time >= time.time() - recording_start:
             # Did we succed in repositioning the dish?
             repos_success = False
             try:
@@ -159,7 +160,8 @@ class Irf:
                 alt, az = self.reposition()
                 repos_success = True
             except:
-                # If we fail, record the angle we intended
+                # If we fail, record the angle we intended and alert the environment
+                print('Reposition failure around', ugradio.timing.local_time())
                 alt, az = constrain_flip(self.coord()[0], self.coord()[1])
 
             # meta_record is a parallel array which records
