@@ -19,7 +19,13 @@ def bounds_pst(stamp_array):
 
 def next_time_boundary(pos_func, start=ugradio.timing.unix_time()):
     alt, az = pos_func(ugradio.timing.julian_date(start))
-    add_sec = 1
+    add_sec = 60
+    # since we want to find the NEXT boundary,
+    # we first have to get out of bounds
+    while alt > 5 and alt < 175:
+        alt, az = pos_func(ugradio.timing.julian_date(start + add_sec))
+        add_sec += 60
+    # now we add time until we are in bounds again
     while alt < 5 or alt > 175:
         alt, az = pos_func(ugradio.timing.julian_date(start + add_sec))
         add_sec += 60
