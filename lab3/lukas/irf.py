@@ -156,17 +156,15 @@ class Irf:
             repos_success = False
             try:
                 # Attempt to reposition
-                az, alt = self.reposition()
+                alt, az = self.reposition()
                 repos_success = True
             except:
                 # If we fail, record the angle we intended
-                az, alt = constrain_flip(self.coord()[0], self.coord()[1])
+                alt, az = constrain_flip(self.coord()[0], self.coord()[1])
 
             # meta_record is a parallel array which records
             # the angle (or intended angle) of the dish at a given time
-            meta_record.append(
-                np.array([az, alt, time.time(), repos_success])
-            )
+            meta_record.append(np.array([alt, az, time.time(), repos_success]))
                 
             if time.time() - last_backup >= backup_interval:
                 readings = self.multi.get_recording_data()
