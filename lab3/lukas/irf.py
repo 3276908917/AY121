@@ -115,6 +115,9 @@ class Irf:
         and the angles that the dish reports
             @actual (size-2 dictionary of size-2 arrays)
         we raise an exception.
+
+        Note: this routine has been decommissioned because we could not debug it
+            well enough ahead of the data collection deadlines.
         '''
         if abs(alt_target - actual['ant_w'][0]) > .2 \
            or abs(az_target - actual['ant_w'][1]) > .2 \
@@ -126,11 +129,21 @@ class Irf:
                 reposition_interval = 60, backup_interval = 600,
                 capture_interval = 1, snooze_time=0):
         '''
-        @label : string used to prefix each .npz file name
+        Collect data for a target which can be located right now with self.coord()
+            for @total_capture_time seconds where we
+            first wait for @snooze_time seconds
+            collect one datum every @capture_interval seconds and
+            point the dishes every @reposition_interval seconds
+            and back up the data (in a numpy array written to file) every @backup_interval seconds
+        @label : string name used to prefix all saved files
+
+        Since the script handles all pointing errors, the user has the option,
+        when beginning data collection before the source has risen (above
+        ugradio.interf.ALT_MIN), to either snooze the script with @snooze_time
+        or simply let the array accumulate errors for the first few captures.
+        
         Credit for original write: Mehdi Arhror
         '''
-        # Sleeping risks pipe breaks. The alternative is to start the
-        # script regardless of the current time, then to pare down in post.
         time.sleep(snooze_time)
         
         recording_start = last_backup = time.time()
@@ -151,7 +164,9 @@ class Irf:
                 print('Reposition failure around', ugradio.timing.local_time())
 
             # meta_record is a parallel array which records
-            # the angle intended angle) of the dish at a given time
+                # alt, az: intended angle of the dish at a given time
+                # the unix time at which the record was generated
+                # a Boolean indicating whether the dishes were successfully pointed on the last attempt
             meta_record.append(np.array([alt_adjusted, az_adjusted, time.time(), repos_success]))
                 
             if time.time() - last_backup >= backup_interval:
