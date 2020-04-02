@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from ugradio import timing
 
 def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequency (Hz)',
-    yLabel = r'Voltage (mV)'):
+    yLabel = r'Voltage (mV)', rude_filter = False):
     fig = plt.figure(figsize=(6,3))
     plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
 
@@ -13,8 +13,15 @@ def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequ
     ax.tick_params(axis="x", labelsize=12)
     ax.tick_params(axis="y", labelsize=12)
 
+    if rude_filter:
+        #midpoint = len(y) // 2
+        # we arbitrarily define the center as the 49-51% slice
+        #center_bound = len(y) // 10 
+        #y[midpoint - center_bound:midpoint + center_bound] = 0
+        y[0:1] = 0
+
     ax.plot(x, np.real(np.fft.fftshift(y * 1000)), label='real')
-    ax.plot(x, np.imag(np.fft.fftshift(y * 1000)), label='imaginary')
+    #ax.plot(x, np.imag(np.fft.fftshift(y * 1000)), label='imaginary')
     
     plt.xlabel(xLabel, fontsize=12)
     plt.ylabel(yLabel, fontsize=12)
@@ -25,6 +32,23 @@ def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequ
     if logv:
         plt.yscale('log')
     plt.show()
+
+    # Now we want to find the locations of the peaks
+    print(np.abs(x[np.argmax(np.fft.fftshift(y))]))
+
+# hard-code city
+def collect_fringes(volts):
+    fringes = []
+    x = freq_range(1, 600)
+    P = lambda r : np.abs(np.fft.fft(r)) ** 2
+    for i in range(600, len(volts), 600):
+        y = volts[i - 600:i]
+        y = P(y)
+        y[0:1] = 0
+        y = np.fft.fftshift(y)
+        fringes.append(np.abs(x[np.argmax(y)]))
+    print(fringes)
+    return fringes
 
 '''
 

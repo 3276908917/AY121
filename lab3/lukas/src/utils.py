@@ -25,10 +25,14 @@ def next_time_boundary(pos_func, start=ugradio.timing.unix_time()):
     while alt > 5 and alt < 175:
         alt, az = pos_func(ugradio.timing.julian_date(start + add_sec))
         add_sec += 60
+    if add_sec > 60:
+        print('Target sets at unix time', start+add_sec)
+        return ugradio.timing.local_time(start + add_sec)
     # now we add time until we are in bounds again
     while alt < 5 or alt > 175:
         alt, az = pos_func(ugradio.timing.julian_date(start + add_sec))
         add_sec += 60
+    print('Target rises at unix time', start+add_sec)
     return ugradio.timing.local_time(start + add_sec)
 
 def moon_altaz(j_date):
