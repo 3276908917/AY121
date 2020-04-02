@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ugradio import timing
 
-def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequency (Hz)',
-    yLabel = r'Voltage (mV)', rude_filter = False):
+def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False,
+    xLabel='Frequency (Hz)', yLabel = r'Voltage (mV)', rude_filter = False):
     fig = plt.figure(figsize=(6,3))
     plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
 
@@ -14,14 +14,10 @@ def fourier_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequ
     ax.tick_params(axis="y", labelsize=12)
 
     if rude_filter:
-        #midpoint = len(y) // 2
-        # we arbitrarily define the center as the 49-51% slice
-        #center_bound = len(y) // 10 
-        #y[midpoint - center_bound:midpoint + center_bound] = 0
         y[0:1] = 0
 
     ax.plot(x, np.real(np.fft.fftshift(y * 1000)), label='real')
-    #ax.plot(x, np.imag(np.fft.fftshift(y * 1000)), label='imaginary')
+    ax.plot(x, np.imag(np.fft.fftshift(y * 1000)), label='imaginary')
     
     plt.xlabel(xLabel, fontsize=12)
     plt.ylabel(yLabel, fontsize=12)
@@ -44,7 +40,7 @@ def collect_fringes(volts):
     for i in range(600, len(volts), 600):
         y = volts[i - 600:i]
         y = P(y)
-        y[0:1] = 0
+        y[0:1] = 0 # naive filtering approach
         y = np.fft.fftshift(y)
         fringes.append(np.abs(x[np.argmax(y)]))
     print(fringes)
