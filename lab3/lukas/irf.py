@@ -163,11 +163,21 @@ class Irf:
                 # If we fail, alert the environment
                 print('Reposition failure around', ugradio.timing.local_time())
 
-            # meta_record is a parallel array which records
-                # alt, az: intended angle of the dish at a given time
+            # meta_record is a parallel array which records, in this order
+                # alt: intended/pre-calculated altitude of the dish at a given time
+                # alt_w: actual west dish altitude
+                # alt_e: actual east dish altitude
+                # az: intended azimuth of the dish at a given time
+                # az_w: actual west dish azimuth
+                # alt_e: actual east dish azimuth
                 # the unix time at which the record was generated
                 # a Boolean indicating whether the dishes were successfully pointed on the last attempt
-            meta_record.append(np.array([alt_adjusted, az_adjusted, time.time(), repos_success]))
+            actual = self.ctrl.get_pointing()
+            meta_record.append(np.array([
+                alt_adjusted, actual['ant_w'][0], actual['ant_e'][0],
+                az_adjusted, actual['ant_w'][1], actual['ant_e'][1],
+                time.time(), repos_success
+            ]))
                 
             if time.time() - last_backup >= backup_interval:
                 readings = self.multi.get_recording_data()
