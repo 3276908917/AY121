@@ -4,6 +4,44 @@ import ugradio
 CAR = ha(19, 59, 28.3566)
 CAD = dec(40, 44, 2.096)
 
+def lockout_plotter(stamp):
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
+    
+    #fig = plt.figure(figsize=(6,3))
+    #plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
+    #ax = fig.add_subplot(111)
+
+    plt.xlabel('Index of Observation', fontsize=12)
+    fig.text(0, 0.5, r'Angle (degrees)',
+         va='center', rotation='vertical', fontsize=12)
+
+    ax1.tick_params(axis="x", labelsize=12)
+    ax2.tick_params(axis="x", labelsize=12)
+    ax1.tick_params(axis="y", labelsize=12)
+    ax2.tick_params(axis="y", labelsize=12)
+
+    alt_want = stamp[:, 0]
+    alt_w = stamp[:, 1]
+    alt_e = stamp[:, 2]
+
+    ax1.plot(alt_want, label='Desired altitude')
+    ax1.plot(alt_w, label='Actual west dish alt')
+    ax1.plot(alt_e, label='Actual east dish alt')
+
+    ax1.legend(bbox_to_anchor=(1, 1))
+    
+    az_want = stamp[:, 3]
+    az_w = stamp[:, 4]
+    az_e = stamp[:, 5]
+
+    ax2.plot(az_want, label='Desired azimuth')
+    ax2.plot(az_w, label='Actual west dish az')
+    ax2.plot(az_e, label='Actual east dish az')
+
+    ax2.legend(bbox_to_anchor=(1, 1))
+
+    plt.show()
+
 def bounds_pst(stamp_array):
     '''
     Displays (does not return) the start time and stop time for one

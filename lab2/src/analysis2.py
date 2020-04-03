@@ -87,7 +87,6 @@ def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
     ax1.tick_params(axis="y", labelsize=12)
     ax2.tick_params(axis="y", labelsize=12)
     
-
     ax1.plot(x, np.fft.fftshift(y1))
     ax2.plot(x, np.fft.fftshift(y2))    
     
