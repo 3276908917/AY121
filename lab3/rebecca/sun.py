@@ -17,7 +17,7 @@ def getsun():
     sut = array of times
     suv = array of voltages'''
     dat = load_saves('sun_63.73_minutes.npz')
-    data,stamps = dat['data']
+    data = dat['data']
     suv,sut = data[0],data[1]
     return sut,suv
 
@@ -67,7 +67,7 @@ def local_fringe(time):
     Bew = 20 #m
     lam = .025 #m
     hs = hour_angle(time) * (np.pi/180)
-    dec = (declination()-.2) * (np.pi/180)
+    dec = (declination()) * (np.pi/180)
     convert = (2*np.pi) / (24*60*60)
     return (convert * Bew *np.cos(dec) * np.cos(hs))/ (lam)
 
@@ -83,7 +83,7 @@ def local_plot(time):
     loc = []
     for i in range(len(time)):
         times.append((time[i]-1583996400)/(60*60))
-        loc.append(local_fringe(time[i])-.015)
+        loc.append(local_fringe(time[i]))
     plt.plot(times,loc)
     plt.show()
 
@@ -103,18 +103,19 @@ def getfft(t,v):
     freq = np.fft.fftfreq(t.shape[-1])
     return freq, power, trans
 
-def fftfilter(t,v):
+def fftfilter(t,v,fil):
     '''Filters out the lowest 30 frequencies in the transform
 
     Inputs:
     t = array of times
     v = array of voltages
+    fil = the number of frequencies to be filtered out
 
     Outputs:
     freq = array of frequencies
     trans = transform of voltages with lowest 30 frequencies filtered out'''
     freq,power,trans = getfft(t,v)
-    for i in range(0,30):
+    for i in range(0,fil):
         trans[i] = 0
         trans[-i] = 0
     return freq, trans
@@ -181,7 +182,24 @@ def geodel(time):
     hs = hour_angle(time)*(np.pi/180)
     return (bew * np.cos(dec) / lam) * np.sin(hs)
 
-def brute(x,y,A,B):
+def fringe_data(t,v):
+    timing = 600
+    times = []
+    fringes = []
+    breaks = int(len(t)/timing)
+    for i in range(breaks):
+        time = t[i*timing: (i+1)*timing]
+        times.append(t[i*timing])
+        volts = v[i*timing:(i+1)*timing]
+        freq,trans = fftfilter(time,volts,5)
+        power = np.abs(trans)**2
+        fringe = np.abs(freq[np.argmax(power)])
+        fringes.append(fringe)
+    return times,fringes
+
+
+
+def brute(t,v,A,B):
     '''Calculates the sum of the risiduals of the data and a guess for Qew and Qns
 
     Inputs:
@@ -192,14 +210,15 @@ def brute(x,y,A,B):
 
     Outputs:
     risid = array of the risuduals
-    sum_tot = sum of the total of the squares of the rididuals'''
+    sum_tot = sum of the total of the squares of the rididual'''
     risid = []
-    for i in range(len(x)):
-        risid.append((y[i] - (A*np.sin(2*np.pi*geodel(x[i]))+B*np.cos(2*np.pi*geodel(x[i]))))**2)
-    sum_sq_tot = sum(risid*risid)
+    times,fringes = fringe_data(t,v)
+    for i in range(len(times)):
+        risid.append((fringes[i] - (A*np.cos(hour_angle(times[i])*(np.pi/180)) + B*np.sin(hour_angle(times[i])*(np.pi/180))))**2)
+    sum_sq_tot = sum(risid)
     return risid, sum_sq_tot
 
-def risidplot(x,y,A,B):
+def risidplot(t,v,A,B):
     '''Plots the filtered data, the fitted guess, and then the risidual
 
     Inputs:
@@ -210,20 +229,27 @@ def risidplot(x,y,A,B):
 
     Outputs:
     Graph with data, fit, and risidual'''
-    freq,trans = fftfilter(x,y)
-    filtered = np.fft.ifft(trans)
-    risid,sum_tot = brute(x,filtered,A,B)
+    risid = []
+    times,fringes = fringe_data(t,v)
+    date = []
+    for i in range(len(times)):
+        date.append(12 + hour_angle(times[i])/15)
+        risid.append((fringes[i] - (A*np.cos(hour_angle(times[i])*(np.pi/180)) + B*np.sin(hour_angle(times[i])*(np.pi/180))))**2)
     plt.subplot(2,1,1)
-    plt.plot(x,filtered,label='Data')
-    plt.plot(x,A*np.sin(2*np.pi*geodel(x))+B*np.cos(2*np.pi*geodel(x)),label='Fit')
+    plt.plot(date,fringes,label="Data")
+    plt.plot(date,local_fringe(times),label="Initial Values")
+    plt.plot(date,A*np.cos(hour_angle(times)*(np.pi/180)) + B*np.sin(hour_angle(times)*(np.pi/180)),label="Optimized Values")
+    plt.ylabel('Frequency (Hz)')
     plt.legend()
     plt.subplot(2,1,2)
-    plt.plot(ugradio.timing.julian_date(x),risid)
-    plt.xlabel('Time (jd)')
-    plt.ylabel('Risidual')
+    plt.plot(date,risid)
+    plt.xlabel('Time of Day (hr)')
+    plt.ylabel('Risidual (Hz)')
+    
     plt.show()
 
-def optim(x,y):
+
+def optim(t,v):
     '''Attempts to optimize a fit to the data
 
     Inputs:
@@ -232,24 +258,39 @@ def optim(x,y):
 
     Outputs:
     Graph of Qew vs the sum of the square of the risidual'''
-    freq,trans = fftfilter(x,y)
-    filtered = np.fft.ifft(trans)
-    A = .001 
-    B = 0
-    dA = .00001
-    #dB = 1
-    __,g_init = brute(x,filtered,A,B)
-    risid = []
-    A_new = 0
+    #Bew = 20 #m
+    #lam = .025 #m
+    #dec = (declination()-.2) * (np.pi/180)
+    #convert = (2*np.pi) / (24*60*60)
+    #A = convert * Bew * np.cos(dec) / lam
+    A = 0.03016748195476793 #these are the correct values
+    B = 0.0001900000000000002
+    dA = .0001
+    dB = .00001
     As = []
-    #B_new = 0
-    #Bs = []
-    for i in range(-10,10):
-        A = A + i*dA
-        #B = B + i*dB
-        __,g = brute(x,y,A,B)
-        risid.append(g)
-        As.append(A)
-        #Bs.append(B)
-    plt.plot(As,risid)
+    Bs = []
+    sums = []
+    #A = A - 10*dA
+    Bnew = B - 10*dB
+    for i in range(20):
+        #As.append(A)
+        Bs.append(Bnew)
+        ___,trial = brute(t,v,A,Bnew)
+        sums.append(trial)
+        #A = A + dA
+        Bnew = Bnew + dB
+    print(Bnew[np.argmin(sums)])
+    print(Bnew)
+    plt.plot(Bnew,sums)
     plt.show()
+    return A,B
+
+def getB(A,B):
+    lam = .025
+    convert = (2*np.pi)/(24*60*60)
+    dec = declination() * (np.pi/180)
+    Bew = A * lam / (np.cos(dec) * convert)
+    
+    L = 37.873199 * (np.pi/180)
+    Bns = B * lam / (np.cos(dec) * np.sin(L) * convert)
+    return Bew,Bns
