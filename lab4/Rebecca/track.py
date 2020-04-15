@@ -112,8 +112,8 @@ class Plane():
         check to make sure they are within bounds
         '''
         alt, az = gal_to_topo(el, be, self.lat, self.lon)
-        assert alt <= leusch.ALT_MIN and alt >= leusch.ALT_MAX and \
-           az <= leusch.AZ_MIN and az >= leusch.AZ_MAX, \
+        assert alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
+           az >= leusch.AZ_MIN and az <= leusch.AZ_MAX, \
             'Pointing out of bounds'
         return alt, az
 
@@ -126,7 +126,8 @@ class Plane():
         return alt - alt_real, az - az_real
 
     def collect(self, el, be, full_prefix, N):
-        list_alt_err, list_az_err = []
+        list_alt_err = []
+        list_az_err = []
         
         for i in range(N):
             alt, az = self.find_point(el, be)
