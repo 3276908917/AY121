@@ -26,6 +26,9 @@ def scale_freqs(v_s, N, scale):
     delta = v_s / scale / N
     return np.array([i * delta for i in range(-lobe, lobe)])
 
+def fr(v_s, N):
+    return np.linspace(-v_s / 2, v_s / 2, num=N)    
+
 # Primarily comes in handy for analysis 5.6
 def freq_range(v_s, N, W):
     """

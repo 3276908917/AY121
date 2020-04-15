@@ -3,15 +3,6 @@
     # 2. average over frequency channels
         # "It's okay to degrade the frequency resolution to, say, 1 or 2 kHz"
 
-#new cass data
-
-#finished on at
-    # 
-#started off at
-    # 
-#finished off at
-    # 
-
 #complex_combine
 def cc(real, imag):
     return real + 1j*imag
