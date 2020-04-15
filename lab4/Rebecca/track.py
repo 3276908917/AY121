@@ -129,18 +129,17 @@ class Plane():
         list_alt_err = []
         list_az_err = []
         
-        for i in range(N):
-            alt, az = self.find_point(el, be)
-            self.telescope.point(alt, az)
+        alt, az = self.find_point(el, be)
+        self.telescope.point(alt, az)
 
-            alt_err, az_err = self.pos_error(alt, az)
-            list_alt_err.append(alt_err)
-            list_az_err.append(az_err)
+        alt_err, az_err = self.pos_error(alt, az)
+        list_alt_err.append(alt_err)
+        list_az_err.append(az_err)
 
-            self.spec.check_connected()
-            ra, dec = gal_to_eq(el, be)
-            self.spec.read_spec(full_prefix + '_' +
-                str(i) + '.fits', N, (ra, dec), 'eq')
+        self.spec.check_connected()
+        ra, dec = gal_to_eq(el, be)
+        self.spec.read_spec(full_prefix + '_' +
+            str(i) + '.fits', N, (ra, dec), 'eq')
 
         return list_alt_err, list_az_err
 
@@ -154,12 +153,12 @@ class Plane():
         the .npz file stores the two angle-errors for the pointings.
         '''
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect(el, be, 'plane_off_' + label, N)
+        on_alt_err, on_az_err = self.collect(el, be, label + '_plane_on', N)
 
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect(el, be, 'plane_on_' + label, N)
+        off_alt_err, off_az_err = self.collect(el, be, label + '_plane_off', N)
 
-        np.savez('err_' + label,
+        np.savez(label + '_err',
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
                  off_alt_e=off_alt_err, off_az_e=off_az_err)
         
@@ -168,17 +167,16 @@ class Plane():
     def collect_direct(self, alt, az, el, be, full_prefix, N):
         list_alt_err = []
         list_az_err = []
-        
-        for i in range(N):
-            self.telescope.point(alt, az)
 
-            alt_err, az_err = self.pos_error(alt, az)
-            list_alt_err.append(alt_err)
-            list_az_err.append(az_err)
+        self.telescope.point(alt, az)
 
-            self.spec.check_connected()
-            self.spec.read_spec(full_prefix + '_' +
-                str(i) + '.fits', N, (el, be))
+        alt_err, az_err = self.pos_error(alt, az)
+        list_alt_err.append(alt_err)
+        list_az_err.append(az_err)
+
+        self.spec.check_connected()
+        self.spec.read_spec(full_prefix + '_' +
+            str(i) + '.fits', N, (el, be))
 
         return list_alt_err, list_az_err
 
@@ -192,12 +190,12 @@ class Plane():
         the .npz file stores the two angle-errors for the pointings.
         '''
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, 'plane_off_' + label, N)
+        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, label + '_plane_on', N)
 
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, 'plane_on_' + label, N)
+        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, label + '_plane_off', N)
 
-        np.savez('err_' + label,
+        np.savez(label + '_err',
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
                  off_alt_e=off_alt_err, off_az_e=off_az_err)
         
