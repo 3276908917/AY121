@@ -138,8 +138,7 @@ class Plane():
 
         self.spec.check_connected()
         ra, dec = gal_to_eq(el, be)
-        self.spec.read_spec(full_prefix + '_' +
-            str(i) + '.fits', N, (ra, dec), 'eq')
+        self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
 
         return list_alt_err, list_az_err
 
@@ -175,8 +174,7 @@ class Plane():
         list_az_err.append(az_err)
 
         self.spec.check_connected()
-        self.spec.read_spec(full_prefix + '_' +
-            str(i) + '.fits', N, (el, be))
+        self.spec.read_spec(full_prefix + '.fits', N, (el, be))
 
         return list_alt_err, list_az_err
 
