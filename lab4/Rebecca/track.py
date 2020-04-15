@@ -100,11 +100,11 @@ class Plane():
         self.spec = leusch.Spectrometer()
 
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
-        self.lo = leusch.SynthDirect()
-        self.lo.set_frequency(643, 'MHz')
+        #self.lo = ugradio.agilent.SynthDirect()
+        #self.lo.set_frequency(634, 'MHz')
 
 
-    def pointing(el, be):
+    def pointing(self, el, be):
         '''
         Calculate alt and az from galactic coordinates and
         check to make sure they are within bounds
@@ -115,7 +115,7 @@ class Plane():
             'Pointing out of bounds'
         return alt, az
 
-    def pos_error(alt, az):
+    def pos_error(self, alt, az):
         '''
         Calculates the error between the wanted alt and az and
         the real alt and az of the telescope and returns those errors
@@ -123,7 +123,7 @@ class Plane():
         alt_real, az_real = self.telescope.get_pointing()
         return alt - alt_real, az - az_real
 
-    def collect(el, be, full_prefix, N):
+    def collect(self, el, be, full_prefix, N):
         list_alt_err, list_az_err = []
         
         for i in range(N):
@@ -141,7 +141,7 @@ class Plane():
 
         return list_alt_err, list_az_err
 
-    def take_date(el, be, label, N=10):
+    def take_date(self, el, be, label, N=10):
         '''
         Collect @N spectra
         by observing galactic coordinates (@el, @be)
@@ -151,10 +151,10 @@ class Plane():
         the .npz file stores the two angle-errors for the pointings.
         '''
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = collect(el, be, 'plane_off_' + label, N)
+        on_alt_err, on_az_err = self.collect(el, be, 'plane_off_' + label, N)
 
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = collect(el, be, 'plane_on_' + label, N)
+        off_alt_err, off_az_err = self, collect(el, be, 'plane_on_' + label, N)
 
         np.savez('err_' + label,
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
@@ -162,7 +162,7 @@ class Plane():
         
         self.telescope.stow()
 
-    def visibility_check(el, be, times,
+    def visibility_check(self, el, be, times,
         lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon, radians=False 
     ):
         '''
