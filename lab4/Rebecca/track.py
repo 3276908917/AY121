@@ -95,21 +95,23 @@ import ugradio.leusch as leusch
 
 class Plane():
     def __init__(self):
+        # temporary hard-coding
+        self.lat = 37.91934
+        self.lon = -122.15385
+        
         self.telescope = leusch.LeuschTelescope()
         self.noise = leusch.LeuschNoise()
         self.spec = leusch.Spectrometer()
 
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
         #self.lo = ugradio.agilent.SynthDirect()
-        #self.lo.set_frequency(634, 'MHz')
 
-
-    def pointing(self, el, be):
+    def find_point(self, el, be):
         '''
         Calculate alt and az from galactic coordinates and
         check to make sure they are within bounds
         '''
-        alt, az = gal_to_topo(el, be)
+        alt, az = gal_to_topo(el, be, self.lat, self.lon)
         assert alt <= leusch.ALT_MIN and alt >= leusch.ALT_MAX and \
            az <= leusch.AZ_MIN and az >= leusch.AZ_MAX, \
             'Pointing out of bounds'
@@ -127,7 +129,7 @@ class Plane():
         list_alt_err, list_az_err = []
         
         for i in range(N):
-            alt, az = self.pointing(el, be)
+            alt, az = self.find_point(el, be)
             self.telescope.point(alt, az)
 
             alt_err, az_err = self.pos_error(alt, az)
@@ -141,7 +143,7 @@ class Plane():
 
         return list_alt_err, list_az_err
 
-    def take_date(self, el, be, label, N=10):
+    def take_data(self, el, be, label, N=10):
         '''
         Collect @N spectra
         by observing galactic coordinates (@el, @be)
@@ -162,9 +164,7 @@ class Plane():
         
         self.telescope.stow()
 
-    def visibility_check(self, el, be, times,
-        lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon, radians=False 
-    ):
+    def visibility_check(self, el, be, times, radians=False):
         '''
         Given a list of times in Julian format, return
         the times when the wanted galactic coordinates are
@@ -173,7 +173,7 @@ class Plane():
         verified_times = []
             
         for t in times:
-            alt, az = gal_to_topo(el, be, lat, lon, t, radians=False)            
+            alt, az = gal_to_topo(el, be, self.lat, self.lon, t, radians=False)            
             if alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
                az >= leusch.AZ_MIN and az <= leusch.AZ_MAX:
                 verified_times.append(times[i])
