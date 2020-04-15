@@ -154,7 +154,7 @@ class Plane():
         on_alt_err, on_az_err = self.collect(el, be, 'plane_off_' + label, N)
 
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self, collect(el, be, 'plane_on_' + label, N)
+        off_alt_err, off_az_err = self.collect(el, be, 'plane_on_' + label, N)
 
         np.savez('err_' + label,
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
