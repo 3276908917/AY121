@@ -16,15 +16,15 @@ def rectangle(a, b):
     '''
     return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-#def M_eq_to_ha(LST=ugradio.timing.lst()):
-#    '''
-#    Return the change-of-basis matrix between the equatorial and
-#    hour angle declination coordinate systems.
-#    The conversion depends on the @LST, Local Siderial Time
-#    '''
-#    s = np.sin(LST)
-#    c = np.cos(LST)
-#    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
+def M_eq_to_ha(LST=ugradio.timing.lst()):
+    '''
+    Return the change-of-basis matrix between the equatorial and
+    hour angle declination coordinate systems.
+    The conversion depends on the @LST, Local Siderial Time
+    '''
+    s = np.sin(LST)
+    c = np.cos(LST)
+    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
 
 def M_ha_to_topo(phi=np.radians(ugradio.nch.lat)):
     '''
