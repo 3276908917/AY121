@@ -141,7 +141,7 @@ class Plane():
 
         return list_alt_err, list_az_err
 
-    def take_date(self, el, be, label, N=10):
+    def take_data(self, el, be, label, N=10):
         '''
         Collect @N spectra
         by observing galactic coordinates (@el, @be)
