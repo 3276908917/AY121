@@ -133,28 +133,32 @@ class plane():
 
     def position(alt,az):
         '''Positions the telecope given an alt and az in radians'''
-        alt,az = np.degrees(alt),np.degrees(az)
-        self.telescope.point(alt,az)
+        alt, az = np.degrees(alt), np.degrees(az)
+        self.telescope.point(alt, az)
 
-    def pos_error(alt,az):
-        '''Calculates the error between the wanted alt and az and the real alt and az of the telescope and returns those errors'''
-        alt,az = np.degrees(alt),np.degrees(az)
+    def pos_error(alt, az):
+        '''
+        Calculates the error between the wanted alt and az and
+        the real alt and az of the telescope and returns those errors
+        '''
+        alt, az = np.degrees(alt), np.degrees(az)
         alt_real,az_real = self.telescope.get_pointing()
-        return alt-alt_real,az-az_real
+        return alt - alt_real, az - az_real
 
-    def take_date(el,be,label,N=10):
-        alt_err, az_err = []
+    def take_date(el, be, label, N=10):
+        list_alt_err, list_az_err = []
         count = 0
         for i in range(N):
             while count < N:
                 alt, az = pointing(el, be)
                 position(alt, az)
-                alt_err,az_err = pos_error(alt, az)
-                alterr.append(alt_err)
-                azerr.append(az_err)
+                alt_err, az_err = pos_error(alt, az)
+                list_alt_err.append(alt_err)
+                list_az_err.append(az_err)
                 if self.spec.check_connected() == True:
-                    radec, rad = gal_to_eq(el, be)
-                    self.spec.read_spec('planeon' + label + str(count) + '.fits', N, radec, 'J2000')
+                    ra, dec = gal_to_eq(el, be)
+                    self.spec.read_spec('plane_on_' + label + '_' +
+                        str(count) + '.fits', N, (ra, dec), 'eq')
                 count += 1
 
         self.lo.set_frequency(644, 'MHz')
@@ -163,11 +167,12 @@ class plane():
             while count < N:
                 alt, az = pointing(el, be)
                 position(alt, az)
-                alt_err, az_err = pos_error(alt,az)
-                alterr.append(alt_err)
-                azerr.append(az_err)
+                alt_err, az_err = pos_error(alt, az)
+                list_alt_err.append(alt_err)
+                list_az_err.append(az_err)
                 if self.spec.check_connected() == True:
-                    radec, rad = gal_to_eq(el, be)
-                    self.spec.read_spec('planeoff' + label + str(count) + '.fits', N, radec, 'J2000')
+                    ra, dec = gal_to_eq(el, be)
+                    self.spec.read_spec('plane_off_' + label + '_' +
+                        str(count) + '.fits', N, (ra, dec), 'eq')
                 count += 1
         self.telescope.stow()
