@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import ugradio
 
 # Cygnus A "Right Ascension" and Declanation

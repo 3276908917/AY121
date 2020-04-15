@@ -2,12 +2,13 @@ import ugradio
 import numpy as np
 
 #I know there's a better way to do this, but, I don't know it at the moment
-#So here's everything relevent from rotations.py
+#So here's everything relevant from rotations.py
 M_eq_to_gal = np.array([
     [-.054876, -.873437, -.483835],
     [.494109, -.444830, .746982],
     [-.867666, -.198076, .455984]
-    
+])
+
 def rectangle(a, b):
     '''
     Given a pair of angles (both angles must be in radians),
@@ -65,10 +66,8 @@ def gal_to_topo(el, be, lat=ugradio.nch.lat, radians=False):
         phi = lat
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    # The program at least works fine up until here
     hrd = np.dot(np.linalg.inv(M_eq_to_ha(ugradio.timing.lst())), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
-    # new_sphere has also been demonstrated to work
     return new_sphere(topo, radians)
 
 def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
@@ -94,15 +93,15 @@ class plane():
 
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
         self.lo = ugradio.leusch.SynthDirect()
-        self.lo.set_frequency = 643000000
+        self.lo.set_frequency(643, 'MHz')
 
 
     def pointing(el,be):
         '''Calculates alt and az from galactic coordinates and checks to make sure they are within bounds'''
-        topo,rad = gal_to_topo(el,be)
+        topo, rad = gal_to_topo(el,be)
         alt,az = topo[0],topo[1]
         if np.degrees(alt) <= ugradio.leusch.ALT_MIN or\
-           np.degrees(alt) >=ugradio.leusch.ALT_MAX or\
+           np.degrees(alt) >= ugradio.leusch.ALT_MAX or\
            np.degrees(az) <= ugradio.leusch.AZ_MIN or\
            np.degrees(az) >= ugradio.leusch.AZ_MAX:
             print('Pointing out of bounds')
@@ -123,10 +122,8 @@ class plane():
         rct = rectangle(l, b)
         for i in range(len(times)):
             ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-            # The program at least works fine up until here
             hrd = np.dot(np.linalg.inv(M_eq_to_ha(ugradio.timing.lst(times[i]))), ra_dec)
             topo = np.dot(M_ha_to_topo(phi), hrd)
-            # new_sphere has also been demonstrated to work
             alt,az = new_sphere(topo, radians)
             if np.degrees(alt) >= ugradio.leusch.ALT_MIN and\
                np.degrees(alt) <=ugradio.leusch.ALT_MAX and\
@@ -146,31 +143,31 @@ class plane():
         return alt-alt_real,az-az_real
 
     def take_date(el,be,label,N=10):
-        alterr,azerr = []
+        alt_err, az_err = []
         count = 0
         for i in range(N):
             while count < N:
-                alt,az = pointing(el,be)
-                position(alt,az)
-                alt_err,az_err = pos_error(alt,az)
+                alt, az = pointing(el, be)
+                position(alt, az)
+                alt_err,az_err = pos_error(alt, az)
                 alterr.append(alt_err)
                 azerr.append(az_err)
                 if self.spec.check_connected() == True:
-                    radec,rad = gal_to_eq(el,be)
-                    self.spec.read_spec('planeon'+label+count+'.fits',N,radec,'J2000')
+                    radec, rad = gal_to_eq(el, be)
+                    self.spec.read_spec('planeon' + label + str(count) + '.fits', N, radec, 'J2000')
                 count += 1
 
-        self.lo.set_frequency = 644000000
+        self.lo.set_frequency(644, 'MHz')
         count = 0
         for j in range(N):
             while count < N:
-                alt,az = pointing(el,be)
-                position(alt,az)
-                alt_err,az_err = pos_error(alt,az)
+                alt, az = pointing(el, be)
+                position(alt, az)
+                alt_err, az_err = pos_error(alt,az)
                 alterr.append(alt_err)
                 azerr.append(az_err)
                 if self.spec.check_connected() == True:
-                    radec,rad = gal_to_eq(el,be)
-                    self.spec.read_spec('planeoff'+label+count+'.fits',N,radec,'J2000')
+                    radec, rad = gal_to_eq(el, be)
+                    self.spec.read_spec('planeoff' + label + str(count) + '.fits', N, radec, 'J2000')
                 count += 1
         self.telescope.stow()
