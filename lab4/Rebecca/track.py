@@ -1,8 +1,8 @@
 import ugradio
 import numpy as np
 
-#I know there's a better way to do this, but, I don't know it at the moment
-#So here's everything relevant from rotations.py
+# I know there's a better way to do this, but, I don't know it at the moment
+# So here's everything relevant from rotations.py
 M_eq_to_gal = np.array([
     [-.054876, -.873437, -.483835],
     [.494109, -.444830, .746982],
@@ -125,6 +125,8 @@ class Plane():
         return alt - alt_real, az - az_real
 
     def collect(el, be, full_prefix, N):
+        list_alt_err, list_az_err = []
+        
         for i in range(N):
             alt, az = self.pointing(el, be)
             self.telescope.point(alt, az)
@@ -138,6 +140,8 @@ class Plane():
             self.spec.read_spec('plane_on_' + label + '_' +
                 str(i) + '.fits', N, (ra, dec), 'eq')
 
+        return list_alt_err, list_az_err
+
     def take_date(el, be, label, N=10):
         '''
         Collect @N spectra
@@ -147,15 +151,15 @@ class Plane():
         the .fits file stores the spectra
         the .npz file stores the two angle-errors for the pointings.
         '''
-        list_alt_err, list_az_err = []
-
         self.lo.set_frequency(634, 'MHz')
-        collect(el, be, 'plane_off_' + label, N)
+        on_alt_err, on_az_err = collect(el, be, 'plane_off_' + label, N)
 
         self.lo.set_frequency(635, 'MHz')
-        collect(el, be, 'plane_on_' + label, N)
+        off_alt_err, off_az_err = collect(el, be, 'plane_on_' + label, N)
 
-        np.savez('err_' + label, alt_e=list_alt_err, az_e=list_az_err)
+        np.savez('err_' + label,
+                 on_alt_e=on_alt_err, on_az_e=on_az_err,
+                 off_alt_e=off_alt_err, off_az_e=off_az_err)
         
         self.telescope.stow()
 
