@@ -51,7 +51,8 @@ def new_sphere(out_arr, radians=False):
 
 def gal_to_topo(el, be,
     lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
-    jd=ugradio.timing.julian_date(), radians=False):
+    jd=ugradio.timing.julian_date(), radians=False
+):
     '''
     @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
@@ -92,7 +93,7 @@ def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
 
 import ugradio.leusch as leusch
 
-class plane():
+class Plane():
     def __init__(self):
         self.telescope = leusch.LeuschTelescope()
         self.noise = leusch.LeuschNoise()
@@ -153,12 +154,14 @@ class plane():
                     self.spec.read_spec('plane_off_' + label + '_' +
                         str(count) + '.fits', N, (ra, dec), 'eq')
                 count += 1
-                
+
+        np.savez('err_' + label, alt_e=list_alt_err, az_e=list_az_err)  
         self.telescope.stow()
 
     def visibility_check(el, be,
         lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
-        radians=False, times):
+        radians=False, times
+    ):
         '''
         Given a list of times in Julian format, return
         the times when the wanted galactic coordinates are
