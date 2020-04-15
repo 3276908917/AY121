@@ -85,31 +85,37 @@ def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
 
 #in the end, the one we care about is gal_to_topo. End taking from rotiations.py
 
+import ugradio.leusch as leusch
+
 class plane():
     def __init__(self):
-        self.telescope = ugradio.leusch.LeuschTelescope
-        self.noise = ugradio.leusch.LeuschNoise()
-        self.spec = ugradio.leusch.Spectrometer()
+        self.telescope = leusch.LeuschTelescope()
+        self.noise = leusch.LeuschNoise()
+        self.spec = leusch.Spectrometer()
 
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
-        self.lo = ugradio.leusch.SynthDirect()
+        self.lo = leusch.SynthDirect()
         self.lo.set_frequency(643, 'MHz')
 
 
-    def pointing(el,be):
-        '''Calculates alt and az from galactic coordinates and checks to make sure they are within bounds'''
-        topo, rad = gal_to_topo(el,be)
-        alt,az = topo[0],topo[1]
-        if np.degrees(alt) <= ugradio.leusch.ALT_MIN or\
-           np.degrees(alt) >= ugradio.leusch.ALT_MAX or\
-           np.degrees(az) <= ugradio.leusch.AZ_MIN or\
-           np.degrees(az) >= ugradio.leusch.AZ_MAX:
-            print('Pointing out of bounds')
+    def pointing(el, be):
+        '''
+        Calculate alt and az from galactic coordinates and
+        check to make sure they are within bounds
+        '''
+        alt, az = gal_to_topo(el, be)
+        assert alt <= leusch.ALT_MIN and alt >= leusch.ALT_MAX and \
+           az <= leusch.AZ_MIN and az >= leusch.AZ_MAX, \
+            'Pointing out of bounds'
         elif:
-            return alt,az
+            return alt, az
 
-    def pointtime(el, be, lat=ugradio.nch.lat, radians=False,times):
-        '''Given a list of times in julian_date, returns the times when the wanted galactic coordinates are within view of the telescope'''
+    def pointtime(el, be, lat=ugradio.nch.lat, radians=False, times):
+        '''
+        Given a list of times in Julian format, return
+        the times when the wanted galactic coordinates are
+        within view of the telescope
+        '''
         approved = []
         if not radians:
             l = np.radians(el)
@@ -124,11 +130,11 @@ class plane():
             ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
             hrd = np.dot(np.linalg.inv(M_eq_to_ha(ugradio.timing.lst(times[i]))), ra_dec)
             topo = np.dot(M_ha_to_topo(phi), hrd)
-            alt,az = new_sphere(topo, radians)
-            if np.degrees(alt) >= ugradio.leusch.ALT_MIN and\
-               np.degrees(alt) <=ugradio.leusch.ALT_MAX and\
-               np.degrees(az) >= ugradio.leusch.AZ_MIN and\
-               np.degrees(az) <= ugradio.leusch.AZ_MAX:
+            alt, az = new_sphere(topo, radians)
+            if np.degrees(alt) >= leusch.ALT_MIN and \
+               np.degrees(alt) <= leusch.ALT_MAX and \
+               np.degrees(az) >= leusch.AZ_MIN and \
+               np.degrees(az) <= leusch.AZ_MAX:
                 approved.append(times[i])
 
     def position(alt,az):
@@ -142,7 +148,7 @@ class plane():
         the real alt and az of the telescope and returns those errors
         '''
         alt, az = np.degrees(alt), np.degrees(az)
-        alt_real,az_real = self.telescope.get_pointing()
+        alt_real, az_real = self.telescope.get_pointing()
         return alt - alt_real, az - az_real
 
     def take_date(el, be, label, N=10):
@@ -175,4 +181,5 @@ class plane():
                     self.spec.read_spec('plane_off_' + label + '_' +
                         str(count) + '.fits', N, (ra, dec), 'eq')
                 count += 1
+                
         self.telescope.stow()
