@@ -124,38 +124,39 @@ class Plane():
         alt_real, az_real = self.telescope.get_pointing()
         return alt - alt_real, az - az_real
 
-    def take_date(el, be, label, N=10):
-        list_alt_err, list_az_err = []
-        count = 0
+    def collect(el, be, full_prefix, N):
         for i in range(N):
-            while count < N:
-                alt, az = self.pointing(el, be)
-                self.telescope.point(alt, az)
-                alt_err, az_err = self.pos_error(alt, az)
-                list_alt_err.append(alt_err)
-                list_az_err.append(az_err)
-                if self.spec.check_connected() == True:
-                    ra, dec = gal_to_eq(el, be)
-                    self.spec.read_spec('plane_on_' + label + '_' +
-                        str(count) + '.fits', N, (ra, dec), 'eq')
-                count += 1
+            alt, az = self.pointing(el, be)
+            self.telescope.point(alt, az)
 
-        self.lo.set_frequency(644, 'MHz')
-        count = 0
-        for j in range(N):
-            while count < N:
-                alt, az = self.pointing(el, be)
-                self.telescope.point(alt, az)
-                alt_err, az_err = self.pos_error(alt, az)
-                list_alt_err.append(alt_err)
-                list_az_err.append(az_err)
-                if self.spec.check_connected() == True:
-                    ra, dec = gal_to_eq(el, be)
-                    self.spec.read_spec('plane_off_' + label + '_' +
-                        str(count) + '.fits', N, (ra, dec), 'eq')
-                count += 1
+            alt_err, az_err = self.pos_error(alt, az)
+            list_alt_err.append(alt_err)
+            list_az_err.append(az_err)
 
-        np.savez('err_' + label, alt_e=list_alt_err, az_e=list_az_err)  
+            assert self.spec.check_connected() == True, 'connection lost'
+            ra, dec = gal_to_eq(el, be)
+            self.spec.read_spec('plane_on_' + label + '_' +
+                str(i) + '.fits', N, (ra, dec), 'eq')
+
+    def take_date(el, be, label, N=10):
+        '''
+        Collect @N spectra
+        by observing galactic coordinates (@el, @be)
+            (currently handles only degrees)
+        and save the data in two files, each with @label in the name
+        the .fits file stores the spectra
+        the .npz file stores the two angle-errors for the pointings.
+        '''
+        list_alt_err, list_az_err = []
+
+        self.lo.set_frequency(634, 'MHz')
+        collect(el, be, 'plane_off_' + label, N)
+
+        self.lo.set_frequency(635, 'MHz')
+        collect(el, be, 'plane_on_' + label, N)
+
+        np.savez('err_' + label, alt_e=list_alt_err, az_e=list_az_err)
+        
         self.telescope.stow()
 
     def visibility_check(el, be,
