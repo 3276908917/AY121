@@ -117,6 +117,7 @@ class plane():
         within view of the telescope
         '''
         approved = []
+        
         if not radians:
             l = np.radians(el)
             b = np.radians(be)
@@ -125,6 +126,7 @@ class plane():
             l = el
             b = be
             phi = lat
+            
         rct = rectangle(l, b)
         for i in range(len(times)):
             ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
@@ -137,17 +139,11 @@ class plane():
                np.degrees(az) <= leusch.AZ_MAX:
                 approved.append(times[i])
 
-    def position(alt,az):
-        '''Positions the telecope given an alt and az in radians'''
-        alt, az = np.degrees(alt), np.degrees(az)
-        self.telescope.point(alt, az)
-
     def pos_error(alt, az):
         '''
         Calculates the error between the wanted alt and az and
         the real alt and az of the telescope and returns those errors
         '''
-        alt, az = np.degrees(alt), np.degrees(az)
         alt_real, az_real = self.telescope.get_pointing()
         return alt - alt_real, az - az_real
 
@@ -156,9 +152,9 @@ class plane():
         count = 0
         for i in range(N):
             while count < N:
-                alt, az = pointing(el, be)
-                position(alt, az)
-                alt_err, az_err = pos_error(alt, az)
+                alt, az = self.pointing(el, be)
+                self.telescope.point(alt, az)
+                alt_err, az_err = self.pos_error(alt, az)
                 list_alt_err.append(alt_err)
                 list_az_err.append(az_err)
                 if self.spec.check_connected() == True:
@@ -171,9 +167,9 @@ class plane():
         count = 0
         for j in range(N):
             while count < N:
-                alt, az = pointing(el, be)
-                position(alt, az)
-                alt_err, az_err = pos_error(alt, az)
+                alt, az = self.pointing(el, be)
+                self.telescope.point(alt, az)
+                alt_err, az_err = self.pos_error(alt, az)
                 list_alt_err.append(alt_err)
                 list_az_err.append(az_err)
                 if self.spec.check_connected() == True:
