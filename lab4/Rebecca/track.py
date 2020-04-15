@@ -113,8 +113,7 @@ class Plane():
         assert alt <= leusch.ALT_MIN and alt >= leusch.ALT_MAX and \
            az <= leusch.AZ_MIN and az >= leusch.AZ_MAX, \
             'Pointing out of bounds'
-        elif:
-            return alt, az
+        return alt, az
 
     def pos_error(alt, az):
         '''
@@ -163,9 +162,8 @@ class Plane():
         
         self.telescope.stow()
 
-    def visibility_check(el, be,
-        lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
-        radians=False, times
+    def visibility_check(el, be, times,
+        lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon, radians=False 
     ):
         '''
         Given a list of times in Julian format, return
