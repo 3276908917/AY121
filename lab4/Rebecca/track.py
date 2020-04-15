@@ -16,15 +16,15 @@ def rectangle(a, b):
     '''
     return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-def M_eq_to_ha(LST=ugradio.timing.lst()):
-    '''
-    Return the change-of-basis matrix between the equatorial and
-    hour angle declination coordinate systems.
-    The conversion depends on the @LST, Local Siderial Time
-    '''
-    s = np.sin(LST)
-    c = np.cos(LST)
-    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
+#def M_eq_to_ha(LST=ugradio.timing.lst()):
+#    '''
+#    Return the change-of-basis matrix between the equatorial and
+#    hour angle declination coordinate systems.
+#    The conversion depends on the @LST, Local Siderial Time
+#    '''
+#    s = np.sin(LST)
+#    c = np.cos(LST)
+#    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
 
 def M_ha_to_topo(phi=np.radians(ugradio.nch.lat)):
     '''
@@ -104,7 +104,7 @@ class Plane():
         self.spec = leusch.Spectrometer()
 
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
-        #self.lo = ugradio.agilent.SynthDirect()
+        self.lo = ugradio.agilent.SynthDirect()
 
     def find_point(self, el, be):
         '''
@@ -137,9 +137,9 @@ class Plane():
             list_alt_err.append(alt_err)
             list_az_err.append(az_err)
 
-            assert self.spec.check_connected() == True, 'connection lost'
+            self.spec.check_connected()
             ra, dec = gal_to_eq(el, be)
-            self.spec.read_spec('plane_on_' + label + '_' +
+            self.spec.read_spec(full_prefix + '_' +
                 str(i) + '.fits', N, (ra, dec), 'eq')
 
         return list_alt_err, list_az_err
@@ -158,6 +158,44 @@ class Plane():
 
         self.lo.set_frequency(635, 'MHz')
         off_alt_err, off_az_err = self.collect(el, be, 'plane_on_' + label, N)
+
+        np.savez('err_' + label,
+                 on_alt_e=on_alt_err, on_az_e=on_az_err,
+                 off_alt_e=off_alt_err, off_az_e=off_az_err)
+        
+        self.telescope.stow()
+
+    def collect_direct(self, alt, az, el, be, full_prefix, N):
+        list_alt_err = []
+        list_az_err = []
+        
+        for i in range(N):
+            self.telescope.point(alt, az)
+
+            alt_err, az_err = self.pos_error(alt, az)
+            list_alt_err.append(alt_err)
+            list_az_err.append(az_err)
+
+            self.spec.check_connected()
+            self.spec.read_spec(full_prefix + '_' +
+                str(i) + '.fits', N, (el, be))
+
+        return list_alt_err, list_az_err
+
+    def take_data_direct(self, alt, az, el, be, label, N=10):
+        '''
+        Collect @N spectra
+        by observing topocentric coordinates (@alt, @az)
+            (currently handles only degrees)
+        and save the data in two files, each with @label in the name
+        the .fits file stores the spectra
+        the .npz file stores the two angle-errors for the pointings.
+        '''
+        self.lo.set_frequency(634, 'MHz')
+        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, 'plane_off_' + label, N)
+
+        self.lo.set_frequency(635, 'MHz')
+        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, 'plane_on_' + label, N)
 
         np.savez('err_' + label,
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
