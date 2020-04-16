@@ -3,19 +3,17 @@
 import numpy as np
 import ugradio.leo as loc
 import ugradio.leusch as leusch
-import matplotlib.pyplot as plt
 
 plane = 0
 LST = np.linspace(0, 360, num = 360)
 
 def bound_altaz(bound):
     return [gal_to_topo_lst(bound, plane, lst,
-        loc.lat, loc.lon, radians = False) \
+        loc.lat, radians = False) \
             for lst in LST]
         
 # modified form from rotations.py
-def gal_to_topo_lst(el, be, lst, lat, lon, radians=False
-):
+def gal_to_topo_lst(el, be, lst, lat, radians=False):
     '''
     @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
@@ -26,15 +24,15 @@ def gal_to_topo_lst(el, be, lst, lat, lon, radians=False
         l = np.radians(el)
         b = np.radians(be)
         phi = np.radians(lat)
-        theta = lon
+        sider = np.radians(lst)
     else:
         l = el
         b = be
         phi = lat
-        theta = np.degrees(lon)
+        sider = lst
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    hrd = np.dot(np.linalg.inv(M_eq_to_ha(lst)), ra_dec)
+    hrd = np.dot(np.linalg.inv(M_eq_to_ha(sider)), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
     return new_sphere(topo, radians)
 
@@ -68,7 +66,7 @@ ELL = np.linspace(-10, 250, 260)
 
 def time_altaz(lst):
     return [gal_to_topo_lst(ell, plane, lst,
-        loc.lat, loc.lon, radians = False) \
+        loc.lat, radians = False) \
             for ell in ELL]
 
 def gal_topo_plot(lst):
