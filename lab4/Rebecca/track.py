@@ -95,9 +95,8 @@ import ugradio.leusch as leusch
 
 class Plane():
     def __init__(self):
-        # temporary hard-coding
-        self.lat = 37.91934
-        self.lon = -122.15385
+        self.lat = ugradio.leo.lat
+        self.lon = ugradio.leo.lon
         
         self.telescope = leusch.LeuschTelescope()
         self.noise = leusch.LeuschNoise()
@@ -142,6 +141,7 @@ class Plane():
 
         return list_alt_err, list_az_err
 
+    # needs some major revision before we move on to large consecutive pointings
     def take_data(self, el, be, label, N=10):
         '''
         Collect @N spectra
@@ -163,6 +163,7 @@ class Plane():
         
         self.telescope.stow()
 
+    # ad-hoc workaround for ugradio import failure
     def collect_direct(self, alt, az, el, be, full_prefix, N):
         list_alt_err = []
         list_az_err = []
@@ -178,6 +179,7 @@ class Plane():
 
         return list_alt_err, list_az_err
 
+    # ad-hoc workaround for ugradio import failure
     def take_data_direct(self, alt, az, el, be, label, N=10):
         '''
         Collect @N spectra
@@ -199,6 +201,7 @@ class Plane():
         
         self.telescope.stow()
 
+    # possibly deprecated, transform_maps approach would be recommended
     def visibility_check(self, el, be, times, radians=False):
         '''
         Given a list of times in Julian format, return
