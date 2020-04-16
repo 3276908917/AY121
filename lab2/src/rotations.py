@@ -49,7 +49,10 @@ def rectangle(a, b):
     '''
     return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-def gal_to_topo(el, be, lat=ugradio.nch.lat, radians=False):
+def gal_to_topo(el, be,
+    lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
+    jd=ugradio.timing.julian_date(), radians=False
+):
     '''
     @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
@@ -60,16 +63,17 @@ def gal_to_topo(el, be, lat=ugradio.nch.lat, radians=False):
         l = np.radians(el)
         b = np.radians(be)
         phi = np.radians(lat)
+        theta = lon
     else:
         l = el
         b = be
         phi = lat
+        theta = np.degrees(lon)
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    # The program at least works fine up until here
-    hrd = np.dot(np.linalg.inv(M_eq_to_ha(ugradio.timing.lst())), ra_dec)
+    lst = ugradio.timing.lst(jd, lon)
+    hrd = np.dot(np.linalg.inv(M_eq_to_ha(lst)), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
-    # new_sphere has also been demonstrated to work
     return new_sphere(topo, radians)
 
 def new_sphere(out_arr, radians=False):
