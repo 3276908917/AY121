@@ -1,17 +1,20 @@
 # absolute data path
-adp = '../../data/'
+adp = 'data/test/'
+ending = '_err.npz'
 
-def error(label):
-    alt_error
+def plane_error_plots(label):
+    raw_error = load_saves(adp + label + ending)
     
-    fixed_ell = np.array(bound_altaz(ell))
-    alts = fixed_ell[:, 0]
-    azs = fixed_ell[:, 1]
+    alt_on_error = raw_error['on_alt_e']
+    az_on_error = raw_error['on_az_e']
+
+    alt_off_error = raw_error['off_alt_e']
+    az_off_error = raw_error['off_az_e']
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
-    plt.xlabel('LST [degrees]', fontsize=12)
-    fig.text(0, 0.5, r'Angle [degrees]',
+    plt.xlabel('Index of Data', fontsize=12)
+    fig.text(0, 0.5, r'Angle Discrepancy [degrees]',
              va='center', rotation='vertical', fontsize=12)
 
     ax1.tick_params(axis="x", labelsize=12)
@@ -19,12 +22,10 @@ def error(label):
     ax1.tick_params(axis="y", labelsize=12)
     ax2.tick_params(axis="y", labelsize=12)
 
-    ax1.plot(LST, alts, label='altitude')
-    ax1.plot(LST, [leusch.ALT_MIN] * len(LST), label='minimum allowed')
-    ax1.plot(LST, [leusch.ALT_MAX] * len(LST), label='maximum allowed')
+    ax1.plot(alt_on_error, label='altitude, on')
+    ax1.plot(az_on_error, label='azimuth, on')
     ax1.legend(loc='upper right')
     
-    ax2.plot(LST, azs, label='azimuth')  
-    ax2.plot(LST, [leusch.AZ_MIN] * len(LST), label='minimum allowed')
-    ax2.plot(LST, [leusch.AZ_MAX] * len(LST), label='maximum allowed')
+    ax1.plot(alt_off_error, label='altitude, off')
+    ax1.plot(az_off_error, label='azimuth, off')
     ax2.legend(loc='upper right')
