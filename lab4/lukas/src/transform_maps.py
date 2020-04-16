@@ -3,6 +3,7 @@
 import numpy as np
 import ugradio.leo as loc
 import ugradio.leusch as leusch
+import matplotlib.pyplot as plt
 
 plane = 0
 LST = np.linspace(0, 360, num = 360)
