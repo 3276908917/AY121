@@ -56,12 +56,12 @@ def bound_plot(ell):
     ax1.plot(LST, alts, label='altitude')
     ax1.plot(LST, [leusch.ALT_MIN] * len(LST), label='minimum allowed')
     ax1.plot(LST, [leusch.ALT_MAX] * len(LST), label='maximum allowed')
-    ax1.legend(bbox_to_anchor=(1, 1))
+    ax1.legend(loc='upper right')
     
     ax2.plot(LST, azs, label='azimuth')  
     ax2.plot(LST, [leusch.AZ_MIN] * len(LST), label='minimum allowed')
     ax2.plot(LST, [leusch.AZ_MAX] * len(LST), label='maximum allowed')
-    ax2.legend(bbox_to_anchor=(1, 1))
+    ax2.legend(loc='upper right')
     
 ELL = np.linspace(-10, 250, 260)
 
@@ -89,9 +89,9 @@ def gal_topo_plot(lst):
     ax1.plot(ELL, alts, label='altitude')
     ax1.plot(ELL, [leusch.ALT_MIN] * len(ELL), label='minimum allowed')
     ax1.plot(ELL, [leusch.ALT_MAX] * len(ELL), label='maximum allowed')
-    ax1.legend(bbox_to_anchor=(1, 1))
+    ax1.legend(loc='upper right')
     
     ax2.plot(ELL, azs, label='azimuth')  
     ax2.plot(ELL, [leusch.AZ_MIN] * len(ELL), label='minimum allowed')
     ax2.plot(ELL, [leusch.AZ_MAX] * len(ELL), label='maximum allowed')
-    ax2.legend(bbox_to_anchor=(1, 1))
+    ax2.legend(loc='upper right')
