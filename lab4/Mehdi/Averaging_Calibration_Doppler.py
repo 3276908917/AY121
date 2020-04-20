@@ -1,10 +1,7 @@
 import ugradio
 import scipy.signal 
-#from astropy import units as u
-#from astropy.coordinates import SkyCoord
 from astropy.io import fits
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 import ugradio.coord
 from scipy import fft
 import scipy.stats as stats
@@ -227,12 +224,14 @@ def doppler_velocity_correction(header, frequency, velocity_correction='off'):
 	#turn on Doppler correction
 	if velocity_correction=='on':
 				
-		Doppler_correction = ugradio.doppler.get_projected_velocity(ra, dec, jd)  
-		Velocity =  np.array(doppler_velocity) - Doppler_correction
+		Doppler_correction = ugradio.doppler.get_projected_velocity(ra, dec, jd) 
+
+		print('Doppler_correction',Doppler_correction)
+		Velocity =  np.array(doppler_velocity) - Doppler_correction.value
 	
+	#turn off Doppler correction
 	elif velocity_correction=='off':
-		#turn off Doppler correction
-		Velocity =  np.array(doppler_velocity) 
+		Velocity =  np.array(doppler_velocity)
 		 
 	return  Velocity
 
@@ -246,11 +245,16 @@ def Gain(signal_noise_on, signal_noise_off, number_spectra, Noise_temp, Sky_temp
 	
 	
 	noise_on_spectra = Average_spectrum(signal_noise_on, number_spectra )
-	noise_off_spectra = Average_spectrum(signal_noise_on, number_spectra )
 	
-#	(Noise_temp - Sky_temp) = 300 kelvin
+	noise_off_spectra = Average_spectrum(signal_noise_off, number_spectra )
+	
+	
 
-	gain = (Noise_temp - Sky_temp) / np.sum(noise_on_spectra - noise_off_spectra) * np.sum(noise_off_spectra)
+#	Noise_temp - Sky_temp = 300 #kelvin
+
+	gain = ((Noise_temp - Sky_temp) / np.sum(noise_on_spectra - noise_off_spectra)) * np.sum(noise_off_spectra)
+	
+	print('Gain',gain)
 	
 	return gain
 
@@ -258,7 +262,7 @@ def Gain(signal_noise_on, signal_noise_off, number_spectra, Noise_temp, Sky_temp
 
 	
 
-def final_calibration(file_name, Polarization_number='first', gain=1, velocity_correction='off' ):
+def final_calibration(file_name, Polarization_number='first', Gain=1, velocity_correction='off' ):
 	
 	
 	"""
@@ -283,25 +287,27 @@ def final_calibration(file_name, Polarization_number='first', gain=1, velocity_c
 	#frequency responce of our AVERAGE data spectrum
 	freq = Frequency_spectrum(header, average_spectra)
 
-	Temperature = (average_spectra / base_fit_average(average_spectra, freq)) * gain
+	Temperature = (average_spectra - base_fit_average(average_spectra, freq)) * Gain
 	print ('Temperature', Temperature)
 	
 	doppler_velocity = doppler_velocity_correction(header, freq, velocity_correction)
 	
 	
-	return Temperature, doppler_velocity 
+	return Temperature, doppler_velocity
 	
 	
+
+fon= fits.open('thirty_plane_on.fits')
+N = fon[0].header['NSPEC']
 	
 
 foff= fits.open('thirty_plane_off.fits')
-
-fon= fits.open('thirty_plane_on.fits')
-
+N = foff[0].header['NSPEC']
 
 
+gain = Gain(fon, foff, N, 301, 1)
 #calculate the gain:
-print ('Gain', Gain(fon,foff, 10, 301, 1))
+print ('Gain', Gain(fon, foff, N, 301, 1))
 
 
 #comparing on/off data, by inputing file name and polarization number 
@@ -324,6 +330,6 @@ plt.show()
 
 #calibration, (ugradio.doppler.get_projected_velocity(ra, dec, jd)) outputs the doppler velocity and the unit, this format blocks the velocity correction calculation when it's on.
 
-data = final_calibration('thirty_plane_on.fits', velocity_correction='off')
+data = final_calibration('thirty_plane_on.fits', velocity_correction='off', Gain= -1*gain)
 plt.plot(data[1], data[0])
 plt.show()
