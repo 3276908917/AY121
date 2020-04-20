@@ -131,33 +131,28 @@ class Plane():
 
         self.spec.check_connected()
         
-        self.telescope.point(alt, az)
+        self.telescope.point(alt_target, az_target)
         alt_true, az_true = self.telescope.get_pointing()
 
         self.noise.on()
         
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, N)
         self.spec.read_spec(label + '_634MHz_noisy.fits', N, (el, be))
         
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, N)
         self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
 
         self.noise.off()
         
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, label + , N)
         self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
         
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, N)
         self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
         
-
         np.savez(label + '_stamp',
-                 on_alt_e=on_alt_err, on_az_e=on_az_err,
-                 off_alt_e=off_alt_err, off_az_e=off_az_err)
+                 alt_actual = alt_true, az_actual = az_true,
+                 alt_desired = alt_target, az_desired = az_target)
 
         print('Ready.')
 
