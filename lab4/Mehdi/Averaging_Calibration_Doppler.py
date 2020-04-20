@@ -206,7 +206,7 @@ def doppler_velocity_correction(header, frequency, velocity_correction='off'):
 	"""
 	#parameters
 	HI_freq = 1420.405751  # frequency of our HI signal in Mhz
-	c = 3e8  #speed of light in km/s 
+	c = 3e5  #speed of light in km/s 
 		
 		
 	#Get doppler correction
@@ -272,7 +272,7 @@ def final_calibration(file_name, Polarization_number='first', Gain=1, velocity_c
 	
 	"""
 	
-	gain = 300 # will calculate it later once
+# 	gain = 300 # will calculate it later once
 	
 	leushner_data = Read_leushner_header(file_name)
 		
@@ -293,7 +293,7 @@ def final_calibration(file_name, Polarization_number='first', Gain=1, velocity_c
 	doppler_velocity = doppler_velocity_correction(header, freq, velocity_correction)
 	
 	
-	return Temperature, doppler_velocity
+	return doppler_velocity, Temperature
 	
 	
 
@@ -307,7 +307,7 @@ N = foff[0].header['NSPEC']
 
 gain = Gain(fon, foff, N, 301, 1)
 #calculate the gain:
-print ('Gain', Gain(fon, foff, N, 301, 1))
+print ('Gain', gain)
 
 
 #comparing on/off data, by inputing file name and polarization number 
@@ -332,4 +332,6 @@ plt.show()
 
 data = final_calibration('thirty_plane_on.fits', velocity_correction='off', Gain= -1*gain)
 plt.plot(data[1], data[0])
+plt.xlabel('Doppler velocity (km/s)')
+plt.ylabel('Temperature (kelvin)')
 plt.show()
