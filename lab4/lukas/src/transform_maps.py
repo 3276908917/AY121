@@ -76,8 +76,8 @@ def gal_topo_plot(lst):
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
-    plt.xlabel('LST [degrees]', fontsize=12)
-    fig.text(0, 0.5, r'Angle [degrees]',
+    plt.xlabel('Galactic Latitude [degrees]', fontsize=12)
+    fig.text(0, 0.5, r'Topocentric Angle [degrees]',
              va='center', rotation='vertical', fontsize=12)
 
     ax1.tick_params(axis="x", labelsize=12)
