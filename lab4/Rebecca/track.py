@@ -117,23 +117,9 @@ class Plane():
         return alt, az
 
     # ad-hoc workaround for ugradio import failure
-    def collect_direct(self, alt, az, el, be, full_prefix, N):
-        list_alt_err = []
-        list_az_err = []
-
-        self.telescope.point(alt, az)
-
-        alt_err, az_err = self.pos_error(alt, az)
-        list_alt_err.append(alt_err)
-        list_az_err.append(az_err)
-
-        self.spec.check_connected()
-        self.spec.read_spec(full_prefix + '.fits', N, (el, be))
-
-        return list_alt_err, list_az_err
-
-    # ad-hoc workaround for ugradio import failure
-    def take_data_direct(self, alt, az, el, be, label, N=10):
+        # one problem is that we should be pointing the dish between the point's initial
+            # and final alt and az values
+    def take_data_direct(self, alt_target, az_target, el, be, label, N=10):
         '''
         Collect @N spectra
         by observing topocentric coordinates (@alt, @az)
@@ -143,25 +129,39 @@ class Plane():
         the .npz file stores the two angle-errors for the pointings.
         '''
 
+        self.spec.check_connected()
+        
+        self.telescope.point(alt, az)
+        alt_true, az_true = self.telescope.get_pointing()
+
         self.noise.on()
         
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, label + '_634MHz_quiet', N)
+        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, N)
+        self.spec.read_spec(label + '_634MHz_noisy.fits', N, (el, be))
+        
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, label + '_634MHz_quiet', N)
+        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, N)
+        self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
 
         self.noise.off()
         
         self.lo.set_frequency(634, 'MHz')
-        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, label + '_634MHz_noisy', N)
+        on_alt_err, on_az_err = self.collect_direct(alt, az, el, be, label + , N)
+        self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+        
         self.lo.set_frequency(635, 'MHz')
-        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, label + '_634MHz_quiet', N)
+        off_alt_err, off_az_err = self.collect_direct(alt, az, el, be, N)
+        self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+        
 
-        np.savez(label + '_err',
+        np.savez(label + '_stamp',
                  on_alt_e=on_alt_err, on_az_e=on_az_err,
                  off_alt_e=off_alt_err, off_az_e=off_az_err)
 
-        self.telescope.stow()
+        print('Ready.')
+
+        #self.telescope.stow()
 
     # possibly deprecated, transform_maps approach would be recommended
     def visibility_check(self, el, be, times, radians=False):
