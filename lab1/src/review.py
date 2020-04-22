@@ -48,7 +48,7 @@ def load_saves(filename):
     Return a dictionary containing the arrays saved to
     the .npz file at @filename
     """
-    a = np.load(filename)
+    a = np.load(filename, allow_pickle=True)
     return dict(zip(("{}".format(k) for k in a), (a[k] for k in a)))
 
 def normalize(arr, actual_max):

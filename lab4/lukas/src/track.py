@@ -179,20 +179,3 @@ class Plane():
         print('Ready. If you are done, remember to stow.')
 
         #self.telescope.stow()
-
-    # possibly deprecated, transform_maps approach would be recommended
-    def visibility_check(self, el, be, times, radians=False):
-        '''
-        Given a list of times in Julian format, return
-        the times when the wanted galactic coordinates are
-        within view of the telescope
-        '''
-        verified_times = []
-            
-        for t in times:
-            alt, az = gal_to_topo(el, be, self.lat, self.lon, t, radians=False)            
-            if alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
-               az >= leusch.AZ_MIN and az <= leusch.AZ_MAX:
-                verified_times.append(times[i])
-
-        return verified_times

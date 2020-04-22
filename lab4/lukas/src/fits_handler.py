@@ -29,3 +29,35 @@ def plane_error_plots(label):
     ax1.plot(alt_off_error, label='altitude, off')
     ax1.plot(az_off_error, label='azimuth, off')
     ax2.legend(loc='upper right')
+
+'''
+# the format is essentially hard-coded
+def topo_error_plot(path)
+    stamp = load_saves(path)['meta_record']
+
+    list_true_alt = fixed_lst[:, 0]
+    list_true_az = fixed_lst[:, 1]
+    list_target_alt;
+    list_target_az;
+    list_gal_lat;
+    
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
+
+    plt.xlabel('Galactic Latitude [degrees]', fontsize=12)
+    fig.text(0, 0.5, r'Topocentric Angle [degrees]',
+             va='center', rotation='vertical', fontsize=12)
+
+    ax1.tick_params(axis="x", labelsize=12)
+    ax2.tick_params(axis="x", labelsize=12)
+    ax1.tick_params(axis="y", labelsize=12)
+    ax2.tick_params(axis="y", labelsize=12)
+
+    ax1.plot(list_gal_lat, list_true_alt, label='True altitude')
+    ax1.plot(list_gal_lat, list_target_alt, label='Target altitude')
+    ax1.legend(loc='upper right')
+    
+    ax2.plot(list_gal_lat, list_true_az, label='True azimuth')  
+    ax2.plot(list_gal_lat, list_target_az, label='Target azimuth')
+    ax2.legend(loc='upper right')
+'''
+
