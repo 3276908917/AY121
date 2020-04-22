@@ -1,3 +1,5 @@
+# for a backup that uses hard-coded values, see the latest edition in Rebecca's folder
+
 import ugradio
 import numpy as np
 
@@ -105,24 +107,43 @@ class Plane():
         #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
         self.lo = ugradio.agilent.SynthDirect()
 
-    def find_point(self, el, be):
+    def find_point_safe(self, el, be):
         '''
         Calculate alt and az from galactic coordinates and
         check to make sure they are within bounds
         '''
+        success = True
         alt, az = gal_to_topo(el, be, self.lat, self.lon)
-        assert alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
-           az >= leusch.AZ_MIN and az <= leusch.AZ_MAX, \
-            'Pointing out of bounds'
-        return alt, az
+        if alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
+           az >= leusch.AZ_MIN and az <= leusch.AZ_MAX:
+            print('Pointing out of bounds:')
+            print('(l, b, alt, az) = ', el, be, alt, az)
+            success = False
+        return alt, az, success
+
+    def collect(self, el, be, full_prefix, N):
+        alt_target, az_target, valid = self.find_point_safe(el, be)
+
+        if valid:
+            self.telescope.point(alt, az)
+            alt_true, az_true = self.telescope.get_pointing()
+            
+            list_alt_err.append(alt_err)
+            list_az_err.append(az_err)
+
+            self.spec.check_connected()
+            ra, dec = gal_to_eq(el, be)
+            self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
+
+            return np.array([alt_target, az_target, alt_true, az_true])
 
     # ad-hoc workaround for ugradio import failure
         # one problem is that we should be pointing the dish between the point's initial
             # and final alt and az values
-    def take_data_direct(self, alt_target, az_target, el, be, label, N=10):
+    def take_data_direct(self, list_targets, label, N=10):
         '''
         Collect @N spectra
-        by observing topocentric coordinates (@alt, @az)
+        by observing each (galactic) coordinate pair in list_targets
             (currently handles only degrees)
         and save the data in two files, each with @label in the name
         the .fits file stores the spectra

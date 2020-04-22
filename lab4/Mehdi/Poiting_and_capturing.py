@@ -11,7 +11,7 @@ import ugradio.leo as leo
 from astropy import units as u
 from astropy.time import Time
 import astropy.io.fits as fits
-from astropy.coordinates import SkyCoord,AltAz,EarthLocation
+from astropy.coordinates import SkyCoord, AltAz, EarthLocation
 
 
 #Altitude boundaries in degrees
