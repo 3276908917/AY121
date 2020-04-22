@@ -30,16 +30,15 @@ def plane_error_plots(label):
     ax1.plot(az_off_error, label='azimuth, off')
     ax2.legend(loc='upper right')
 
-'''
 # the format is essentially hard-coded
-def topo_error_plot(path)
-    stamp = load_saves(path)['meta_record']
+def topo_error_plot(path):
+    stamp = load_saves(path)['stamp']
 
-    list_true_alt = fixed_lst[:, 0]
-    list_true_az = fixed_lst[:, 1]
-    list_target_alt;
-    list_target_az;
-    list_gal_lat;
+    list_true_alt = stamp[:, 4]
+    list_true_az = stamp[:, 5]
+    list_target_alt = stamp[:, 2]
+    list_target_az = stamp[:, 3]
+    list_gal_lat = stamp[:, 0]
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
@@ -59,5 +58,3 @@ def topo_error_plot(path)
     ax2.plot(list_gal_lat, list_true_az, label='True azimuth')  
     ax2.plot(list_gal_lat, list_target_az, label='Target azimuth')
     ax2.legend(loc='upper right')
-'''
-
