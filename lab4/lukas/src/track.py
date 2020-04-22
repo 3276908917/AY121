@@ -121,26 +121,40 @@ class Plane():
             success = False
         return alt, az, success
 
-    def collect(self, el, be, full_prefix, N):
+    def single_measurement(self, el, be, full_prefix, N):
+        self.spec.check_connected()
         alt_target, az_target, valid = self.find_point_safe(el, be)
-
+        now = ugradio.timing.local_time()
+        
         if valid:
             self.telescope.point(alt, az)
             alt_true, az_true = self.telescope.get_pointing()
-            
-            list_alt_err.append(alt_err)
-            list_az_err.append(az_err)
-
-            self.spec.check_connected()
             ra, dec = gal_to_eq(el, be)
+
+            self.noise.on()
+
+            self.lo.set_frequency(634, 'MHz')
+            self.spec.read_spec(label + '_634MHz_noisy.fits', N, (el, be))
+            
+            self.lo.set_frequency(635, 'MHz')
+            self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
+
+            self.noise.off()
+            
+            self.lo.set_frequency(634, 'MHz')
+            self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+            
+            self.lo.set_frequency(635, 'MHz')
+            self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+            
             self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
 
-            return np.array([alt_target, az_target, alt_true, az_true])
+        return np.array([alt_target, az_target, alt_true, az_true, now, valid])
 
     # ad-hoc workaround for ugradio import failure
         # one problem is that we should be pointing the dish between the point's initial
             # and final alt and az values
-    def take_data_direct(self, list_targets, label, N=10):
+    def scan_collect(self, list_targets, label, N=10):
         '''
         Collect @N spectra
         by observing each (galactic) coordinate pair in list_targets
@@ -150,27 +164,10 @@ class Plane():
         the .npz file stores the actual and desired pairs of topocentric coordinates,
             as well as the intended galactic latitude and current time.
         '''
-
-        self.spec.check_connected()
         
-        self.telescope.point(alt_target, az_target)
-        alt_true, az_true = self.telescope.get_pointing()
-
-        self.noise.on()
-        
-        self.lo.set_frequency(634, 'MHz')
-        self.spec.read_spec(label + '_634MHz_noisy.fits', N, (el, be))
-        
-        self.lo.set_frequency(635, 'MHz')
-        self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
-
-        self.noise.off()
-        
-        self.lo.set_frequency(634, 'MHz')
-        self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
-        
-        self.lo.set_frequency(635, 'MHz')
-        self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+        for coordinate_pair in list_targets:
+            el = coordinate_pair[0]
+            be = coordinate_pair[1]
         
         np.savez(label + '_stamp',
                  alt_actual = alt_true, az_actual = az_true,
