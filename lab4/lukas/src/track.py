@@ -122,22 +122,20 @@ class Plane():
         return alt, az, success
 
     def single_measurement(self, el, be, full_prefix, N):
-        self.spec.check_connected()
         alt_target, az_target, valid = self.find_point_safe(el, be)
         now = ugradio.timing.local_time()
         
         if valid:
             self.telescope.point(alt_target, az_target)
             alt_true, az_true = self.telescope.get_pointing()
-            ra, dec = gal_to_eq(el, be)
 
             self.noise.on()
 
             self.lo.set_frequency(634, 'MHz')
-            self.spec.read_spec(label + '_634MHz_noisy.fits', N, (el, be))
+            self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
             
             self.lo.set_frequency(635, 'MHz')
-            self.spec.read_spec(full_prefix + '_634MHz_noisy.fits', N, (el, be))
+            self.spec.read_spec(full_prefix + '_635MHz_noisy.fits', N, (el, be))
 
             self.noise.off()
             
@@ -145,9 +143,8 @@ class Plane():
             self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
             
             self.lo.set_frequency(635, 'MHz')
-            self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
+            self.spec.read_spec(full_prefix + '_635MHz_quiet.fits', N, (el, be))
             
-            self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
         else:
             alt_true = az_true = None
 
@@ -164,13 +161,16 @@ class Plane():
             as well as the intended galactic latitude and current time.
         '''
 
+        # It may be more dangerous to check the connection only once,
+            # but heiles is slow and we want to reduce the number of unnecessary calculations
+        self.spec.check_connected()
         meta_record = []
         
         for coordinate_pair in list_targets:
             el = coordinate_pair[0]
             be = coordinate_pair[1]
             meta_record.append(self.single_measurement(
-                el, be, str(el) + '_degrees', N)
+                el, be, label + str(el) + '_degrees', N)
             )
             
         np.savez(label + '_stamp', stamp=meta_record)
