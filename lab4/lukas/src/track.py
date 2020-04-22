@@ -114,8 +114,8 @@ class Plane():
         '''
         success = True
         alt, az = gal_to_topo(el, be, self.lat, self.lon)
-        if alt >= leusch.ALT_MIN and alt <= leusch.ALT_MAX and \
-           az >= leusch.AZ_MIN and az <= leusch.AZ_MAX:
+        if alt < leusch.ALT_MIN or alt > leusch.ALT_MAX or \
+           az < leusch.AZ_MIN and az > leusch.AZ_MAX:
             print('Pointing out of bounds:')
             print('(l, b, alt, az) = ', el, be, alt, az)
             success = False
@@ -127,7 +127,7 @@ class Plane():
         now = ugradio.timing.local_time()
         
         if valid:
-            self.telescope.point(alt, az)
+            self.telescope.point(alt_target, az_target)
             alt_true, az_true = self.telescope.get_pointing()
             ra, dec = gal_to_eq(el, be)
 
@@ -148,6 +148,8 @@ class Plane():
             self.spec.read_spec(full_prefix + '_634MHz_quiet.fits', N, (el, be))
             
             self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
+        else:
+            alt_true = az_true = None
 
         return np.array([el, be, alt_target, az_target, alt_true, az_true, now, valid])
 
