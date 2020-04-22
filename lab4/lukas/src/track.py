@@ -149,11 +149,8 @@ class Plane():
             
             self.spec.read_spec(full_prefix + '.fits', N, (ra, dec), 'eq')
 
-        return np.array([alt_target, az_target, alt_true, az_true, now, valid])
+        return np.array([el, be, alt_target, az_target, alt_true, az_true, now, valid])
 
-    # ad-hoc workaround for ugradio import failure
-        # one problem is that we should be pointing the dish between the point's initial
-            # and final alt and az values
     def scan_collect(self, list_targets, label, N=10):
         '''
         Collect @N spectra
@@ -164,17 +161,19 @@ class Plane():
         the .npz file stores the actual and desired pairs of topocentric coordinates,
             as well as the intended galactic latitude and current time.
         '''
+
+        meta_record = []
         
         for coordinate_pair in list_targets:
             el = coordinate_pair[0]
             be = coordinate_pair[1]
-        
-        np.savez(label + '_stamp',
-                 alt_actual = alt_true, az_actual = az_true,
-                 alt_desired = alt_target, az_desired = az_target,
-                 gal_lat = el)
+            meta_record.append(self.single_measurement(
+                el, be, str(el) + '_degrees', N)
+            )
+            
+        np.savez(label + '_stamp', stamp=meta_record)
 
-        print('Ready.')
+        print('Ready. If you are done, remember to stow.')
 
         #self.telescope.stow()
 
