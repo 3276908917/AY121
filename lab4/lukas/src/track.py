@@ -113,7 +113,8 @@ class Plane():
         check to make sure they are within bounds
         '''
         success = True
-        alt, az = gal_to_topo(el, be, self.lat, self.lon)
+        now_jd = ugradio.timing.julian_date()
+        alt, az = gal_to_topo(el, be, self.lat, self.lon, now_jd)
         if alt < leusch.ALT_MIN or alt > leusch.ALT_MAX or \
            az < leusch.AZ_MIN and az > leusch.AZ_MAX:
             print('Pointing out of bounds:')
