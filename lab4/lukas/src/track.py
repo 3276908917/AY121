@@ -170,7 +170,7 @@ class Plane():
             el = coordinate_pair[0]
             be = coordinate_pair[1]
             meta_record.append(self.single_measurement(
-                el, be, label + str(el) + '_degrees', N)
+                el, be, label + '_' + str(el) + '_degrees', N)
             )
             
         np.savez(label + '_stamp', stamp=meta_record)
