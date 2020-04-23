@@ -71,7 +71,8 @@ def gal_to_topo(el, be, jd,
         theta = np.degrees(lon)
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    lst = ugradio.timing.lst(jd, lon)
+    # the lst function takes in degrees but gives radians
+    lst = ugradio.timing.lst(jd, theta)
     hrd = np.dot(np.linalg.inv(M_eq_to_ha(lst)), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
     return new_sphere(topo, radians)
@@ -168,17 +169,20 @@ class Plane():
         print('Ready. If you are done, remember to stow.')
 
     def sweep(self, list_targets):
-        start = end = -1
+        start = end = None
         for i in range(len(list_targets)):
             el = list_targets[i][0]
             be = list_targets[i][1]
             alt, az, see = self.find_point_safe(el, be, True)
-            if see and start == -1:
+            if see and start is None:
                 start = i
             if see:
                 end = i
-        print('Start:', list_targets[start][0])
-        print('End:', list_targets[end][0])
+        if start is None and end is None:
+            print('No part of the galactic plane is currently visible.')
+        else:
+            print('Start:', list_targets[start][0])
+            print('End:', list_targets[end][0])
 
 # handy splice:
     # list_ell = np.linspace(-10, 250, 261)

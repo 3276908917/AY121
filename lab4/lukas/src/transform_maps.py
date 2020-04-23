@@ -24,15 +24,16 @@ def gal_to_topo_lst(el, be, lst, lat, radians=False):
         l = np.radians(el)
         b = np.radians(be)
         phi = np.radians(lat)
-        sider = np.radians(lst)
+        sidereal_angle = np.radians(lst)
     else:
         l = el
         b = be
         phi = lat
-        sider = lst
+        sidereal_angle = lst
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    hrd = np.dot(np.linalg.inv(M_eq_to_ha(sider)), ra_dec)
+    # LST must be in radians
+    hrd = np.dot(np.linalg.inv(M_eq_to_ha(sidereal_angle)), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
     return new_sphere(topo, radians)
 
