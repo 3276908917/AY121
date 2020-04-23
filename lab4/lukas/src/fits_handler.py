@@ -1,3 +1,8 @@
+from astropy.io import fits
+
+def fits_do(path):
+    f = fits.open(path)
+
 # absolute data path
 adp = 'data/test/'
 ending = '_err.npz'
@@ -58,3 +63,4 @@ def topo_error_plot(path):
     ax2.plot(list_gal_lat, list_true_az, label='True azimuth')  
     ax2.plot(list_gal_lat, list_target_az, label='Target azimuth')
     ax2.legend(loc='upper right')
+    

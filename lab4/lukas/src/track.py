@@ -2,9 +2,8 @@
 
 import ugradio
 import numpy as np
+import ugradio.leusch as leusch
 
-# I know there's a better way to do this, but, I don't know it at the moment
-# So here's everything relevant from rotations.py
 M_eq_to_gal = np.array([
     [-.054876, -.873437, -.483835],
     [.494109, -.444830, .746982],
@@ -78,23 +77,6 @@ def gal_to_topo(el, be,
     topo = np.dot(M_ha_to_topo(phi), hrd)
     return new_sphere(topo, radians)
 
-def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
-    if not radians:
-        l = np.radians(el)
-        b = np.radians(be)
-        phi = np.radians(lat)
-    else:
-        l = el
-        b = be
-        phi = lat
-    rct = rectangle(l, b)
-    ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    return new_sphere(ra_dec, radians)
-
-#in the end, the one we care about is gal_to_topo. End taking from rotiations.py
-
-import ugradio.leusch as leusch
-
 class Plane():
     def __init__(self):
         self.lat = ugradio.leo.lat
@@ -104,13 +86,14 @@ class Plane():
         self.noise = leusch.LeuschNoise()
         self.spec = leusch.Spectrometer()
 
-        #I'm a little confused on how this one works since it has SynthDirect and then SynthClient
         self.lo = ugradio.agilent.SynthDirect()
 
     def find_point_safe(self, el, be):
         '''
         Calculate alt and az from galactic coordinates and
-        check to make sure they are within bounds
+        check to make sure they are within bounds.
+        Instead of erroring-out,
+        this version simply records and prints the command failure.
         '''
         success = True
         now_jd = ugradio.timing.julian_date()
@@ -123,6 +106,13 @@ class Plane():
         return alt, az, success
 
     def single_measurement(self, el, be, full_prefix, N):
+        '''
+        Collect @N spectra
+        by observing the galactic coordinates (@el, @be)
+        which are first converted into topocentric coordinates.
+        We generate four .fits files, for which we turn noise
+        on and off, and switch the LO between 634 and 635 MHz.
+        '''
         alt_target, az_target, valid = self.find_point_safe(el, be)
         now = ugradio.timing.local_time()
         
@@ -156,9 +146,8 @@ class Plane():
         Collect @N spectra
         by observing each (galactic) coordinate pair in list_targets
             (currently handles only degrees)
-        and save the data in two files, each with @label in the name
-        the .fits file stores the spectra
-        the .npz file stores the actual and desired pairs of topocentric coordinates,
+        and save the data in files named according to @label
+        the single .npz file stores the actual and desired pairs of topocentric coordinates,
             as well as the intended galactic latitude and current time.
         '''
 
@@ -177,5 +166,3 @@ class Plane():
         np.savez(label + '_stamp', stamp=meta_record)
 
         print('Ready. If you are done, remember to stow.')
-
-        #self.telescope.stow()
