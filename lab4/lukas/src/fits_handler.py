@@ -53,6 +53,23 @@ def noise_comparison(path_start, index, collector):
     
     # needs proper frequencies
 
+# integration interval comparison
+def II_comparison(path, index1, index2, collector):
+    assert collector == 1 or collector == 0, 'Invalid collector index'
+    f = fits.open(path)
+
+    column = 'auto' + str(collector) + '_real'
+
+    auto_i1 = f[index1].data['auto' + str(collector) + '_real']
+    auto_i2 = f[index2].data['auto' + str(collector) + '_real']
+
+    plt.plot(auto_i1, label='Integration interval ' + str(index1 + 1))
+    plt.plot(auto_i2, label='Integration interval ' + str(index2 + 1))
+    
+    plt.legend(bbox_to_anchor=(1, 1))
+    
+    # needs proper frequencies
+
 # absolute data path
 adp = 'data/test/'
 ending = '_err.npz'
