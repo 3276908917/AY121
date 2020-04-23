@@ -2,6 +2,10 @@ from astropy.io import fits
 
 def fits_do(path):
     f = fits.open(path)
+    print(f[0].header)
+    print(f[1].header)
+    data = f[1].data['auto_real']
+    x = freq_range(768e6, len(data))
 
 # absolute data path
 adp = 'data/test/'

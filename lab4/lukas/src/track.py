@@ -17,7 +17,7 @@ def rectangle(a, b):
     '''
     return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-def M_eq_to_ha(LST=ugradio.timing.lst()):
+def M_eq_to_ha(LST):
     '''
     Return the change-of-basis matrix between the equatorial and
     hour angle declination coordinate systems.
@@ -27,7 +27,7 @@ def M_eq_to_ha(LST=ugradio.timing.lst()):
     c = np.cos(LST)
     return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
 
-def M_ha_to_topo(phi=np.radians(ugradio.nch.lat)):
+def M_ha_to_topo(phi=np.radians(ugradio.leo.lat)):
     '''
     Return the change-of-basis matrix between the hour angle declination
     and topocentric coordinate systems.
@@ -50,9 +50,8 @@ def new_sphere(out_arr, radians=False):
         return np.degrees(gp), np.degrees(tp)   
     return gp, tp
 
-def gal_to_topo(el, be,
-    lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
-    jd=ugradio.timing.julian_date(), radians=False
+def gal_to_topo(el, be, jd,
+    lat=ugradio.leo.lat, lon=ugradio.leo.lon, radians=False
 ):
     '''
     @radians determines the format of BOTH input and output!
@@ -78,9 +77,9 @@ def gal_to_topo(el, be,
     return new_sphere(topo, radians)
 
 class Plane():
-    def __init__(self):
-        self.lat = ugradio.leo.lat
-        self.lon = ugradio.leo.lon
+    def __init__(self, latitude=ugradio.leo.lat, longitude=ugradio.leo.lon):
+        self.lat = latitude
+        self.lon = longitude
         
         self.telescope = leusch.LeuschTelescope()
         self.noise = leusch.LeuschNoise()
@@ -88,7 +87,7 @@ class Plane():
 
         self.lo = ugradio.agilent.SynthDirect()
 
-    def find_point_safe(self, el, be):
+    def find_point_safe(self, el, be, quiet=False):
         '''
         Calculate alt and az from galactic coordinates and
         check to make sure they are within bounds.
@@ -97,11 +96,12 @@ class Plane():
         '''
         success = True
         now_jd = ugradio.timing.julian_date()
-        alt, az = gal_to_topo(el, be, self.lat, self.lon, now_jd)
+        alt, az = gal_to_topo(el, be, now_jd, self.lat, self.lon, radians=False)
         if alt < leusch.ALT_MIN or alt > leusch.ALT_MAX or \
-           az < leusch.AZ_MIN and az > leusch.AZ_MAX:
-            print('Pointing out of bounds:')
-            print('(l, b, alt, az) = ', el, be, alt, az)
+           az < leusch.AZ_MIN or az > leusch.AZ_MAX:
+            if not quiet:
+                print('Pointing out of bounds:')
+                print('(l, b, alt, az) = ', el, be, alt, az)
             success = False
         return alt, az, success
 
@@ -166,3 +166,22 @@ class Plane():
         np.savez(label + '_stamp', stamp=meta_record)
 
         print('Ready. If you are done, remember to stow.')
+
+    def sweep(self, list_targets):
+        start = end = -1
+        for i in range(len(list_targets)):
+            el = list_targets[i][0]
+            be = list_targets[i][1]
+            alt, az, see = self.find_point_safe(el, be, True)
+            if see and start == -1:
+                start = i
+            if see:
+                end = i
+        print('Start:', list_targets[start][0])
+        print('End:', list_targets[end][0])
+
+# handy splice:
+    # list_ell = np.linspace(-10, 250, 261)
+    # list_be = np.zeros(261)
+    # list_coords = list(zip(list_ell, list_be))
+
