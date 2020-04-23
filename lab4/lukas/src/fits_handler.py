@@ -4,8 +4,54 @@ def fits_do(path):
     f = fits.open(path)
     print(f[0].header)
     print(f[1].header)
-    data = f[1].data['auto_real']
-    x = freq_range(768e6, len(data))
+    data = f[1].data['auto0_real']
+    # we sample at 768 MHz but discard 31/32 samples
+    x = freq_range(24e6, len(data))
+    # 12 MHz Nyquist bandwidth...
+        # Do I need to account for 12th window in the
+            # x-axis (frequency axis) somehow?
+
+def auto_print(path, index, collector):
+    assert collector == 1 or collector == 0, 'Invalid collector index'
+    f = fits.open(path)
+    auto = f[index].data['auto' + str(collector) + '_real']
+    # needs proper frequencies
+    plt.plot(auto)
+
+
+def on_off_print(path_start, path_end, index, collector):
+    assert collector == 1 or collector == 0, 'Invalid collector index'
+
+    column = 'auto' + str(collector) + '_real'
+
+    f_on = fits.open(path_start + '_635MHz_' + path_end)
+    auto_on = f_on[index].data[column]
+    plt.plot(auto_on, label='LO: 1270 MHz')
+
+    f_off = fits.open(path_start + '_634MHz_' + path_end)
+    auto_off = f_off[index].data[column]
+    plt.plot(auto_off, label='LO: 1268 MHz')
+
+    plt.legend(bbox_to_anchor=(1, 1))
+    
+    # needs proper frequencies
+
+def noise_comparison(path_start, index, collector):
+    assert collector == 1 or collector == 0, 'Invalid collector index'
+
+    column = 'auto' + str(collector) + '_real'
+
+    f_noise = fits.open(path_start + '_noisy.fits')
+    auto_noise = f_noise[index].data[column]
+    plt.plot(auto_noise, label='With noise')
+
+    f_q = fits.open(path_start + '_quiet.fits')
+    auto_q = f_q[index].data[column]
+    plt.plot(auto_q, label='Without Noise')
+
+    plt.legend(bbox_to_anchor=(1, 1))
+    
+    # needs proper frequencies
 
 # absolute data path
 adp = 'data/test/'

@@ -70,7 +70,7 @@ def time_altaz(lst):
         loc.lat, radians = False) \
             for ell in ELL]
 
-def gal_topo_plot(lst):
+def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     fixed_lst = np.array(time_altaz(lst))
     alts = fixed_lst[:, 0]
     azs = fixed_lst[:, 1]
@@ -89,9 +89,9 @@ def gal_topo_plot(lst):
     ax1.plot(ELL, alts, label='altitude')
     ax1.plot(ELL, [leusch.ALT_MIN] * len(ELL), label='minimum allowed')
     ax1.plot(ELL, [leusch.ALT_MAX] * len(ELL), label='maximum allowed')
-    ax1.legend(loc='upper right')
+    ax1.legend(loc=anchor1)
     
     ax2.plot(ELL, azs, label='azimuth')  
     ax2.plot(ELL, [leusch.AZ_MIN] * len(ELL), label='minimum allowed')
     ax2.plot(ELL, [leusch.AZ_MAX] * len(ELL), label='maximum allowed')
-    ax2.legend(loc='upper right')
+    ax2.legend(loc=anchor2)
