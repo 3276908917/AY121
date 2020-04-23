@@ -21,7 +21,7 @@ def gal_to_eq(el, be, lat=ugradio.nch.lat, radians=False):
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
     return new_sphere(ra_dec, radians)
 
-def M_eq_to_ha(LST=ugradio.timing.lst()):
+def M_eq_to_ha(LST):
     '''
     Return the change-of-basis matrix between the equatorial and
     hour angle declination coordinate systems.
@@ -49,10 +49,8 @@ def rectangle(a, b):
     '''
     return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
 
-def gal_to_topo(el, be,
-    lat=ugradio.nch.lat, lon=ugradio.timing.nch.lon,
-    jd=ugradio.timing.julian_date(), radians=False
-):
+def gal_to_topo(el, be, jd, lat=ugradio.nch.lat,
+    lon=ugradio.timing.nch.lon, radians=False):
     '''
     @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
@@ -71,7 +69,7 @@ def gal_to_topo(el, be,
         theta = np.degrees(lon)
     rct = rectangle(l, b)
     ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    lst = ugradio.timing.lst(jd, lon)
+    lst = ugradio.timing.lst(jd, theta)
     hrd = np.dot(np.linalg.inv(M_eq_to_ha(lst)), ra_dec)
     topo = np.dot(M_ha_to_topo(phi), hrd)
     return new_sphere(topo, radians)

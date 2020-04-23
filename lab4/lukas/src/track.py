@@ -1,81 +1,9 @@
-# for a backup that uses hard-coded values, see the latest edition in Rebecca's folder
+# always make sure that the shell has executed rotations.py
+# otherwise the interpreter will not understand some references
 
-import ugradio
 import numpy as np
+import ugradio
 import ugradio.leusch as leusch
-
-M_eq_to_gal = np.array([
-    [-.054876, -.873437, -.483835],
-    [.494109, -.444830, .746982],
-    [-.867666, -.198076, .455984]
-])
-
-def rectangle(a, b):
-    '''
-    Given a pair of angles (both angles must be in radians),
-    return the corresponding 3x1 rectangular vector.
-    '''
-    return np.array([np.cos(b) * np.cos(a), np.cos(b) * np.sin(a), np.sin(b)])
-
-def M_eq_to_ha(LST):
-    '''
-    Return the change-of-basis matrix between the equatorial and
-    hour angle declination coordinate systems.
-    The conversion depends on the @LST, Local Siderial Time
-    '''
-    s = np.sin(LST)
-    c = np.cos(LST)
-    return np.array([[c, s, 0], [s, -c, 0], [0, 0, 1]])
-
-def M_ha_to_topo(phi=np.radians(ugradio.leo.lat)):
-    '''
-    Return the change-of-basis matrix between the hour angle declination
-    and topocentric coordinate systems.
-    The conversion depends on the user's current latitude @phi,
-        which must be given in radians.
-    '''
-    s = np.sin(phi)
-    c = np.cos(phi)
-    return np.array([[-s, 0, c], [0, -1, 0], [c, 0, s]])
-
-def new_sphere(out_arr, radians=False):
-    '''
-    Given a 3x1 vector,
-    return the corresponding pair of angles
-    @radians determines whether the angles are given in radians.
-    '''
-    gp = np.arctan2(out_arr[1], out_arr[0])
-    tp = np.arcsin(out_arr[2])
-    if not radians:
-        return np.degrees(gp), np.degrees(tp)   
-    return gp, tp
-
-def gal_to_topo(el, be, jd,
-    lat=ugradio.leo.lat, lon=ugradio.leo.lon, radians=False
-):
-    '''
-    @radians determines the format of BOTH input and output!
-    Given a pair of angles @el and @be (in galactic coordinates),
-    return a pair of angles relating the associated
-    azimuth and altitude.
-    '''
-    if not radians:
-        l = np.radians(el)
-        b = np.radians(be)
-        phi = np.radians(lat)
-        theta = lon
-    else:
-        l = el
-        b = be
-        phi = lat
-        theta = np.degrees(lon)
-    rct = rectangle(l, b)
-    ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
-    # the lst function takes in degrees but gives radians
-    lst = ugradio.timing.lst(jd, theta)
-    hrd = np.dot(np.linalg.inv(M_eq_to_ha(lst)), ra_dec)
-    topo = np.dot(M_ha_to_topo(phi), hrd)
-    return new_sphere(topo, radians)
 
 class Plane():
     def __init__(self, latitude=ugradio.leo.lat, longitude=ugradio.leo.lon):
@@ -140,7 +68,7 @@ class Plane():
         else:
             alt_true = az_true = None
 
-        return np.array([el, be, alt_target, az_target, alt_true, az_true, now, valid])
+        return np.array([alt_target, az_target, alt_true, az_true, valid])
 
     def scan_collect(self, list_targets, label, N=10):
         '''
@@ -152,8 +80,8 @@ class Plane():
             as well as the intended galactic latitude and current time.
         '''
 
-        # It may be more dangerous to check the connection only once,
-            # but heiles is slow and we want to reduce the number of unnecessary calculations
+        # It may be more dangerous to check the connection only once, but
+            # heiles is slow and we want to reduce the number of unnecessary calculations
         self.spec.check_connected()
         meta_record = []
         
@@ -188,4 +116,3 @@ class Plane():
     # list_ell = np.linspace(-10, 250, 261)
     # list_be = np.zeros(261)
     # list_coords = list(zip(list_ell, list_be))
-
