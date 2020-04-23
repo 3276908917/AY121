@@ -1,9 +1,9 @@
-# always make sure that the shell has executed rotations.py
-# otherwise the interpreter will not understand some references
-
 import numpy as np
 import ugradio
 import ugradio.leusch as leusch
+
+# make sure that you copy rotations.py into the same directory
+import rotations
 
 class Plane():
     def __init__(self, latitude=ugradio.leo.lat, longitude=ugradio.leo.lon):
@@ -25,7 +25,9 @@ class Plane():
         '''
         success = True
         now_jd = ugradio.timing.julian_date()
-        alt, az = gal_to_topo(el, be, now_jd, self.lat, self.lon, radians=False)
+        alt, az = rotations.gal_to_topo(
+            el, be, now_jd, self.lat, self.lon, radians=False
+        )
         if alt < leusch.ALT_MIN or alt > leusch.ALT_MAX or \
            az < leusch.AZ_MIN or az > leusch.AZ_MAX:
             if not quiet:
@@ -113,6 +115,4 @@ class Plane():
             print('End:', list_targets[end][0])
 
 # handy splice:
-    # list_ell = np.linspace(-10, 250, 261)
-    # list_be = np.zeros(261)
-    # list_coords = list(zip(list_ell, list_be))
+# list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261); list_coords = list(zip(list_ell, list_be))
