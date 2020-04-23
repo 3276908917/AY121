@@ -79,7 +79,7 @@ class Plane():
             (currently handles only degrees)
         and save the data in files named according to @label
         the single .npz file stores the actual and desired pairs of topocentric coordinates,
-            as well as the intended galactic latitude and current time.
+            as well as the intended galactic longitude and current time.
         '''
 
         # It may be more dangerous to check the connection only once, but

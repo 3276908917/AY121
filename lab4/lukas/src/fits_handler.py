@@ -1,5 +1,6 @@
 from astropy.io import fits
 
+# sandbox / note-taking function
 def fits_do(path):
     f = fits.open(path)
     print(f[0].header)
@@ -18,7 +19,6 @@ def auto_print(path, index, collector):
     # needs proper frequencies
     plt.plot(auto)
 
-
 def on_off_print(path_start, path_end, index, collector):
     assert collector == 1 or collector == 0, 'Invalid collector index'
 
@@ -32,6 +32,11 @@ def on_off_print(path_start, path_end, index, collector):
     auto_off = f_off[index].data[column]
     plt.plot(auto_off, label='LO: 1268 MHz')
 
+    plt.xlabel('Spectrum Index', fontsize=12)
+    plt.ylabel('Power [arbitrary units]', fontsize=12)
+
+    plt.tick_params(axis="x", labelsize=12)
+    plt.tick_params(axis="y", labelsize=12)
     plt.legend(bbox_to_anchor=(1, 1))
     
     # needs proper frequencies
@@ -49,6 +54,11 @@ def noise_comparison(path_start, index, collector):
     auto_q = f_q[index].data[column]
     plt.plot(auto_q, label='Without Noise')
 
+    plt.xlabel('Spectrum Index', fontsize=12)
+    plt.ylabel('Power [arbitrary units]', fontsize=12)
+
+    plt.tick_params(axis="x", labelsize=12)
+    plt.tick_params(axis="y", labelsize=12)
     plt.legend(bbox_to_anchor=(1, 1))
     
     # needs proper frequencies
@@ -65,7 +75,12 @@ def II_comparison(path, index1, index2, collector):
 
     plt.plot(auto_i1, label='Integration interval ' + str(index1 + 1))
     plt.plot(auto_i2, label='Integration interval ' + str(index2 + 1))
-    
+
+    plt.xlabel('Spectrum Index', fontsize=12)
+    plt.ylabel('Power [arbitrary units]', fontsize=12)
+
+    plt.tick_params(axis="x", labelsize=12)
+    plt.tick_params(axis="y", labelsize=12)
     plt.legend(bbox_to_anchor=(1, 1))
     
     # needs proper frequencies
