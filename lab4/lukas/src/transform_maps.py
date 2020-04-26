@@ -72,8 +72,8 @@ def time_altaz(lst):
 
 def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     fixed_lst = np.array(time_altaz(lst))
-    alts = fixed_lst[:, 0]
-    azs = fixed_lst[:, 1]
+    alts = fixed_lst[:, 1]
+    azs = fixed_lst[:, 0]
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 

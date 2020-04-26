@@ -116,7 +116,7 @@ class Plane():
         start_time = ugradio.timing.unix_time()
         while (ugradio.timing.unix_time() - start_time < time_limit):
             # Do we still have targets to acquire?
-            if len(already) < len(remaining_targets):
+            if len(already) < len(list_targets):
                 for coordinate_pair in list_targets:
                     if coordinate_pair not in already:
                         el = coordinate_pair[0]
