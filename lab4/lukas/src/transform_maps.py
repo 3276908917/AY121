@@ -95,3 +95,6 @@ def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     ax2.plot(ELL, [leusch.AZ_MIN] * len(ELL), label='minimum allowed')
     ax2.plot(ELL, [leusch.AZ_MAX] * len(ELL), label='maximum allowed')
     ax2.legend(loc=anchor2)
+
+# deg_lst = np.degrees(ugradio.timing.lst(ugradio.timing.julian_date(ugradio.timing.unix_time() + 3600 * 0))) 
+# gal_topo_plot(deg_lst); plt.show()

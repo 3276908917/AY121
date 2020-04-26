@@ -61,6 +61,8 @@ def gal_to_topo(el, be, jd, lat=ugradio.nch.lat,
         l = np.radians(el)
         b = np.radians(be)
         phi = np.radians(lat)
+        # The lst function expects radians,
+        # so we do not convert this quantity.
         theta = lon
     else:
         l = el
