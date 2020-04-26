@@ -102,7 +102,7 @@ class Plane():
     # I expanded out the default argument
     # to enhance readability.
     def auto_capture(
-        self, remaining_targets, label, N=10,
+        self, list_targets, label, N=10,
         sleep_interval = 3600 / 2,
         time_limit = 3600 * 12.5
     ):
@@ -111,15 +111,34 @@ class Plane():
         '''
         self.spec.check_connected()
         meta_record = []
+        already = []
+        
         start_time = ugradio.timing.unix_time()
         while (ugradio.timing.unix_time() - start_time < time_limit):
             # Do we still have targets to acquire?
-            if remaining_targets:
-                self.scan_collect(list_targets, label, N)
+            if len(already) < len(remaining_targets):
+                for coordinate_pair in list_targets:
+                    if coordinate_pair not in already:
+                        el = coordinate_pair[0]
+                        be = coordinate_pair[1]
+                        attempt = self.single_measurement(
+                            el, be, label + '_' + str(el) + '_degrees', N)
+                        # Did we actually hit anything?
+                        if attempt[4]:
+                            meta_record.append(attempt)
+                            # This keeps the meta_record from cluttering-up,
+                            # because the capture does not save .fits files
+                            # anyway if the pointing failed.
+                            already.append(coordinate_pair)
+                            # Thus, it is important that
+                            # list_targets is not a numpy array.
             else:
-                return
+                break
+            # Try again in a little bit, when the firmament has rotated.
             time.sleep(sleep_interval)
         
+        np.savez(label + '_stamp', stamp=meta_record)
+        self.telescope.stow()        
 
     def sweep(self, list_targets):
         ''' What can I see at the moment? '''
