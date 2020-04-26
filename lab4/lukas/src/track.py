@@ -2,6 +2,7 @@ import numpy as np
 import ugradio
 import ugradio.leusch as leusch
 
+import time
 # make sure that you copy rotations.py into the same directory
 import rotations
 
@@ -98,7 +99,30 @@ class Plane():
 
         print('Ready. If you are done, remember to stow.')
 
+    # I expanded out the default argument
+    # to enhance readability.
+    def auto_capture(
+        self, remaining_targets, label, N=10,
+        sleep_interval = 3600 / 2,
+        time_limit = 3600 * 12.5
+    ):
+        '''
+        I want to go to sleep.
+        '''
+        self.spec.check_connected()
+        meta_record = []
+        start_time = ugradio.timing.unix_time()
+        while (ugradio.timing.unix_time() - start_time < time_limit):
+            # Do we still have targets to acquire?
+            if remaining_targets:
+                self.scan_collect(list_targets, label, N)
+            else:
+                return
+            time.sleep(sleep_interval)
+        
+
     def sweep(self, list_targets):
+        ''' What can I see at the moment? '''
         start = end = None
         for i in range(len(list_targets)):
             el = list_targets[i][0]
