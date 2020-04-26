@@ -159,3 +159,6 @@ class Plane():
 
 # handy splice:
 # list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261); list_coords = list(zip(list_ell, list_be))
+
+# remains = list_coords[:150]
+# remains.append(list_coords[190:])
