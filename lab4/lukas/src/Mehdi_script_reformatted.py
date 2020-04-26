@@ -135,7 +135,7 @@ def capture_plane_data(file_name, N=10):
 	#save the values of the longtitude were data is missing
 	longitudes_values_missing(file_name)
 
-def capture_missing_galactic_data(
+def capture_missing_data(
     file_name,
     missing_data_file_name = "missing_longitudes_values",
     N=10
@@ -143,34 +143,23 @@ def capture_missing_galactic_data(
     '''	
     Capture long term missing data using the parameters longtidude range mentioned bellow
     '''	
-
-	
-	#get the corresponding longtitude of the missing data sets	
-	missing_longitudes = np.load(missing_data_file_name)
-
-
-#get the data of different longtitudes that were not taking before to complete a larger map
-	for l in longitudes:
-		
-		# makes sure the data from the corresponding longitude is missing to take new data
-		if l in missing_longitudes:
-						
-			alt, az = Galactic_to_Topocentric_converter(l, b) # converts l/b to alt/az
-			
-			#makes sure the alt, az is within the telescopes boundries
-			if (minimum_alt < alt < maximum_alt) and (minimum_az < az < maximum_az): 
-				
-				LT.point(alt, az)
-				
-				#save data in a file called Leushner  
-				spectrometer.read_spec("Leushner/" + file_name + str(l) + ".fits", N, (l, b), 'ga')
-				
-
-	
-	#take on and off noise data that we will use for temperature calibration at the end 
-	Capture_noise_calibration(file_name, N, l, b)
-		
-	LT.stow()
-	
-	#save the values of the longtitude were data is missing
-	longitudes_values_Missing(file_name)
+    # Get the corresponding longtitude of the missing data sets.
+    # L: the data types do not seem to match up correctly...
+    missing_longitudes = np.load(missing_data_file_name)
+    
+    # Get the data of different longtitudes that
+    # were not taken before; complete a larger map.
+    for l in longitudes:        
+        # makes sure the data from the corresponding longitude is missing to take new data
+        if l in missing_longitudes:                
+            alt, az = galactic_to_topo(l, b) # converts l/b to alt/az
+            #makes sure the alt, az is within the telescopes boundries
+            if (leusch.ALT_MIN < alt < leusch.ALT_MAX) and (leusch.AZ_MIN < az < leusch.AZ_MAX): 
+                LT.point(alt, az)
+                spectrometer.read_spec(file_name + str(l) + ".fits", N, (l, b), 'ga')				
+    # Take the on and off noise data
+    # that we will use for temperature calibration. 
+    capture_noise_calibration(file_name, N, l, b)
+    LT.stow()
+    # Save the values of the longtitude where data are missing.
+    longitudes_values_missing(file_name)
