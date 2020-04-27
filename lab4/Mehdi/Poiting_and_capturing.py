@@ -11,7 +11,7 @@ import ugradio.leo as leo
 from astropy import units as u
 from astropy.time import Time
 import astropy.io.fits as fits
-from astropy.coordinates import SkyCoord, AltAz, EarthLocation
+from astropy.coordinates import SkyCoord,AltAz,EarthLocation
 
 
 #Altitude boundaries in degrees
@@ -24,7 +24,9 @@ minimum_az, maximum_az = 5, 350
 degree_spacing = 2
 lontitude_min= -10
 longtitude_max = 250
-Longtitude_Spacing = (250 - (-1*10)) / degree_spacing 
+
+Longtitude_Spacing = (longtitude_max - (lontitude_min)) / degree_spacing
+	
 
 #setting up the telescope coordinates on earth from astropy earthlocation
 telescope_coordinates = EarthLocation(lat=ugradio.leo.lat*u.deg, lon=ugradio.leo.lon*u.deg, height=ugradio.leo.alt*u.m) 
@@ -32,7 +34,7 @@ telescope_coordinates = EarthLocation(lat=ugradio.leo.lat*u.deg, lon=ugradio.leo
 print ("telescope_coordinates (lat = {0} , lon = {1}, height= {2} ) ".format(telescope_coordinates.value[0],telescope_coordinates.value[1],telescope_coordinates.value[2]))
 
 
-def longitudes_values_Missing(file_name):
+def longitudes_values_Missing(file_name='attempt_all'):
 	
 	'''
 	find the missing longtitudes from the data files we already took using the file name,
@@ -40,22 +42,21 @@ def longitudes_values_Missing(file_name):
 	the assumption is that if we don't find the longtitude value in the file name means that we didn't take that data at that specific longtitude 
 	'''
 	
-	degree_spacing = 2
+	degree_spacing = 2/2
 
 	lontitude_min= -10
 	longtitude_max = 250
-	Longtitude_Spacing = (250 - (-1*10)) / degree_spacing
+	Longtitude_Spacing = (longtitude_max - (lontitude_min)) / degree_spacing
 	
-	longitude_range = np.linspace(lontitude_min, longtitude_max, Longtitude_Spacing)
+	longitude_range = np.linspace(lontitude_min, longtitude_max, int(Longtitude_Spacing)+1)	
 	
 	Missing_longitudes_values = []
 	
 	for l in longitude_range:
 		
-		try:		
-				
-			fits.open("Milkyway/" + file_name + str(l) + ".fits")
-			
+		try:				
+#			Check if langitude is taken already or not	
+			fits.open(file_name + '_' + str(float(int(l))) + '_degrees_635MHz_noisy.fits')
 		except:
 			Missing_longitudes_values.append(l)
 			
@@ -65,16 +66,16 @@ def longitudes_values_Missing(file_name):
 	
 
 #take on and off noise data that we will use for temperature calibration at the end 
-def Capture_noise_calibration(file_name, N, l, b):
+def Capture_noise_on_and_off(Lo_freq, N, l, b,  file_name = 'attempt_all'):
 	
 	spectrometer = leuschner.Spectrometer('10.0.1.2')
 	noise = ugradio.leusch.LeuschNoise()
 	
 	noise.on()
-	spectrometer.read_spec("Leushner/" + file_name + str(l) + "_noise_on.fits", N, (l, b), 'ga')
+	spectrometer.read_spec(file_name + '_' + str(l)+ '_degrees_' + Lo_freq + 'MHz_noisy.fits', N, (l, b), 'ga')
 	
 	noise.off()
-	spectrometer.read_spec("Leushner/" + file_name + str(l) + "_noise_off.fits", N, (l, b) ,'ga')
+	spectrometer.read_spec(file_name + '_' + str(l)+ '_degrees_' + Lo_freq + 'MHz_quiet.fits', N, (l, b), 'ga')
 	
 
 	
@@ -98,14 +99,16 @@ def Galactic_to_Topocentric_converter(l, b, jd= ugradio.timing.julian_date()):
 	
 	altitude, azimuth = Alt_az.alt.deg, Alt_az.az.deg	
 	
-	print(altitude, azimuth)
+	print('altitude, azimuth',altitude, azimuth)
 	
 	return altitude, azimuth
 
 
-print (Galactic_to_Topocentric_converter(200,0)[0])
+#print (Galactic_to_Topocentric_converter(200,0)[0])
 
-def Capture_galactic_data(file_name, N=10):
+
+
+def Capture_galactic_data(file_name, Lo_freq1, Lo_freq2, N=10):
 	
 	'''	
 	Capture long term data using the parameters longtidude range mentioned bellow
@@ -113,13 +116,16 @@ def Capture_galactic_data(file_name, N=10):
 	'''
 	
 	#parameters
-	degree_spacing = 2
+	degree_spacing = 2/2
+
 	lontitude_min= -10
 	longtitude_max = 250
-	Longtitude_Spacing = (250 - (-1*10)) / degree_spacing		
+	Longtitude_Spacing = (longtitude_max - (lontitude_min)) / degree_spacing
+	
+	
 	b = 0 #galactic plane	
 	N = 10 # number of spectra taking at each longtitude, we shold probably increase it to 15 or 20, it would make the average better. 
-	longitudes = np.linspace(lontitude_min, longtitude_max, Longtitude_Spacing) # range of longtitude
+	longitude_range = np.linspace(lontitude_min, longtitude_max, int(Longtitude_Spacing)+1)	 # range of longtitude
 	
 	#initiating leushner telecope
 	LO = ugradio.agilent.SynthDirect()
@@ -127,10 +133,8 @@ def Capture_galactic_data(file_name, N=10):
 	spectrometer = leuschner.Spectrometer('10.0.1.2')
 	
 	
-	#set LO frequency
-	LO.set_frequency(635, "MHz")
 	
-
+	
 
 #get the data of different longtitudes that were not taking before to complete a larger map
 	for l in longitudes:	
@@ -142,13 +146,20 @@ def Capture_galactic_data(file_name, N=10):
 			
 			LT.point(alt, az)
 			
-			#save data in a file called Leushner  
-			spectrometer.read_spec("Leushner/" + file_name + str(l) + ".fits", N, (l, b), 'ga')
-				
+			#set LO frequency
+			LO.set_frequency(Lo_freq1, "MHz")
+			#take on and off noise data that we will use for temperature calibration 
+			Capture_noise_on_and_off( Lo_freq1, N, l, b,file_name = 'attempt_all' )
+			
+			
+			#set LO frequency
+			LO.set_frequency(Lo_freq2, "MHz")
+			#take on and off noise data that we will use for temperature calibration 
+			Capture_noise_on_and_off( Lo_freq2, N, l, b, file_name = 'attempt_all' )
+	
 
 	
-	#take on and off noise data that we will use for temperature calibration at the end 
-	Capture_noise_calibration(file_name, N, l, b)
+	
 		
 	LT.stow()
 	
@@ -156,25 +167,28 @@ def Capture_galactic_data(file_name, N=10):
 	longitudes_values_Missing(file_name)
 
 
-def Capture_missing_galactic_data(file_name, missing_data_file_name = "missing_longitudes_values", N=10):
+def Capture_missing_galactic_data(file_name, Lo_freq1, Lo_freq2, missing_data_file_name = "missing_longitudes_values", N=10):
 	
 	'''	
 	Capture long term missing data using the parameters longtidude range mentioned bellow
 	'''
 	
 	#parameters
-	degree_spacing = 2
+	degree_spacing = 2/2
+
 	lontitude_min= -10
 	longtitude_max = 250
-	Longtitude_Spacing = (250 - (-1*10)) / degree_spacing		
+	Longtitude_Spacing = (longtitude_max - (lontitude_min)) / degree_spacing
+		
+		
 	b = 0 #galactic plane	
 	N = 10 # number of spectra taking at each longtitude, we shold probably increase it to 15 or 20, it would make the average better. 
-	longitudes = np.linspace(lontitude_min, longtitude_max, Longtitude_Spacing) # range of longtitude
+	longitude_range = np.linspace(lontitude_min, longtitude_max, int(Longtitude_Spacing)+1)	 # range of longtitude
+	
 	
 	LO = ugradio.agilent.SynthDirect()
 	LT = ugradio.leusch.LeuschTelescope()
 	spectrometer = leuschner.Spectrometer('10.0.1.2')
-	
 	
 	#set LO frequency
 	LO.set_frequency(635, "MHz")
@@ -196,13 +210,21 @@ def Capture_missing_galactic_data(file_name, missing_data_file_name = "missing_l
 				
 				LT.point(alt, az)
 				
-				#save data in a file called Leushner  
-				spectrometer.read_spec("Leushner/" + file_name + str(l) + ".fits", N, (l, b), 'ga')
+				#set LO frequency
+				LO.set_frequency(Lo_freq1, "MHz")
+				#take on and off noise data that we will use for temperature calibration 
+				Capture_noise_on_and_off(Lo_freq1, N, l, b, file_name = 'attempt_all')
+				
+				
+				#set LO frequency
+				LO.set_frequency(Lo_freq2, "MHz")
+				#take on and off noise data that we will use for temperature calibration 
+				Capture_noise_on_and_off(Lo_freq2 , N, l, b , file_name = 'attempt_all' )
 				
 
 	
 	#take on and off noise data that we will use for temperature calibration at the end 
-	Capture_noise_calibration(file_name, N, l, b)
+	
 		
 	LT.stow()
 	
