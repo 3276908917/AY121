@@ -39,12 +39,15 @@ class Plane():
         We generate four .fits files, for which we turn noise
         on and off, and switch the LO between 634 and 635 MHz.
         '''
+        import random
         alt_target, az_target, valid = self.find_point_safe(el, be)
         now = ugradio.timing.local_time()
         
         if valid:
             # self.telescope.point
-            alt_true, az_true = self.telescope.get_pointing()
+            alt_true = random.getrandbits(8)
+            az_true = random.getrandbits(8)
+            #self.telescope.get_pointing()
 
             #self.noise.on()
 
@@ -79,7 +82,7 @@ class Plane():
 
         # It may be more dangerous to check the connection only once, but
             # heiles is slow and we want to reduce the number of unnecessary calculations
-        self.spec.check_connected()
+        # self.spec.check_connected()
         meta_record = []
         
         for coordinate_pair in list_targets:
@@ -103,7 +106,7 @@ class Plane():
         '''
         I want to go to sleep.
         '''
-        self.spec.check_connected()
+        # self.spec.check_connected()
         meta_record = []
         already = []
         
