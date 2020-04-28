@@ -154,8 +154,6 @@ class Plane():
             print('Start:', list_targets[start][0])
             print('End:', list_targets[end][0])
 
-# handy splice:
-# list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261); list_coords = list(zip(list_ell, list_be))
-
-# remains = list_coords[:150]
-# remains.append(list_coords[190:])
+# handy splices:
+# list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261)
+# list_coords = list(zip(list_ell, list_be)); remains = list_coords[:150] + list_coords[190:]
