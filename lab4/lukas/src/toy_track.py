@@ -132,10 +132,12 @@ class Plane():
             else:
                 break
             # Try again in a little bit, when the firmament has rotated.
+            print('\nCycle complete. Sleeping...')
             time.sleep(sleep_interval)
+            print('Begin next cycle.\n')
         
         np.savez(label + '_stamp', stamp=meta_record)
-        self.telescope.stow()        
+        # self.telescope.stow()        
 
     def sweep(self, list_targets):
         ''' What can I see at the moment? '''
@@ -155,5 +157,11 @@ class Plane():
             print('End:', list_targets[end][0])
 
 # handy splices:
-# list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261)
-# list_coords = list(zip(list_ell, list_be)); remains = list_coords[:150] + list_coords[190:]
+# list_ell = np.linspace(-10, 250, 261); list_be = np.zeros(261); list_coords = list(zip(list_ell, list_be))
+
+# old
+# remains = list_coords[:150] + list_coords[190:]
+
+# latest:
+# remains = list_coords[:57] + list_coords[129:151] + list_coords[189:]
+

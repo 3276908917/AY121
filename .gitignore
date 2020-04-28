@@ -7,6 +7,7 @@ lab2/power_off.npz
 lab2/data/cass_off.npz
 lab2/data/cass_on.npz
 lab2/data/thermal/*
+lab4/data/*
 *.synctex.gz
 *.dvi
 *.log
@@ -19,3 +20,5 @@ lab2/pres/*
 lab3/lukas/pres/*
 lab4/lukas/pres/*
 lab4/lukas/src/rotations.py
+lab4/lukas/src/toy_stamp.npz
+lab4/lab4_galactic_plane_spectra.zip
