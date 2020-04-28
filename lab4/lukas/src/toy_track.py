@@ -162,6 +162,7 @@ class Plane():
 # old
 # remains = list_coords[:150] + list_coords[190:]
 
-# latest:
+# latest: here is the plan for 4/28-4/29 1800-0915
 # remains = list_coords[:57] + list_coords[129:151] + list_coords[189:]
-
+# %run track.py
+# p = Plane(); p.auto_capture(remains, 'cycle_auto', N=10, sleep_interval = 3600 / 2, time_limit = 3600 * 14.5)
