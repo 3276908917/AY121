@@ -26,9 +26,12 @@ class Plane():
         '''
         success = True
         now_jd = ugradio.timing.julian_date()
-        alt, az = rotations.gal_to_topo(
+        # az, alt is actually the correct order
+        az, alt = rotations.gal_to_topo(
             el, be, now_jd, self.lat, self.lon, radians=False
         )
+        if az < 0:
+            az += 360
         if alt < leusch.ALT_MIN or alt > leusch.ALT_MAX or \
            az < leusch.AZ_MIN or az > leusch.AZ_MAX:
             if not quiet:
@@ -135,7 +138,9 @@ class Plane():
             else:
                 break
             # Try again in a little bit, when the firmament has rotated.
+            print('\nCycle complete. Sleeping...')
             time.sleep(sleep_interval)
+            print('Begin next cycle.\n')
         
         np.savez(label + '_stamp', stamp=meta_record)
         self.telescope.stow()        

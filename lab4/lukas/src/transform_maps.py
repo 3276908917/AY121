@@ -3,6 +3,8 @@
 import numpy as np
 import ugradio.leo as loc
 import ugradio.leusch as leusch
+import matplotlib.pyplot as plt
+import rotations
 
 plane = 0
 LST = np.linspace(0, 360, num = 360)
@@ -30,12 +32,17 @@ def gal_to_topo_lst(el, be, lst, lat, radians=False):
         b = be
         phi = lat
         sidereal_angle = lst
-    rct = rectangle(l, b)
-    ra_dec = np.dot(np.linalg.inv(M_eq_to_gal), rct)
+    rct = rotations.rectangle(l, b)
+    ra_dec = np.dot(np.linalg.inv(rotations.M_eq_to_gal), rct)
     # LST must be in radians
-    hrd = np.dot(np.linalg.inv(M_eq_to_ha(sidereal_angle)), ra_dec)
-    topo = np.dot(M_ha_to_topo(phi), hrd)
-    return new_sphere(topo, radians)
+    hrd = np.dot(np.linalg.inv(rotations.M_eq_to_ha(sidereal_angle)), ra_dec)
+    topo = np.dot(rotations.M_ha_to_topo(phi), hrd)
+    raw_angles = rotations.new_sphere(topo, radians)
+    alt = raw_angles[1]
+    az = raw_angles[0]
+    if az < 0:
+        az += 360
+    return az, alt
 
 def bound_plot(ell):
     fixed_ell = np.array(bound_altaz(ell))
