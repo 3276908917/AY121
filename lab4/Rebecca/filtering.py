@@ -88,9 +88,9 @@ def getmeta(filename):
 
 def ffan(label, angle):
     '''
-    File fan: return a set of FOUR file names based on convention
-    Example: FIRST result for file_fan('cycle_auto', 250)
-        is cycle_auto_250.0_degrees_634MHz_quiet.fits
+    Automatically expand a single reference into four file
+    names for insertion into the function 'getfinal':
+    ex ffan('cycle_auto', 250)
     '''
     n = '_noisy.fits'
     nn = '_quiet.fits'
