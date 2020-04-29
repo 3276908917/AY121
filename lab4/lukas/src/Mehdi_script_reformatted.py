@@ -11,13 +11,15 @@ from astropy import units as u
 from astropy.time import Time
 import astropy.io.fits as fits
 from astropy.coordinates import SkyCoord, AltAz, EarthLocation
- 
+
+import math
+
 degree_spacing = 2
 # galactic coordinates and ranges
 g_lat = 0
 g_lon_min = -10
 g_lon_max = 250
-longtitude_spacing = (250 - (-1*10)) / degree_spacing
+longtitude_spacing = math.ceil((g_lon_max - g_lon_min) / degree_spacing)
 
 longitudes = np.linspace(
     g_lon_min,
@@ -26,9 +28,9 @@ longitudes = np.linspace(
 )
 
 # L: what is this argument??
-spectrometer = leuschner.Spectrometer('10.0.1.2')
+spectrometer = leusch.Spectrometer('10.0.1.2')
 LO = ugradio.agilent.SynthDirect()
-LT = ugradio.leusch.LeuschTelescope()
+LT = leusch.LeuschTelescope()
 #set LO frequency
 LO.set_frequency(635, "MHz")
 
@@ -130,10 +132,10 @@ def capture_plane_data(file_name, N=10):
             spectrometer.read_spec(file_name + str(l) + ".fits", N, (l, b), 'ga')
 				
 	#take on and off noise data that we will use for temperature calibration at the end 
-	capture_noise_calibration(file_name, N, l, b)
-	LT.stow()
-	#save the values of the longtitude were data is missing
-	longitudes_values_missing(file_name)
+        capture_noise_calibration(file_name, N, l, b)
+        LT.stow()
+        #save the values of the longtitude were data is missing
+        longitudes_values_missing(file_name)
 
 def capture_missing_data(
     file_name,
