@@ -46,8 +46,8 @@ def gal_to_topo_lst(el, be, lst, lat, radians=False):
 
 def bound_plot(ell):
     fixed_ell = np.array(bound_altaz(ell))
-    alts = fixed_ell[:, 0]
-    azs = fixed_ell[:, 1]
+    alts = fixed_ell[:, 1]
+    azs = fixed_ell[:, 0]
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 

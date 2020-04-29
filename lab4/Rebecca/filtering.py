@@ -85,6 +85,21 @@ def getmeta(filename):
     jd = f[0].header[22]
     return l, ra, dec, jd
 
+
+def ffan(label, angle):
+    '''
+    File fan: return a set of FOUR file names based on convention
+    Example: FIRST result for file_fan('cycle_auto', 250)
+        is cycle_auto_250.0_degrees_634MHz_quiet.fits
+    '''
+    n = '_noisy.fits'
+    nn = '_quiet.fits'
+    lo1 = '_634MHz'
+    lo2 = '_635MHz'
+    pre = label + '_' + str(float(angle)) + '_degrees'
+    return getfinal(pre + lo1 + nn, pre + lo1 + n,
+                    pre + lo2 + nn, pre + lo2 + n)
+
 def getfinal(file1,file2,file3,file4):
     '''Returns a filtered spectrum that accounts for two LO frequencies
 
