@@ -1,6 +1,7 @@
 import ugradio 
 import numpy as np
 from astropy.io import fits
+import matplotlib.pyplot as plt
 
 def getline(file1,file2):
     '''Returns the callibrated spectrum for a pointing at a single LO frequency
@@ -85,6 +86,17 @@ def getmeta(filename):
     jd = f[0].header[22]
     return l, ra, dec, jd
 
+
+def fanfan(label, start_angle, stop_angle):
+    '''
+    Will automatically plot every calibrated spectrum on the range.
+    To see the next plot, close the existing one.
+    This function would only really be helpful as a survey routine,
+    ie giving the data a first glance.
+    '''
+    for i in range(start_angle, stop_angle + 1):
+        plt.plot(ffan(label, i)[4])
+        plt.show()
 
 def ffan(label, angle):
     '''
