@@ -110,7 +110,19 @@ class Plane():
         time_limit = 3600 * 12.5
     ):
         '''
-        I want to go to sleep.
+        Collect @N spectra
+        by observing each (galactic) coordinate pair in list_targets
+            (currently handles only degrees)
+        and save the data in files named according to @label.
+        A single .npz file stores the actual and desired pairs of topocentric coordinates,
+            as well as the intended galactic longitude and current time.
+
+        This is an automated version of scan_collect:
+            The script waits @sleep_interval seconds between attempts to capture spectra
+                for the coordinate pairs for which spectra have not already been captured.
+            The script will stop attempting to capture spectra after roughly
+                @time_limit seconds have passed. The actual elapsed time will be slightly
+                higher if the script captures spectra in its final cycle.
         '''
         self.spec.check_connected()
         meta_record = []
