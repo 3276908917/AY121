@@ -92,7 +92,10 @@ def fanfan(label, start_angle, stop_angle):
     Will automatically plot every calibrated spectrum on the range.
     To see the next plot, close the existing one.
     This function would only really be helpful as a survey routine,
-    ie giving the data a first glance.
+    i.e. giving the data a first glance.
+
+    ex: fanfan('cycle_auto', 111, 250)
+    you probably should not run this outside of a shell.
     '''
     for i in range(start_angle, stop_angle + 1):
         plt.plot(ffan(label, i)[4])
