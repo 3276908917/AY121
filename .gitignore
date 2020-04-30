@@ -22,3 +22,6 @@ lab4/lukas/pres/*
 lab4/lukas/src/rotations.py
 lab4/lukas/src/toy_stamp.npz
 lab4/lab4_galactic_plane_spectra.zip
+*.un~
+*.swp
+*.py~
