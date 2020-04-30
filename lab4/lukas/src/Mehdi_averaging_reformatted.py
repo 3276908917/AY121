@@ -47,9 +47,9 @@ def plot_raw_leusch(file_name):
     plt.ioff()                            
     return f
 
-def Average_spectrum(leushner_data, N=10, polarization_number='first'):
+def average_spectrum(leushner_data, N=10, polarization_number='first'):
     """
-    Get Average of signals based on numbers of spectras N and polarization number first/second 		
+    Get average of signals based on numbers of spectras N and polarization number first/second 		
     """
     average_spectrum = []
 
@@ -61,8 +61,8 @@ def Average_spectrum(leushner_data, N=10, polarization_number='first'):
             spectrum_data = leushner_data[i].data[name]
             average_spectrum.append( spectrum_data )
                 
-        Average = np.mean(average_spectrum, axis = 0)
-        return Average	
+        avg = np.mean(average_spectrum, axis = 0)
+        return avg	
                     
     elif polarization_number == "second":	
         name = 'auto1_real'
@@ -71,9 +71,9 @@ def Average_spectrum(leushner_data, N=10, polarization_number='first'):
             spectrum_data = leushner_data[i].data[name]
             average_spectrum.append(spectrum_data )
                         
-        Average = np.mean(average_spectrum, axis = 0)
+        avg = np.mean(average_spectrum, axis = 0)
                 
-        return Average
+        return avg
 
 def plot_average(file_name, polarization_number= 'first' ):
     data = fits.open(str(file_name))
@@ -83,12 +83,12 @@ def plot_average(file_name, polarization_number= 'first' ):
     N = header['NSPEC']
     
     #average of data, either first or second 
-    average_spectra = Average_spectrum(data, N, polarization_number)
+    average_spectra = average_spectrum(data, N, polarization_number)
     
-    print ('Average_spectra',average_spectra)
+    print ('Average spectra:', average_spectra)
     
     #frequency responce of our AVERAGE data spectrum
-    freq = Frequency_spectrum(header, average_spectra)
+    freq = frequency_spectrum(header, average_spectra)
     
     plt.plot(freq, average_spectra, label=file_name)
     plt.xlabel('Frequency')
@@ -97,15 +97,14 @@ def plot_average(file_name, polarization_number= 'first' ):
     # plt.show()
 
 				
-def Frequency_spectrum(header, spectrum_data):
+def frequency_spectrum(header, spectrum_data):
     """
     Changes samples axis of the spectrum data
     into frequency axis	
     """		
     vsamp = header["SAMPRATE"]
-            
     t = 1/vsamp
-    
+
     freq = (np.fft.fftshift(np.fft.fftfreq(len(spectrum_data), t ))) / 1e6 + 1420  # where 1420 is the total of the LO frequencies in MHz that shifted  down our HI signal, I added this to re-shift the received signal toward frequency 1420.4 mhz
 
     return freq
@@ -123,8 +122,8 @@ def base_fit_average(average_spectra, frequency):
     mask = np.ones(len(filtered_spectra), dtype=bool)
     
     for i in range(len(mask)):
-            if  (max_index - bandwidth) < i < (max_index + bandwidth) :
-                    mask[i] = False
+        if  (max_index - bandwidth) < i < (max_index + bandwidth) :
+            mask[i] = False
                     
     baseline_interpolation = scipy.interpolate.interp1d(frequency[mask], filtered_spectra[mask])
     
@@ -143,15 +142,15 @@ def doppler_velocity_correction(header, frequency, velocity_correction='off'):
     HI_freq = 1420.40575  # frequency of our HI signal in MHz
     c = 3e5  #speed of light in km/s 
 		
-    #Get doppler correction
+    # Get doppler correction
     ra, dec, jd = header["RA"], header["DEC"], header["JD"]
     print ('ra, dec, jd = ',ra, dec, jd)
             
-#	calculating doppler velocity
+    # calculating doppler velocity
     delta_freq = (frequency) - HI_freq
     doppler_velocity = delta_freq / HI_freq * c
     
-    #turn on Doppler correction
+    # turn on Doppler correction
     if velocity_correction=='on':
 				
         Doppler_correction = ugradio.doppler.get_projected_velocity(ra, dec, jd) 
@@ -170,8 +169,8 @@ def Gain(signal_noise_on, signal_noise_off, number_spectra=10, Noise_temp=301, S
     """
     Calculate the Gain (G) like in Lab 2, uses the signal with and without noise, temperature of the sky and temprature from the noise in kelvin
     """
-    noise_on_spectra = Average_spectrum(signal_noise_on, number_spectra)
-    noise_off_spectra = Average_spectrum(signal_noise_off, number_spectra)
+    noise_on_spectra = average_spectrum(signal_noise_on, number_spectra)
+    noise_off_spectra = average_spectrum(signal_noise_off, number_spectra)
     # Noise_temp - Sky_temp = 300 #kelvin
     gain = ((Noise_temp - Sky_temp) / np.sum(noise_on_spectra - noise_off_spectra)) * np.sum(noise_off_spectra)
     return gain
@@ -189,10 +188,10 @@ def final_calibration(file_name, Polarization_number='first', Gain=1, velocity_c
     N = header['NSPEC']	
 	
     # Average of data, either first or second polarization. 
-    average_spectra = Average_spectrum(data, N, Polarization_number)
-    print ('Average_spectra', average_spectra)
+    average_spectra = average_spectrum(data, N, Polarization_number)
+    print ('average_spectra', average_spectra)
     #frequency responce of our AVERAGE data spectrum
-    freq = Frequency_spectrum(header, average_spectra)
+    freq = frequency_spectrum(header, average_spectra)
     Temperature = (average_spectra - base_fit_average(average_spectra, freq)) * Gain
     print ('Temperature', Temperature)
     doppler_velocity = doppler_velocity_correction(header, freq, velocity_correction)
@@ -233,11 +232,11 @@ def plot_all_attempts(lo_freq1, lo_freq2, file_name='attempt_all', velocity_corr
     for l in longitude_range:
         plt.ion()	
         try:		
-            Lo1_noisy_name = file_name + '_' + str(float(int(l))) +'_degrees_'+ str(lo_freq1) +'MHz_noisy.fits'	
-            Lo1_quiet_name = file_name + '_' + str(float(int(l))) +'_degrees_'+ str(lo_freq1) +'MHz_quiet.fits'
+            Lo1_noisy_name = file_name + '_' + str(float(l)) +'_degrees_'+ str(lo_freq1) +'MHz_noisy.fits'	
+            Lo1_quiet_name = file_name + '_' + str(float(l)) +'_degrees_'+ str(lo_freq1) +'MHz_quiet.fits'
 			
-            Lo2_noisy_name = file_name + '_' + str(float(int(l))) +'_degrees_'+ str(lo_freq2) +'MHz_noisy.fits'	
-            Lo2_quiet_name = file_name + '_' + str(float(int(l))) +'_degrees_'+ str(lo_freq2) +'MHz_quiet.fits'		
+            Lo2_noisy_name = file_name + '_' + str(float(l)) +'_degrees_'+ str(lo_freq2) +'MHz_noisy.fits'	
+            Lo2_quiet_name = file_name + '_' + str(float(l)) +'_degrees_'+ str(lo_freq2) +'MHz_quiet.fits'		
                                                         
             print(Lo1_noisy_name)	
             print(Lo1_quiet_name)
@@ -259,14 +258,14 @@ def plot_all_attempts(lo_freq1, lo_freq2, file_name='attempt_all', velocity_corr
             N = Lo1_on[0].header['NSPEC']
             print (N)
 
-            data_lo1_on = final_calibration(Lo1_noisy_name, Polarization_number='first', Gain= gain_lo1, velocity_correction='off' )
-            data_lo1_off = final_calibration(Lo1_quiet_name, Polarization_number='first', Gain= gain_lo1, velocity_correction='off' )
+            data_lo1_on = final_calibration(Lo1_noisy_name, Polarization_number='first', Gain= gain_lo1, velocity_correction='off')
+            data_lo1_off = final_calibration(Lo1_quiet_name, Polarization_number='first', Gain= gain_lo1, velocity_correction='off')
 
-            data_lo2_on = final_calibration(Lo2_noisy_name, Polarization_number='first', Gain= gain_lo2, velocity_correction='off' )
-            data2_lo2_off = final_calibration(Lo2_quiet_name, Polarization_number='first', Gain= gain_lo2, velocity_correction='off' )
+            data_lo2_on = final_calibration(Lo2_noisy_name, Polarization_number='first', Gain= gain_lo2, velocity_correction='off')
+            data2_lo2_off = final_calibration(Lo2_quiet_name, Polarization_number='first', Gain= gain_lo2, velocity_correction='off')
                                 
-            #Plot average plots of all data in the file within the longtitude we collected
-            #			plot_average(Lo1_noisy_name, polarization_number= 'first')
+            # Plot average plots of all data in the file within the longtitude we collected.
+            # plot_average(Lo1_noisy_name, polarization_number= 'first')
 
             #Plot Temperatude vs Doppler velocity of all data in the file within the longtitude we collected
             plot_temperature_doppler(data_lo1_on, velocity_correction= 'off')
