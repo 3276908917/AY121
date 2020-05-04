@@ -16,6 +16,13 @@
 
 \maketitle
 
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=.6\linewidth]{filename}
+%	\caption{}
+%	\label{fig: ...}
+%\end{figure}
+
 \begin{abstract}
 
 We study
@@ -33,11 +40,25 @@ results, uncertainties.
 \section{Introduction and Background}
 
 % However, I have not yet actually incorporated equation 8 into my analysis.
-\begin{equation}
-want two fit equations from the lab manual, eq.s 1 and 8
+\begin{equation} \label{eq:spiral}
+R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
+\end{equation}
+
+\begin{equation} \label{eq:vel_dopp}
+V_\text{Dopp} = \left[ \frac{V(R)}{R} - \frac{V(R_\odot)}{R_\odot} \right] R_\odot \sin(\ell)
 \end{equation}
 
 We also want gain / calibration equations from lab 2.
+
+\begin{equation} \label{eq:line_shape}
+T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
+\end{equation}
+
+where
+
+\begin{equation} \label{eq:line_gain}
+G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{cold})}} \sum{s_\text{cold}}
+\end{equation}
 
 Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
 
@@ -53,12 +74,10 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 
 The Leuschner dish did not automatically report the frequency axis, \textcolor{red}{I think}. I should describe how I went from .fits file to calibrated spectrum (this includes determining the frequency axis).
 
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=.6\linewidth]{lockup}
-%	\caption{These are the comparisons between the input dish angles (as computed with rotation matrices) and the true angles as reported by the dishes. The east dish displays little to no response, indicating that it was stuck for the virtually the entire capture.}
-%	\label{fig:stuck}
-%\end{figure}
+% index value 4081 is the unshifted hydrogen line
+% I went back and rewatched a bit of the first lecture for the lab where he was talking about the telescope since I figured it was an instrumentation thing and he mentioned at one point that each channel is about 10k Hz
+% and the bandwidth starts at 1.4GHz
+% then, taking into account frequency doubling, 1.42GHz turned into roughly index value 4081
 
 \section{Observations}
 
