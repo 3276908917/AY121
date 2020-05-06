@@ -16,7 +16,9 @@ def hist_gauss(sample, b=64, correction=6):
     '''
     sigma = np.std(sample)
     count, bins, ignored = plt.hist(sample, b, density=True)
-    plt.plot(bins, correction/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)), linewidth=2, color='r')
+    plt.plot(bins,
+        correction / (sigma * np.sqrt(2 * np.pi)) * np.exp(-bins ** 2 / (2 * sigma ** 2)),
+        linewidth=2, color='r')
     plt.ylabel(r'Frequency')
     plt.xlabel('Voltage [?]') # normalization is not yet possible
     plt.show()
@@ -73,10 +75,10 @@ def pp_skeleton(x, y, xBounds=None, yBounds=None, logv=False, xLabel='Frequency 
 def double_pp(x, y1, y2, xBounds=None, yBounds=None, logv=False):
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
-    #fig.add_subplot(111, frameon=False)
+    # fig.add_subplot(111, frameon=False)
     # hide tick and tick label of the big axes
-    #plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
-    #plt.grid(False)
+    # plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
+    # plt.grid(False)
 
     plt.xlabel('Frequency (MHz)', fontsize=12)
     fig.text(0, 0.5, r'Magnitude-squared Voltage (V$^2$)',
