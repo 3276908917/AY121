@@ -15,10 +15,8 @@ def freq_range(v_s, N, W=1):
     CAUTION: this returns frequencies in units of Hertz!
         divide by 10 ** 6 if you want MHz.
     '''
-    lobe = round(N / 2)
-    interval = W * v_s / N
-    return np.array([i * interval for i in range(-lobe, lobe)])
-
+    return np.linspace(- W * v_s / 2, W * v_s / 2)
+    
 def samples_median(power_list):
     '''
     Reduces @power_list (an array of power spectra)

@@ -1,6 +1,9 @@
-* Write script which provides abbreviation functions
+* assemble one single directory which contains the best available pointings for each
+	angle on the range \ell \in [-9, 250]
+
+$ Write script which provides abbreviation functions
 	for quickly parsing and displaying data in a .fits file.
 
-* The error script should include the values of alt, az;
+$ The error script should include the values of alt, az;
 	and, for convenience, should include percent discrepancy
 (currently we have only flat difference e.g alt - alt_actual)

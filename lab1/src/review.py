@@ -26,19 +26,20 @@ def scale_freqs(v_s, N, scale):
     delta = v_s / scale / N
     return np.array([i * delta for i in range(-lobe, lobe)])
 
-def fr(v_s, N):
-    return np.linspace(-v_s / 2, v_s / 2, num=N)    
+#def fr(v_s, N):
+#    return np.linspace(-v_s / 2, v_s / 2, num=N)    
 
 # Primarily comes in handy for analysis 5.6
-def freq_range(v_s, N, W):
-    """
-    Return a N-length array
-    Where frequencies range between plus or minus W * v_s / 2
-    """
+
+#def freq_range(v_s, N, W):
+#    """
+#    Return a N-length array
+#    Where frequencies range between plus or minus W * v_s / 2
+#    """
     #lobe = round(W * v_s / 2)
-    lobe = round(N / 2)
-    interval = W * v_s / N
-    return np.array([i * interval for i in range(-lobe, lobe)])
+#    lobe = round(N / 2)
+#    interval = W * v_s / N
+#    return np.array([i * interval for i in range(-lobe, lobe)])
 
 # this default line poises the script for lab 1 week 1 data collection
 create_time(6.25e6)

@@ -144,17 +144,18 @@ def doppler_velocity_correction(header, frequency, velocity_correction='off'):
     # turn on Doppler correction
     if velocity_correction=='on':
 				
-        Doppler_correction = ugradio.doppler.get_projected_velocity(ra, dec, jd) 
+        doppler_correction = ugradio.doppler.get_projected_velocity(ra, dec, jd) 
 
-        print('Doppler_correction',Doppler_correction)
-        
-        Velocity =  np.array(doppler_velocity) - (Doppler_correction.value/1e3) #convertion Doppler correction from m/s to km/s
+        print('Doppler_correction', Doppler_correction)
+
+        #convertion Doppler correction from m/s to km/s
+        velocity =  np.array(doppler_velocity) - (doppler_correction.value/1e3)
 	
     #turn off Doppler correction
-    elif velocity_correction=='off':
-        Velocity =  np.array(doppler_velocity)
+    elif velocity_correction == 'off':
+        velocity =  np.array(doppler_velocity)
              
-    return  Velocity
+    return velocity
 
 def Gain(signal_noise_on, signal_noise_off, number_spectra=10, Noise_temp=301, Sky_temp=1):	
     """

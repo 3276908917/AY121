@@ -98,6 +98,7 @@ def fanfan(label, start_angle, stop_angle):
     you probably should not run this outside of a shell.
     '''
     for i in range(start_angle, stop_angle + 1):
+        plt.title(i)
         plt.plot(ffan(label, i)[4])
         plt.show()
 
