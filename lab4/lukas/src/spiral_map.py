@@ -1,8 +1,29 @@
 from astropy.io import fits
 import numpy as np
 
-HI_regular = 1420.405751786e6 # MHz
+HI_rest = 1420.405751786e6 # MHz
 c = 3e10 # cm / s
+
+def frame():
+    fig = plt.figure(figsize = (6, 3))
+    plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
+    ax = fig.add_subplot(111)
+    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+    return fig, ax
+
+def full_cal_plot(label, lon):
+    fig, ax = frame()
+    
+    y = full_calibration(label, lon)
+    x = np.linspace(1415e6, 1425e6, 8192) / 1e9
+
+    plt.xlabel('RF Frequency [GHz]', fontsize=12)
+    plt.ylabel('Thermal Brightness [?]?', fontsize=12)
+
+    plt.plot(x, y)
+    plt.vlines(HI_rest / 1e9, min(y), max(y))
+    plt.show()
 
 def calibration_fan(label, start_lon, stop_lon):
     return np.array([
@@ -49,7 +70,7 @@ def read_average(path, polarization, N=10):
     spectra = np.array([f[i + 1].data[key] for i in range(N)])
     
     return np.average(spectra, axis=0)
-
+'''
 # draft function for collecting points to map
 blue_shift():
     # for each
@@ -62,10 +83,13 @@ blue_shift():
     )
 
     # do we want to use a maximizer function to locate our HI line?
-    
-    '''
-    Current problems:
-        there are three separate clouds. Which one represents the true Doppler
-        shift? Why not all of them? The problem is that we have an
-        equation for V_Dopp as a function of R.
-    '''
+'''
+ 
+'''
+Current problems:
+    there are three separate clouds. Which one represents the true Doppler
+    shift? Why not all of them? The problem is that we have an
+    equation for V_Dopp as a function of R.
+
+    I do not have the y-axis fully labeled.
+'''
