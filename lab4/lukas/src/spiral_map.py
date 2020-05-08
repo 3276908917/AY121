@@ -1,6 +1,9 @@
 from astropy.io import fits
 import numpy as np
 
+HI_regular = 1420.405751786e6 # MHz
+c = 3e10 # cm / s
+
 def calibration_fan(label, start_lon, stop_lon):
     return np.array([
         full_calibration(label, i) for i in range(start_lon, stop_lon + 1)
@@ -46,3 +49,23 @@ def read_average(path, polarization, N=10):
     spectra = np.array([f[i + 1].data[key] for i in range(N)])
     
     return np.average(spectra, axis=0)
+
+# draft function for collecting points to map
+blue_shift():
+    # for each
+    f = fits.open(path)
+    ra = f[0].header['RA']
+    dec = f[0].header['DEC']
+    jd = f[0].header['JD']
+    correction = ugradio.doppler.get_projected_velocity(
+        ra, dec, jd, ugradio.leo.lat, ugradio.leo.lon
+    )
+
+    # do we want to use a maximizer function to locate our HI line?
+    
+    '''
+    Current problems:
+        there are three separate clouds. Which one represents the true Doppler
+        shift? Why not all of them? The problem is that we have an
+        equation for V_Dopp as a function of R.
+    '''
