@@ -31,7 +31,7 @@ def doppler_fan(label, start_lon, stop_lon, show=False):
         if show:
             peak = full_doppler_plot(label, ell)
         else:
-            x, y, peak = full_doppler_plot(label, ell)
+            x, y, dopc, peak = full_doppler(label, ell)
         doppler_collection.append((ell, peak))
     return np.array(doppler_collection)
 
@@ -41,13 +41,13 @@ def full_doppler_plot(label, lon):
     plt.xlabel('Doppler Velocity [km / s]', fontsize=12)
     plt.ylabel('$T_{sys} + T_{ant, HI}$ [K]', fontsize=12)
 
-    x, y, peak_freq = full_doppler(label, lon)
+    x, y, dopc, peak_freq = full_doppler(label, lon)
     plt.plot(x, y)
 
     plt.vlines(dopc, np.nanmin(y), np.nanmax(y))
     plt.vlines(x[np.nanargmax(y)], np.nanmin(y), np.nanmax(y), color='orange')
 
-    print('Peak frequency [Hz]', peak_freq)
+    print('Peak Velocity [km / s]', peak_freq)
     plt.show()
     return peak_freq
 
@@ -57,7 +57,7 @@ def full_doppler(label, lon):
     dopc /= 1000
     x = [dopc + (1 - f / (HI_rest / 1e9)) * c / 1e5 for f in frq]
     peak_freq = x[np.nanargmax(y)]
-    return x, y, peak_freq
+    return x, y, dopc, peak_freq
 
 # doppler_plot('cycle3', 120)
 
