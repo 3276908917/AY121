@@ -32,11 +32,13 @@ def calibration_fan(label, start_lon, stop_lon):
 
 def full_calibration(label, lon):
     s_on_q, s_on_n, s_off_q, s_off_n = spectral_fan(label, lon)
-    
-    gain_on = gain(s_on_n, s_on_q)
-    gain_off = gain(s_off_n, s_off_q)
 
-    return gain_on / gain_off * s_on_q / s_off_q
+    ' T_noise is 270K for auto1, 80K for auto0
+    gain_on = gain(s_on_n, s_on_q, 80)
+    gain_off = gain(s_off_n, s_off_q, 80)
+    gain_avg = .5 * (gain_on + gain_off)
+
+    return gain_avg * s_on_q / s_off_q
 
     #we want to average each .fits file (ten spectra) into a single spectrum
 

@@ -31,7 +31,7 @@ def samples_mean(power_list):
     '''
     return np.mean(power_list, axis=0)
 
-def gain(scal, scold):
+def gain(scal, scold, T_sys=300):
     '''
     Return gain based on
     @scal :  power spectrum for thermal contamination
@@ -40,7 +40,7 @@ def gain(scal, scold):
     This is a direct codification of the lab instructions on gain
     calculation; refer to the lab for detailed explication of parameters.
     '''
-    return sum(scold) * 300 / sum(scal - scold)
+    return sum(scold) * Tsys / sum(scal - scold)
 
 # Doppler velocity in megameters per second
 def doppler(nu, nu_0, offset):
