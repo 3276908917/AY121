@@ -25,6 +25,8 @@
 
 \begin{abstract}
 
+% remember to motivate the paper
+
 We study
 
 1. velocity patterns of various H clouds using Doppler shifts
@@ -79,7 +81,29 @@ G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{c
 
 Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
 
-I definitely want to describe the Leuschner dish, some features in the signal chain, maybe just borrow the whole image and edit from there.
+21 cm line transition: 1420.405751786 MHz at rest.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{sig_chain}
+	\caption{This is a simplification of the Leuschner signal chain, where the horizontal polarization has been ignored (we do not use those data in this report). Furthermore, we abstract-away the clock rate of the ROACH and the various stages of digitization. For our `on' LO frequency of 1270 MHz, the output spectra cover a frequency range 1415 to 1425 MHz.}
+	\label{fig:sig_chain}
+\end{figure}
+
+As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
+
+The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
+
+We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
+
+% 80 K
+
+(we used 1270 and 1268 MHz)
+
+How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
+
+We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
 
 \section{Methods}
 
@@ -88,8 +112,6 @@ I definitely want to describe the Leuschner dish, some features in the signal ch
 We convert from galactic to topocentric coordinates using rotation matrices, as described in a previous report. How much should I include? If I describe the matrices again, that will certainly have to go in the introduction.
 
 We probably want a basic run-down of a .fits file, but perhaps some of that can go in the introduction.
-
-The Leuschner dish did not automatically report the frequency axis, \textcolor{red}{I think}. I should describe how I went from .fits file to calibrated spectrum (this includes determining the frequency axis).
 
 % index value 4081 is the unshifted hydrogen line
 % I went back and rewatched a bit of the first lecture for the lab where he was talking about the telescope since I figured it was an instrumentation thing and he mentioned at one point that each channel is about 10k Hz

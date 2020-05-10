@@ -124,9 +124,9 @@ Current problems:
     equation for V_Dopp as a function of R.
     
     
-    We can get the doppler shift with respect to temperature by using using 
+    We can get the doppler shift with respect to temperature by using
     1D interpolation scipy.interpolate.interp1d on the corrected dopper velocity 
-    and have it fit the frequency fucntion, which is also the same frequency function used with the temperatures.
+    and have it fit the frequency function, which is also the same frequency function used with the temperatures.
     The frequency function for both velocity and temperature is based on the sampling rate of our telecope,
     using   t = 1/header["SAMPRATE"]
     
