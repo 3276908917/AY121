@@ -19,11 +19,34 @@ def full_cal_plot(label, lon):
     x = np.linspace(1415e6, 1425e6, 8192) / 1e9
 
     plt.xlabel('RF Frequency [GHz]', fontsize=12)
-    plt.ylabel('Thermal Brightness [?]?', fontsize=12)
+    plt.ylabel('$T_{sys} + T_{ant, HI}$ [K]', fontsize=12)
 
     plt.plot(x, y)
-    plt.vlines(HI_rest / 1e9, min(y), max(y))
+    plt.vlines(HI_rest / 1e9, np.nanmin(y), np.nanmax(y))
     plt.show()
+
+def doppler_plot(label, lon):
+    fig, ax = frame()
+    
+    y = full_calibration(label, lon)
+
+    # We need to add Doppler correction term
+    frq = np.linspace(1415e6, 1425e6, 8192) / 1e9
+    x = [(1 - f / (HI_rest / 1e9)) * c / 1e5 for f in frq]
+
+    plt.xlabel('Doppler Velocity [km / s]', fontsize=12)
+    plt.ylabel('$T_{sys} + T_{ant, HI}$ [K]', fontsize=12)
+
+    plt.plot(x, y)
+
+    plt.vlines(0, np.nanmin(y), np.nanmax(y))
+    plt.vlines(x[np.nanargmax(y)], np.nanmin(y), np.nanmax(y), color='orange')
+
+    print(x[np.nanargmax(y)])
+
+    plt.show()
+
+# doppler_plot('cycle3', 120)
 
 def calibration_fan(label, start_lon, stop_lon):
     return np.array([
@@ -33,7 +56,7 @@ def calibration_fan(label, start_lon, stop_lon):
 def full_calibration(label, lon):
     s_on_q, s_on_n, s_off_q, s_off_n = spectral_fan(label, lon)
 
-    ' T_noise is 270K for auto1, 80K for auto0
+    # T_noise is 270K for auto1, 80K for auto0
     gain_on = gain(s_on_n, s_on_q, 80)
     gain_off = gain(s_off_n, s_off_q, 80)
     gain_avg = .5 * (gain_on + gain_off)

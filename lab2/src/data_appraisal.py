@@ -40,7 +40,7 @@ def gain(scal, scold, T_sys=300):
     This is a direct codification of the lab instructions on gain
     calculation; refer to the lab for detailed explication of parameters.
     '''
-    return sum(scold) * Tsys / sum(scal - scold)
+    return sum(scold) * T_sys / sum(scal - scold)
 
 # Doppler velocity in megameters per second
 def doppler(nu, nu_0, offset):
