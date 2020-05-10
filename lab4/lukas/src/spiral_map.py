@@ -122,4 +122,29 @@ Current problems:
     there are three separate clouds. Which one represents the true Doppler
     shift? Why not all of them? The problem is that we have an
     equation for V_Dopp as a function of R.
+    
+    
+    We can get the doppler shift with respect to temperature by using using 
+    1D interpolation scipy.interpolate.interp1d on the corrected dopper velocity 
+    and have it fit the frequency fucntion, which is also the same frequency function used with the temperatures.
+    The frequency function for both velocity and temperature is based on the sampling rate of our telecope,
+    using   t = 1/header["SAMPRATE"]
+    
+    It's basically graphing the velocity vs frequency and temperature vs frequency, to get at the end temperature vs velocity.
+	
+	We can use the Temperature vs doppler velocity function to calculate the HI density N_HI (function 3 in the lab handout)
+    and Mass of HI M_Hi (function 7 in the lab handout) at any Galactic longtitude l, b=0. 
+	
+	To detect the spiral movements, We can make a 2d image using the Galactic longtitude as x axis, 
+    Doppler Velocity as y axis and temperature as color. Grid[ Doppler velocity ][ Galactic longtitude ] = Temperature    
+    and plot using plt.imshow(Grid)
+	
+	We can also create 2d image using the Galactic longtitude as x axis, density N of HI as y axis and Doppler velocity as input for color. 
+    Grid[ Doppler velocity ][ Galactic longtitude ] = density N HI
+    
+    Then we can make a movie by ploting an image of 1 * 260 pixels where the y is Galactic Latitude = 0,
+    y axis is Galactic longtitude from -10 to 250 degrees, 
+    and the color shows how the density N_Hi is changing by moving the velocity from -200 km/s to 200 km/s
+    
+    
 '''
