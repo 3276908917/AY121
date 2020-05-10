@@ -15,7 +15,7 @@ def frame():
 def full_cal_plot(label, lon):
     fig, ax = frame()
     
-    y = full_calibration(label, lon)
+    y, dopc = full_calibration(label, lon)
     x = np.linspace(1415e6, 1425e6, 8192) / 1e9
 
     plt.xlabel('RF Frequency [GHz]', fontsize=12)
@@ -28,18 +28,20 @@ def full_cal_plot(label, lon):
 def doppler_plot(label, lon):
     fig, ax = frame()
     
-    y = full_calibration(label, lon)
-
-    # We need to add Doppler correction term
+    y, dopc = full_calibration(label, lon)
     frq = np.linspace(1415e6, 1425e6, 8192) / 1e9
-    x = [(1 - f / (HI_rest / 1e9)) * c / 1e5 for f in frq]
+
+    # Convert Doppler correction to km / s:
+    dopc /= 1000
+
+    x = [dopc + (1 - f / (HI_rest / 1e9)) * c / 1e5 for f in frq]
 
     plt.xlabel('Doppler Velocity [km / s]', fontsize=12)
     plt.ylabel('$T_{sys} + T_{ant, HI}$ [K]', fontsize=12)
 
     plt.plot(x, y)
 
-    plt.vlines(0, np.nanmin(y), np.nanmax(y))
+    plt.vlines(dopc, np.nanmin(y), np.nanmax(y))
     plt.vlines(x[np.nanargmax(y)], np.nanmin(y), np.nanmax(y), color='orange')
 
     print(x[np.nanargmax(y)])
@@ -54,14 +56,14 @@ def calibration_fan(label, start_lon, stop_lon):
     ])
 
 def full_calibration(label, lon):
-    s_on_q, s_on_n, s_off_q, s_off_n = spectral_fan(label, lon)
+    s_on_q, s_on_n, s_off_q, s_off_n, dopc = spectral_fan(label, lon)
 
     # T_noise is 270K for auto1, 80K for auto0
     gain_on = gain(s_on_n, s_on_q, 80)
     gain_off = gain(s_off_n, s_off_q, 80)
     gain_avg = .5 * (gain_on + gain_off)
 
-    return gain_avg * s_on_q / s_off_q
+    return gain_avg * s_on_q / s_off_q, dopc
 
     #we want to average each .fits file (ten spectra) into a single spectrum
 
@@ -81,8 +83,12 @@ def spectral_fan(label, angle, polarization = 0):
     s_on_noisy = read_average(pre + lo1 + n, polarization)
     s_off_quiet = read_average(pre + lo2 + nn, polarization)
     s_off_noisy = read_average(pre + lo2 + n, polarization)
+
+    # We arbitrarily take a correction at a place
+    # which we hope is roughly in the middle of the observation.
+    dopc = doppler_correction(pre + lo1 + nn)
     
-    return s_on_quiet, s_on_noisy, s_off_quiet, s_off_noisy
+    return s_on_quiet, s_on_noisy, s_off_quiet, s_off_noisy, dopc
 
 def read_average(path, polarization, N=10):
     f = fits.open(path)
@@ -95,26 +101,25 @@ def read_average(path, polarization, N=10):
     spectra = np.array([f[i + 1].data[key] for i in range(N)])
     
     return np.average(spectra, axis=0)
-'''
-# draft function for collecting points to map
-blue_shift():
-    # for each
+
+def doppler_correction(path):
+    '''
+    Returns doppler correction based on the right ascension, declination,
+    and Julian date extracted from the header on the fits file located
+    at @path.
+    We return a pure scalar which corresponds to the correction in m / s.
+    '''
     f = fits.open(path)
     ra = f[0].header['RA']
     dec = f[0].header['DEC']
     jd = f[0].header['JD']
-    correction = ugradio.doppler.get_projected_velocity(
+    return ugradio.doppler.get_projected_velocity(
         ra, dec, jd, ugradio.leo.lat, ugradio.leo.lon
-    )
-
-    # do we want to use a maximizer function to locate our HI line?
-'''
+    ).to_value()
  
 '''
 Current problems:
     there are three separate clouds. Which one represents the true Doppler
     shift? Why not all of them? The problem is that we have an
     equation for V_Dopp as a function of R.
-
-    I do not have the y-axis fully labeled.
 '''
