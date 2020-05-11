@@ -122,6 +122,15 @@ We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to 
 
 We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
 
+\textcolor{red}{Finally, it is important to distinguish between radius $R$ and galactic longitude $\ell$.}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.4\linewidth]{ell_versus_r}
+	\caption{This is a simple illustration demonstrating how the value of $\ell$ can place constraints on valid values for $R$ (specifically, $R_2$ here represents the right-triangle case, for which the radius is minimized). However, since our universal value for galactic latitude $b = 0$ degrees has no relevance to radial distances, no pair of galactic coordinates will specify the radius at which we are working. Consequently, the tangent-point method must explicitly establish that we work with a specific radius $R = R_\text{min}$.}
+	\label{fig:ell_vs_r}
+\end{figure}
+
 \section{Methods}
 
 \quad \quad To observe the galactic plane, we have our trusty tracking script. After three labs' worth of development, it is almost correct!
@@ -134,7 +143,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.9\linewidth]{1940_10_05_2020}
+	\includegraphics[width=.75\linewidth]{1940_10_05_2020}
 	\caption{This is a visibility demonstration to clarify our observation process: we input a value for the local sidereal time, and our script plots the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range (since we are observing the galactic plane, the galactic latitude $b$ is universally zero degrees). We began this project with the nominal range of $\ell \in [-10, 250]$ degrees. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude).}
 	\label{fig:vis_demo}
 \end{figure}
@@ -146,14 +155,14 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 % This plot is simply a way of concisely representing the 260 spectra we collected over the interval $\ell \in [-9, 250]$ degrees (one-degree spacings).
 \begin{figure}
 	\centering
-	\includegraphics[width=.9\linewidth]{Doppler_collection}
-	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries.}
+	\includegraphics[width=.8\linewidth]{Doppler_collection}
+	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries. \textcolor{red}{This $is$ the image $T_A(\ell, V_\text{LSR})$}}
 	\label{fig:Dopp_collection}
 \end{figure}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.9\linewidth]{tangentPoint_dispersion}
+	\includegraphics[width=.8\linewidth]{tangentPoint_dispersion}
 	\caption{This is an overplot of all 90 possible velocity curves. Specifically, when we treat the solar circle of the galaxy, we know that for each $\ell$, $R$ can take on a maximum value of $R_\odot$ (the radius of the solar circle) and a minimum value of $R_\odot \sin \ell$. The tangent-point method mandates the usage of $R_\text{min}$, but we here demonstrate how that method necessitates the collapse of line segments into points.}
 	\label{fig:TP_disp}
 \end{figure}
@@ -172,6 +181,13 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 We can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1$ degree) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
 
 The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.8\linewidth]{outer_mass_distro}
+	\caption{This is a cumulative mass distribution for radii larger than that of the solar circle. The plot begins with a mass of zero because we subtract-off whatever the function calculates for radii smaller than that of the solar circle; we know the calculations to be erroneous for the smaller radii because we are applying different calculation methods. Observe that the rate of increase of mass drops off rather steeply. We hope for this to be the case as the galaxy thins out toward its edges and is most dense at smaller radii.}
+	\label{fig:outer_mass_distro}
+\end{figure}
 
 \section{Conclusions}
 

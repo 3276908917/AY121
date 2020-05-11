@@ -4,6 +4,8 @@ G = 6.673e-11 # Gravitational constant in mks
 Rb = 4.4e7 # estimation of Milky Way supermassive black hole radius, km
 Rg = 37 * kpc# radius of the Milky Way galaxy; we need to cite sources
 
+def mass_plot(func, r_space
+
 def mass_outer(circle_edge, constant_v):
     '''
     Return a radius-dependent mass cumulative distribution function
