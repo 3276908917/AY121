@@ -101,6 +101,14 @@ def full_cal_plot(label, lon):
     plt.show()
 
 def doppler_fan(label, start_lon, stop_lon, show=False):
+    '''
+    Create an array of the LSR Doppler-corrected fully
+    calibrated spectra for every galactic longitude
+    starting with @start_lon and ending with @stop_lon,
+    where the files have @label in common.
+
+    You have to be sitting in the data directory for this to work.
+    '''
     doppler_collection = []
     for ell in range(start_lon, stop_lon + 1):
         if show:
@@ -111,6 +119,15 @@ def doppler_fan(label, start_lon, stop_lon, show=False):
     return np.array(doppler_collection)
 
 def full_doppler_plot(label, lon):
+    '''
+    Given the label of the data @label
+    and the corresponding value of galactic longitude @lon
+    plot the LSR Doppler-corrected fully calibrated and labeled spectrum.
+    Also return the value for the Doppler velocity at the point
+    which is deemed to be the maximum. 
+    
+    You have to be sitting in the data directory for this to work.
+    '''
     fig, ax = frame()
 
     plt.xlabel('Doppler Velocity [km / s]', fontsize=12)
@@ -127,16 +144,30 @@ def full_doppler_plot(label, lon):
     return peak_freq
 
 def full_doppler(label, lon):
+    '''
+    Given a data label @label and a galactic longitude @lon,
+    compute the fully calibrated spectrum and represent the
+    x-axis in Doppler velocities corrected for the LSR frame.
+
+    You have to be sitting in the data directory for this to work.
+    '''
     y, dopc = full_calibration(label, lon)
     frq = np.linspace(1415e6, 1425e6, 8192) / 1e9
+    
     dopc /= 1000
     x = [dopc + (1 - f / (HI_rest / 1e9)) * c / 1e5 for f in frq]
+    
     peak_freq = x[np.nanargmax(y)]
     return x, y, dopc, peak_freq
 
-# doppler_plot('cycle3', 120)
-
 def calibration_fan(label, start_lon, stop_lon):
+    '''
+    Create an array of the fully calibrated spectra for every galactic longitude
+    starting with @start_lon and ending with @stop_lon,
+    where the files have @label in common.
+
+    You have to be sitting in the data directory for this to work.
+    '''
     return np.array([
         full_calibration(label, i) for i in range(start_lon, stop_lon + 1)
     ])
@@ -152,7 +183,8 @@ def full_calibration(label, lon):
     '''
     s_on_q, s_on_n, s_off_q, s_off_n, dopc = spectral_fan(label, lon)
 
-    # T_noise is 270K for auto1, 80K for auto0
+    # T_noise is 270K for auto1 (horizontal polarization, which we exclude),
+    # 80K for auto0 (vertical polarization)
     gain_on = gain(s_on_n, s_on_q, 80)
     gain_off = gain(s_off_n, s_off_q, 80)
     gain_avg = .5 * (gain_on + gain_off)
@@ -196,7 +228,6 @@ def read_average(path, polarization, N=10):
         key = 'auto1_real'
 
     spectra = np.array([f[i + 1].data[key] for i in range(N)])
-    
     return np.average(spectra, axis=0)
 
 def doppler_correction(path):
@@ -213,4 +244,3 @@ def doppler_correction(path):
     return ugradio.doppler.get_projected_velocity(
         ra, dec, jd, ugradio.leo.lat, ugradio.leo.lon
     ).to_value()
- 
