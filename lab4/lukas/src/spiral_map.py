@@ -16,9 +16,15 @@ def frame():
     ax.tick_params(axis="y", labelsize=12)
     return fig, ax
 
-naive_radii = np.linspace(0, R0, 50)
 def arrow(doppler):
-    sin_ell = np.sin(np.degrees(doppler[0]))
+    '''
+    For now, ignore the following outdated advisory
+    Watch out!:
+    We are deliberately restricting sin ell to its magnitude,
+    so we are losing all sense of velocities being toward
+    and away from us based on angle.
+    '''
+    sin_ell = np.sin(np.radians(doppler[0]))
     v_dopp = doppler[1]
 
     radial_space = np.linspace(R0 * abs(sin_ell), R0, 50)
@@ -27,7 +33,7 @@ def arrow(doppler):
 
     return radial_space, np.array([velocity(r) for r in radial_space])
 
-def yoke(dopplers):
+def full_yoke(dopplers):
     fig, ax = frame()
 
     plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
@@ -38,6 +44,21 @@ def yoke(dopplers):
         plt.plot(r / kpc, v)
         #plt.plot(naive_radii / kpc, arrow(datum))
 
+    plt.show()
+
+def skip_yoke(dopplers):
+    fig, ax = frame()
+
+    plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
+    plt.ylabel('Linear Velocity [km / s]', fontsize=12)
+
+    for i in range(0, len(dopplers), 25):
+        r, v = arrow(dopplers[i])
+        plt.plot(r / kpc, v, label=str(dopplers[i][0]) + ' degrees')
+
+    #ax.legend(loc='lower left')
+    ax.legend(bbox_to_anchor=(1, 1))
+    
     plt.show()
 
 def full_cal_plot(label, lon):
