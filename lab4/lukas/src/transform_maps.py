@@ -7,28 +7,36 @@ import matplotlib.pyplot as plt
 import rotations
 
 plane = 0
-LST = np.linspace(0, 360, num = 360)
+list_LST = np.linspace(0, 360, num = 360)
 
-def bound_altaz(bound):
-    return [gal_to_topo_lst(bound, plane, lst,
+def bound_altaz(bound_ell):
+    '''
+    Return a list of topocentric coordinate pairs
+    each of which is a conversion of the galactic coordinates
+    (ell = bound_ell, be = plane)
+    at a different local sidereal time.
+    The list covers one full sidereal day.
+    '''
+    return [gal_to_topo_lst(bound_ell, plane, lst,
         loc.lat, radians = False) \
-            for lst in LST]
+            for lst in list_LST]
         
 # modified form from rotations.py
-def gal_to_topo_lst(el, be, lst, lat, radians=False):
+def gal_to_topo_lst(ell, be, lst, lat, radians=False):
     '''
-    @radians determines the format of BOTH input and output!
     Given a pair of angles @el and @be (in galactic coordinates),
     return a pair of angles relating the associated
     azimuth and altitude.
+
+    @radians determines the format of BOTH input and output!
     '''
     if not radians:
-        l = np.radians(el)
+        l = np.radians(ell)
         b = np.radians(be)
         phi = np.radians(lat)
         sidereal_angle = np.radians(lst)
     else:
-        l = el
+        l = ell
         b = be
         phi = lat
         sidereal_angle = lst
@@ -44,10 +52,17 @@ def gal_to_topo_lst(el, be, lst, lat, radians=False):
         az += 360
     return az, alt
 
-def bound_plot(ell):
-    fixed_ell = np.array(bound_altaz(ell))
-    alts = fixed_ell[:, 1]
-    azs = fixed_ell[:, 0]
+def bound_plot(bound_ell):
+    '''
+    Plot the topocentric coordinate conversions for all
+    local sidereal times in a sidereal day.
+    We hold the galactic longitude 
+    For convenience, we also plot the maximum and minimum
+    permitted values for the Leuschner dish pointing routine.
+    '''
+    top_over_time = np.array(bound_altaz(bound_ell))
+    alts = top_over_time[:, 1]
+    azs = top_over_time[:, 0]
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
 
@@ -60,27 +75,44 @@ def bound_plot(ell):
     ax1.tick_params(axis="y", labelsize=12)
     ax2.tick_params(axis="y", labelsize=12)
 
-    ax1.plot(LST, alts, label='altitude')
-    ax1.plot(LST, [leusch.ALT_MIN] * len(LST), label='minimum allowed')
-    ax1.plot(LST, [leusch.ALT_MAX] * len(LST), label='maximum allowed')
+    y_span = len(lst_LST)
+
+    ax1.plot(list_LST, alts, label='altitude')
+    ax1.plot(list_LST, [leusch.ALT_MIN] * y_span, label='minimum allowed')
+    ax1.plot(list_LST, [leusch.ALT_MAX] * y_span, label='maximum allowed')
     ax1.legend(loc='upper right')
     
-    ax2.plot(LST, azs, label='azimuth')  
-    ax2.plot(LST, [leusch.AZ_MIN] * len(LST), label='minimum allowed')
-    ax2.plot(LST, [leusch.AZ_MAX] * len(LST), label='maximum allowed')
+    ax2.plot(list_LST, azs, label='azimuth')  
+    ax2.plot(list_LST, [leusch.AZ_MIN] * y_span, label='minimum allowed')
+    ax2.plot(list_LST, [leusch.AZ_MAX] * y_span, label='maximum allowed')
     ax2.legend(loc='upper right')
     
-ELL = np.linspace(-10, 250, 260)
+list_ELL = np.linspace(-10, 250, 260)
 
 def time_altaz(lst):
+    '''
+    Return a list of topocentric coordinate pairs
+    each of which is a conversion of galactic coordinates.
+    We hold the local sidereal time to be constant (given by @lst)
+    as well as the galactic latitude (be = plane).
+    We exclusively vary galactic longitude ell over the range
+    of interest for this particular lab.
+    '''
     return [gal_to_topo_lst(ell, plane, lst,
         loc.lat, radians = False) \
-            for ell in ELL]
+            for ell in list_ELL]
 
 def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
-    fixed_lst = np.array(time_altaz(lst))
-    alts = fixed_lst[:, 1]
-    azs = fixed_lst[:, 0]
+    '''
+    Plot the topocentric coordinate conversions for all
+    galactic longitudes of interest
+    at the given local sidereal time @lst.
+    For convenience, we also plot the maximum and minimum
+    permitted values for the Leuschner dish pointing routine.
+    '''
+    top_over_ell = np.array(time_altaz(lst))
+    alts = top_over_ell[:, 1]
+    azs = top_over_ell[:, 0]
     
     fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False)
 
@@ -93,13 +125,15 @@ def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     ax1.tick_params(axis="y", labelsize=12)
     ax2.tick_params(axis="y", labelsize=12)
 
-    ax1.plot(ELL, alts, label='altitude')
-    ax2.plot(ELL, azs, label='azimuth')  
+    ax1.plot(list_ELL, alts, label='altitude')
+    ax2.plot(list_ELL, azs, label='azimuth')  
+
+    y_span = len(list_ELL)
     
-    ax1.plot(ELL, [leusch.ALT_MIN] * len(ELL), label='minimum allowed')
-    ax1.plot(ELL, [leusch.ALT_MAX] * len(ELL), label='maximum allowed')
-    ax2.plot(ELL, [leusch.AZ_MIN] * len(ELL), label='minimum allowed')
-    ax2.plot(ELL, [leusch.AZ_MAX] * len(ELL), label='maximum allowed')
+    ax1.plot(list_ELL, [leusch.ALT_MIN] * y_span, label='minimum allowed')
+    ax1.plot(list_ELL, [leusch.ALT_MAX] * y_span, label='maximum allowed')
+    ax2.plot(list_ELL, [leusch.AZ_MIN] * y_span, label='minimum allowed')
+    ax2.plot(list_ELL, [leusch.AZ_MAX] * y_span, label='maximum allowed')
 
     ax1.legend(loc=anchor1)
     ax2.legend(loc=anchor2)
