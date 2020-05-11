@@ -9,6 +9,10 @@ R0 = 2.62282594e17 # km
 kpc = 3.08567758e16 # km to kpc conversion
 
 def frame():
+    '''
+    Set up generic infrastructure for an improved-looking plot.
+    We return the figure and the axis on which we want to plot.
+    '''
     fig = plt.figure(figsize = (6, 3))
 
     plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
@@ -23,6 +27,7 @@ def arrow(doppler):
     '''
     Calculate a maximum-breadth velocity curve for a single
     galactic longitude and its associated Doppler velocity.
+    @doppler is in the form (ell, Doppler_velocity)
     '''
     sin_ell = np.sin(np.radians(doppler[0]))
     #v_dopp = doppler[1]
@@ -34,6 +39,12 @@ def arrow(doppler):
     return radial_space, np.array([velocity(r) for r in radial_space])
 
 def full_yoke(dopplers):
+    '''
+    For every doppler pair (ell, Doppler_velocity)
+    in the list @dopplers,
+    plot the associated arrow.
+    We plot everything at once.
+    '''
     fig, ax = frame()
 
     plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
@@ -46,6 +57,14 @@ def full_yoke(dopplers):
     plt.show()
 
 def skip_yoke(dopplers):
+    '''
+    We take in a list of doppler pairs @dopplers,
+    where each entry is a pair in the form (ell, Doppler_velocity),
+    and we plot one arrow for every ten degrees of longitude.
+    We plot everything at once, but because we are yoking
+    fewer total arrows, we can maintain a legend entry
+    describing the angle corresponding to each arrow.
+    '''
     fig, ax = frame()
 
     plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
@@ -61,6 +80,14 @@ def skip_yoke(dopplers):
     plt.show()
 
 def full_cal_plot(label, lon):
+    '''
+    Given the label of the data @label
+    and the corresponding value of galactic longitude @lon
+    Plot the fully calibrated and labeled spectrum as per
+    equation \ref{eq:line_shape} in my lab 4 report WIP.
+
+    You have to be sitting in the data directory for this to work.
+    '''
     fig, ax = frame()
     
     y, dopc = full_calibration(label, lon)
@@ -115,6 +142,14 @@ def calibration_fan(label, start_lon, stop_lon):
     ])
 
 def full_calibration(label, lon):
+    '''
+    Given the label of the data @label
+    and the corresponding value of galactic longitude @lon
+    return the fully calibrated and labeled spectrum as per
+    equation \ref{eq:line_shape} in my lab 4 report WIP.
+
+    You have to be sitting in the data directory for this to work.
+    '''
     s_on_q, s_on_n, s_off_q, s_off_n, dopc = spectral_fan(label, lon)
 
     # T_noise is 270K for auto1, 80K for auto0
@@ -148,6 +183,11 @@ def spectral_fan(label, angle, polarization = 0):
     return s_on_quiet, s_on_noisy, s_off_quiet, s_off_noisy, dopc
 
 def read_average(path, polarization, N=10):
+    '''
+    Return the average of the @N spectra contained
+    in the .fits file located at @path
+    and associated with the polarization @polarization.
+    '''
     f = fits.open(path)
 
     assert polarization == 1 or polarization == 0
