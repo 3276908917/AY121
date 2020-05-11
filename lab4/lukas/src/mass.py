@@ -10,7 +10,7 @@ def macerate(doppler):
     Units are (degrees, km / s).
     '''
     v = velocify(doppler)
-    return lambda r: 
+    return lambda r: r * v(r) ** 2 / G
 
 def velocify(doppler):
     '''

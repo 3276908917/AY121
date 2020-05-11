@@ -81,13 +81,13 @@ V(R) = \frac{R}{R_\odot} \left[ \frac{V_\text{Dopp}}{\sin \ell} - V(R_\odot) \ri
 
 In preparation for our mass estimations, we start with the conventional
 
-\begin{equation} \label{eq:}
+\begin{equation}
 v^2 = \frac{G M_\text{gravitational}}{R} 
 \end{equation}
 
 Then, we re-arrange to get the desired form:
 
-\begin{equation} \label{eq:}
+\begin{equation} \label{eq:mass}
 M_\text{gravitational} = \frac{R v^2}{G} 
 \end{equation}
 
@@ -167,7 +167,9 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 
 \section{Analysis}
 
-\quad \quad We can estimate the mass of the super-massive black hole at the center of the milky way if we use Doppler velocities for our two closest angles ($\ell \in \{-1, 1\}$ degrees) and integrate over radii from 0 to 44 million kilometers.
+\quad \quad We can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1$ degree) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
+
+The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
 
 \section{Conclusions}
 
