@@ -4,7 +4,35 @@ G = 6.673e-11 # Gravitational constant in mks
 Rb = 4.4e7 # estimation of Milky Way supermassive black hole radius, km
 Rg = 37 * kpc# radius of the Milky Way galaxy; we need to cite sources
 
-def mass_plot(func, r_space
+def mass_inner_plot(dopps):
+    fig, ax = frame()
+
+    plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
+    plt.ylabel('Mass [kg]', fontsize=12)
+    
+    rs = []
+    ms = []
+    for dop in dopps:
+        sin_ell = np.sin(np.radians(dop[0]))
+        r = R0 * sin_ell
+        rs.append(r / kpc)
+        v = dop[1] - V0 * sin_ell
+        ms.append(r * v ** 2 / G)
+    plt.plot(rs, ms)
+
+def vel_inner_plot(dopps):
+    fig, ax = frame()
+
+    plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
+    plt.ylabel('Linear Velocity [km / s]', fontsize=12)
+    
+    rs = []
+    vs = []
+    for dop in dopps:
+        sin_ell = np.sin(np.radians(dop[0]))
+        rs.append(R0 * sin_ell / kpc)
+        vs.append(dop[1] - V0 * sin_ell)
+    plt.plot(rs, vs)
 
 def mass_outer(circle_edge, constant_v):
     '''
