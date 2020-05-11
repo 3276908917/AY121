@@ -6,6 +6,7 @@ c = 3e10 # cm / s
 
 V0 = 220 # km / s
 R0 = 2.62282594e17 # km
+kpc = 3.08567758e16 # km to kpc conversion
 
 def frame():
     fig = plt.figure(figsize = (6, 3))
@@ -15,22 +16,24 @@ def frame():
     ax.tick_params(axis="y", labelsize=12)
     return fig, ax
 
-def arrow(Dopplers, R):
-    velocity = lambda datum, radius: radius / R0 * (datum[1] / np.sin(np.degrees(datum[0])) - V0)
-    return np.array([(d[0], velocity(d, R)) for d in Dopplers])
+naive_radii = np.linspace(0, R0, 50)
+def arrow(doppler):
+    ell = doppler[0]
+    v_dopp = doppler[1]
+    velocity = lambda r: r / R0 * (v_dopp / np.sin(np.degrees(ell)) - V0)
 
-def yoke(Dopplers):
+    return np.array([velocity(r) for r in naive_radii])
+
+def yoke(dopplers):
     fig, ax = frame()
 
-    naive_radii = np.linspace(0, R0, 50) # we will want to limit this based on the value for ell
+    plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
+    plt.ylabel('Linear Velocity [km / s]', fontsize=12)
 
-    falang = np.array([arrow(Dopplers, r) for r in naive_radii])
-    #print(falang)
-    
-    for arr in falang:
-        #print(arr)
-        plt.plot(arr[:, 0], arr[:, 1])
-    
+    for datum in dopplers:
+        plt.plot(naive_radii / kpc, arrow(datum))
+
+    plt.show()
 
 def full_cal_plot(label, lon):
     fig, ax = frame()
