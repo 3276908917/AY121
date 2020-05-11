@@ -40,7 +40,11 @@ results, uncertainties.
 \end{abstract}
 
 \section{Introduction and Background}
+% currently we need more connecting text
 
+Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
+
+21 cm line transition: 1420.405751786 MHz at rest.
 
 \begin{equation} \label{eq:spiral}
 R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
@@ -66,7 +70,7 @@ The following representation will be used in establishing the velocity curve ins
 V(R) = \frac{R}{R_\odot} \left[ \frac{V_\text{Dopp}}{\sin \ell} - V(R_\odot) \right] 
 \end{equation}
 
-This next form will be used in placing points outside the solar circle, to evaluate the spiral shape:
+%This next form will be used in placing points outside the solar circle, to evaluate the spiral shape:
 
 %\begin{equation}
 %\frac{V_\text{Dopp}}{R_\odot \sin \ell} = \frac{V(R)}{R} - \frac{V(R_\odot)}{R_\odot}
@@ -76,29 +80,27 @@ This next form will be used in placing points outside the solar circle, to evalu
 %\frac{V(R)}{R} = \frac{V_\text{Dopp}}{R_\odot \sin \ell} + \frac{V(R_\odot)}{R_\odot} 
 %\end{equation}
 
-\begin{equation} \label{eq:outer_spiral}
-R = V(R) \left[ \frac{V_\text{Dopp}}{R_\odot \sin \ell} + \frac{V(R_\odot)}{R_\odot} \right]^{-1}
-\end{equation}
+%\begin{equation} \label{eq:outer_spiral}
+%R = V(R) \left[ \frac{V_\text{Dopp}}{R_\odot \sin \ell} + \frac{V(R_\odot)}{R_\odot} \right]^{-1}
+%\end{equation}
 
+\textcolor{red}{You have to cite sources and find a better common unit.}
 
-%\textcolor{red}{You have to cite sources and find a better common unit.}
+% ugh where does intro end and methods begin
 
-We also want gain / calibration equations from lab 2.
+Before we analyze the output of our spectrometer, we need to calibrate the spectra. The concepts are the same as \textcolor{red}{in lab 2 (this should be a citation?)}.
+
+We want to change our local oscillator frequency between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
 
 \begin{equation} \label{eq:line_shape}
 T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
 \end{equation}
 
-where
+The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute:
 
 \begin{equation} \label{eq:line_gain}
 G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{cold})}} \sum{s_\text{cold}}
 \end{equation}
-
-Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
-
-21 cm line transition: 1420.405751786 MHz at rest.
-
 
 \begin{figure}
 	\centering
@@ -113,17 +115,13 @@ The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-conver
 
 We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
 
-% 80 K
-
-(we used 1270 and 1268 MHz)
-
-How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
-
 We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
 
 \section{Methods}
 
 \quad \quad To observe the galactic plane, we have our trusty tracking script. After three labs' worth of development, it is almost correct!
+
+How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
 
 We convert from galactic to topocentric coordinates using rotation matrices, as described in a previous report. How much should I include? If I describe the matrices again, that will certainly have to go in the introduction.
 
@@ -136,6 +134,8 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 \section{Analysis}
 
 \quad \quad I should explain the process of taking a spectrum to a point on our galactic plane map (Doppler shift calculations, then orthographic projection). 
+
+We can estimate the mass of the super-massive black hole at the center of the milky way if we use Doppler velocities for our three closest angles ($\ell \in \{-1, 0, 1\}$ degrees) and integrate over radii from 0 to 44 million kilometers.
 
 \section{Conclusions}
 
