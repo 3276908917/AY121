@@ -15,7 +15,7 @@ os.chdir(r"../lab4/lukas/src")
 try:
     exec(open('transform_maps.py').read())
     exec(open('fits_handler.py').read())
-    exec(open('spiral_map.py').read())
+    exec(open('velocity.py').read())
     exec(open('mass.py').read())
 except:
     print('Failed to import lab 4 materials.')

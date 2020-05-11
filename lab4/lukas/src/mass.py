@@ -1,9 +1,23 @@
 import math
 
 G = 6.673e-11 # Gravitational constant in mks
-Rb = 4.4e7# estimation of Milky Way supermassive black hole radius, km
+Rb = 4.4e7 # estimation of Milky Way supermassive black hole radius, km
+Rg = 37 * kpc# radius of the Milky Way galaxy; we need to cite sources
 
-def macerate(doppler):
+def mass_outer(circle_edge, constant_v):
+    '''
+    Return a radius-dependent mass cumulative distribution function
+    based on a radius-independent velocity @constant_v.
+    Since this does not correctly compute the mass for the part
+    of the galaxy inside the solar circle, but is still a CDF,
+    we use @circle_edge to subtract away all the mass
+    calculated for the inner circle.
+    '''
+    m_full = lambda r: r * constant_v ** 2 / G
+    m_inner = m_full(circle_edge)
+    return lambda r: m_full(r) - m_inner
+
+def mass_inner(doppler):
     '''
     Return a radius-dependent mass cumulative distribution function
     based on a single Doppler pair (ell, Doppler_velocity).
