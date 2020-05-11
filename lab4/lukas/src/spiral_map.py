@@ -10,10 +10,13 @@ kpc = 3.08567758e16 # km to kpc conversion
 
 def frame():
     fig = plt.figure(figsize = (6, 3))
+
     plt.subplots_adjust(left=.15, bottom=.15, right=.95, top=.9)
     ax = fig.add_subplot(111)
+    
     ax.tick_params(axis="x", labelsize=12)
     ax.tick_params(axis="y", labelsize=12)
+
     return fig, ax
 
 def arrow(doppler):
@@ -26,9 +29,8 @@ def arrow(doppler):
     '''
     sin_ell = np.sin(np.radians(doppler[0]))
     v_dopp = doppler[1]
-
-    radial_space = np.linspace(R0 * abs(sin_ell), R0, 50)
     
+    radial_space = np.linspace(R0 * abs(sin_ell), R0, 50)
     velocity = lambda r: r / R0 * (v_dopp / sin_ell - V0)
 
     return radial_space, np.array([velocity(r) for r in radial_space])
@@ -42,7 +44,6 @@ def full_yoke(dopplers):
     for datum in dopplers:
         r, v = arrow(datum)
         plt.plot(r / kpc, v)
-        #plt.plot(naive_radii / kpc, arrow(datum))
 
     plt.show()
 
@@ -53,9 +54,6 @@ def skip_yoke(dopplers):
     plt.ylabel('Linear Velocity [km / s]', fontsize=12)
 
     for i in range(0, len(dopplers), 10):
-        #hard-coded skip because I hate the scale freak out
-        #if i == 10:
-        #    continue
         r, v = arrow(dopplers[i])
         plt.plot(r / kpc, v, label=str(dopplers[i][0]) + ' degrees')
 
@@ -127,8 +125,6 @@ def full_calibration(label, lon):
     gain_avg = .5 * (gain_on + gain_off)
 
     return gain_avg * s_on_q / s_off_q, dopc
-
-    #we want to average each .fits file (ten spectra) into a single spectrum
 
 def spectral_fan(label, angle, polarization = 0):
     '''
