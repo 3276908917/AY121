@@ -52,7 +52,10 @@ def skip_yoke(dopplers):
     plt.xlabel('Distance from Galactic Center [kpc]', fontsize=12)
     plt.ylabel('Linear Velocity [km / s]', fontsize=12)
 
-    for i in range(0, len(dopplers), 25):
+    for i in range(0, len(dopplers), 10):
+        #hard-coded skip because I hate the scale freak out
+        #if i == 10:
+        #    continue
         r, v = arrow(dopplers[i])
         plt.plot(r / kpc, v, label=str(dopplers[i][0]) + ' degrees')
 

@@ -82,10 +82,10 @@ def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     alts = fixed_lst[:, 1]
     azs = fixed_lst[:, 0]
     
-    fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=True)
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, sharey=False)
 
     plt.xlabel('Galactic Longitude [degrees]', fontsize=12)
-    fig.text(0, 0.5, r'Topocentric Angle [degrees]',
+    fig.text(0, 0.5, 'Topocentric Angle [degrees]',
              va='center', rotation='vertical', fontsize=12)
 
     ax1.tick_params(axis="x", labelsize=12)
@@ -94,13 +94,14 @@ def gal_topo_plot(lst, anchor1='upper right', anchor2='upper right'):
     ax2.tick_params(axis="y", labelsize=12)
 
     ax1.plot(ELL, alts, label='altitude')
+    ax2.plot(ELL, azs, label='azimuth')  
+    
     ax1.plot(ELL, [leusch.ALT_MIN] * len(ELL), label='minimum allowed')
     ax1.plot(ELL, [leusch.ALT_MAX] * len(ELL), label='maximum allowed')
-    ax1.legend(loc=anchor1)
-    
-    ax2.plot(ELL, azs, label='azimuth')  
     ax2.plot(ELL, [leusch.AZ_MIN] * len(ELL), label='minimum allowed')
     ax2.plot(ELL, [leusch.AZ_MAX] * len(ELL), label='maximum allowed')
+
+    ax1.legend(loc=anchor1)
     ax2.legend(loc=anchor2)
 
 # deg_lst = np.degrees(ugradio.timing.lst(ugradio.timing.julian_date(ugradio.timing.unix_time() + 3600 * 0))) 
