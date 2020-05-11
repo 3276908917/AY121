@@ -18,11 +18,14 @@ def frame():
 
 naive_radii = np.linspace(0, R0, 50)
 def arrow(doppler):
-    ell = doppler[0]
+    sin_ell = np.sin(np.degrees(doppler[0]))
     v_dopp = doppler[1]
-    velocity = lambda r: r / R0 * (v_dopp / np.sin(np.degrees(ell)) - V0)
 
-    return np.array([velocity(r) for r in naive_radii])
+    radial_space = np.linspace(R0 * abs(sin_ell), R0, 50)
+    
+    velocity = lambda r: r / R0 * (v_dopp / sin_ell - V0)
+
+    return radial_space, np.array([velocity(r) for r in radial_space])
 
 def yoke(dopplers):
     fig, ax = frame()
@@ -31,7 +34,9 @@ def yoke(dopplers):
     plt.ylabel('Linear Velocity [km / s]', fontsize=12)
 
     for datum in dopplers:
-        plt.plot(naive_radii / kpc, arrow(datum))
+        r, v = arrow(datum)
+        plt.plot(r / kpc, v)
+        #plt.plot(naive_radii / kpc, arrow(datum))
 
     plt.show()
 
