@@ -16,13 +16,6 @@
 
 \maketitle
 
-%\begin{figure}
-%	\centering
-%	\includegraphics[width=.6\linewidth]{filename}
-%	\caption{}
-%	\label{fig: ...}
-%\end{figure}
-
 \begin{abstract}
 
 % remember to motivate the paper
@@ -127,9 +120,38 @@ We convert from galactic to topocentric coordinates using rotation matrices, as 
 
 We probably want a basic run-down of a .fits file, but perhaps some of that can go in the introduction.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{1940_10_05_2020}
+	\caption{}
+	\label{fig:vis_demo}
+\end{figure}
+
 \section{Observations}
 
 \quad \quad What would be a good $introduction$ to the data? We have hundreds of raw spectra. I am not sure how to $succinctly$ describe observations before we get into the analysis.
+
+% This plot is simply a way of concisely representing the 260 spectra we collected over the interval $\ell \in [-9, 250]$ degrees (one-degree spacings).
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{Doppler_collection}
+	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries.}
+	\label{fig:Dopp_collection}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{tangentPoint_dispersion}
+	\caption{This is an overplot of all 90 possible velocity curves. Specifically, when we treat the solar circle of the galaxy, we know that for each $\ell$, $R$ can take on a maximum value of $R_\odot$ (the radius of the solar circle) and a minimum value of $R_\odot \sin \ell$. The tangent-point method mandates the usage of $R_\text{min}$, but we here demonstrate how that method necessitates the collapse of line segments into points.}
+	\label{fig:TP_disp}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{tangentPoint_selected_dispersions}
+	\caption{Here we are essentially representing similar information to that of figure \ref{fig:TP_disp}. We use a semilog vertical axis to verify that there is one consistently-varying multiplicative offset ($\frac{1}{\sin \ell}$) as we examine different galactic longitudes. This plot also agrees with our expectation that our two boundary cases are meaningless: $\ell = 0$ degrees approaches an infinite linear velocity and $\ell = 90$ degrees corresponds to a velocity curve for which the minimum and maximum radii are the same (an infinitesimal segment).}
+	\label{fig:TP_sel_disp}
+\end{figure}
 
 \section{Analysis}
 
