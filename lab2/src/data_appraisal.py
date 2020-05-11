@@ -43,7 +43,7 @@ def gain(scal, scold, T_sys=300):
     return sum(scold) * T_sys / sum(scal - scold)
 
 # Doppler velocity in megameters per second
-def doppler(nu, nu_0, offset):
+def apply_doppler_correction(nu, nu_0, offset):
     '''
     @nu_0: accepted value for HI line?
     @nu : current frequency in iteration over power spectrum

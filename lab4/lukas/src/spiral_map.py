@@ -21,17 +21,15 @@ def frame():
 
 def arrow(doppler):
     '''
-    For now, ignore the following outdated advisory
-    Watch out!:
-    We are deliberately restricting sin ell to its magnitude,
-    so we are losing all sense of velocities being toward
-    and away from us based on angle.
+    Calculate a maximum-breadth velocity curve for a single
+    galactic longitude and its associated Doppler velocity.
     '''
     sin_ell = np.sin(np.radians(doppler[0]))
-    v_dopp = doppler[1]
-    
+    #v_dopp = doppler[1]
     radial_space = np.linspace(R0 * abs(sin_ell), R0, 50)
-    velocity = lambda r: r / R0 * (v_dopp / sin_ell - V0)
+    #velocity = lambda r: r / R0 * (v_dopp / sin_ell - V0)
+
+    velocity = velocify(doppler)
 
     return radial_space, np.array([velocity(r) for r in radial_space])
 
