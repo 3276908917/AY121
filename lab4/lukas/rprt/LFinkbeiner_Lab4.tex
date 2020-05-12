@@ -116,6 +116,13 @@ As we collect Doppler velocities for each galactic longitude $\ell$, it is impor
 
 \quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. Our full observation consists of 260 galactic coordinate pairs where the galactic latitude is a constant $0^\circ$ and the galactic longitude begins at $-9^\circ$ and increases in $1^\circ$ increments. We convert from galactic to topocentric coordinates using the rotation matrices \textcolor{red}{as described in a previous report}. We schedule our measurements by entering a value for the local sidereal time and considering which galactic coordinate pairs correspond to topocentric coordinate pairs which are currently accessible by the Leuschner dish (see figure \ref{fig:vis_demo} for an example case).
 
+\begin{figure}
+	\centering
+	\includegraphics[width=.75\linewidth]{1940_10_05_2020}
+	\caption{This is a visibility demonstration to clarify our observation process: we hold the local sidereal time fixed and plot the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range. We began this project with the nominal range of $\ell \in [-10^\circ, 250^\circ]$. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude). We also calculated that $\ell=-10^\circ$ is not visible for any sufficiently wide segment of the day. This visibility plot was generated at 19:40 on the tenth of May.}
+	\label{fig:vis_demo}
+\end{figure}
+
 As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
 
 \begin{figure}
@@ -127,18 +134,11 @@ As a demonstration of the Leuschner dish signal chain (illustrated in figure \re
 
 The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
 
-We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We have a 12MHz Nyquist bandwidth, and we are operating in the twelfth Nyquist window.
-
-Before we analyze the output of our spectrometer, we need to calibrate the spectra. We want to change our local oscillator frequency (as indicated in equation \ref{eq:line_shape}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra. Our `off' frequency, 1268 MHz, leads to an output range of 1.417 to 1.419 GHz. 
+Before we analyze these results, we need to combine each pair of four averaged spectra into a single calibrated spectrum which comprehensively describes our observations for a single galactic coordinate pair. We want to change our local oscillator frequency (as indicated in equation \ref{eq:line_shape}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra. Our `off' frequency, 1268 MHz, leads to an output range of 1.417 to 1.419 GHz. 
 
 The gain, G (indicated in equation \ref{eq:line_gain}), is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode wired close to the Leuschner dish receiver. For the vertical-polarization receiver (with which we are exclusively concerned here), the noise diode was independently estimated to contribute about 80 Kelvins. For our `cold' spectrum, we simply use the spectrum measured for the same galactic coordinates but without the noise diode enabled. We control for any time-dependent environmental inconsistencies by taking these two spectra consecutively.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=.75\linewidth]{1940_10_05_2020}
-	\caption{This is a visibility demonstration to clarify our observation process: we hold the local sidereal time fixed and plot the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range. We began this project with the nominal range of $\ell \in [-10^\circ, 250^\circ]$. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude). We also calculated that $\ell=-10^\circ$ is not visible for any sufficiently wide segment of the day. This visibility plot was generated at 19:40 on the tenth of May.}
-	\label{fig:vis_demo}
-\end{figure}
+We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We have a 12MHz Nyquist bandwidth, and we are operating in the twelfth Nyquist window. To protect our results from noise, we record 10 spectra for each case (on spectrum with noise diode, on spectrum without, off spectrum with noise diode, off spectrum without) and independently average them. Figure \ref{fig:cal_ex}, in our observations section, is an example of a fully calibrated spectrum which shows a sort of HI mirroring effect (a direct consequence of dividing the on and off spectra) as well as a y-axis that is physically meaningful due to this procedure.
 
 \section{Observations}
 
@@ -147,7 +147,7 @@ The gain, G (indicated in equation \ref{eq:line_gain}), is calculated with an ad
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{cal_ex_80_deg}
-	\caption{Here is an example of a fully calibrated example ($\ell = 80^\circ$), just one of 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest).}
+	\caption{This is an example of a fully calibrated spectrum ($\ell = 80^\circ$), for which we have created 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest). Despite the forty spectra used to produce a single spectrum of this kind, there remain clear limitations to the utility. There is a clear sinusoidal trend (with a sloped baseline) as well as systematics spikes (here visible at 1.424 GHz) which persist across spectra. Our intensity maximizer function is generally resistant to these annoyances due to the comparatively high signal to noise ratio of our setup. Nevertheless, there do exist some exceptions, as our later plots potentially feature.}
 	\label{fig:cal_ex}
 \end{figure}
 
