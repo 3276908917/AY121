@@ -142,14 +142,14 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We hav
 
 \section{Observations}
 
-\quad \quad What would be a good $introduction$ to the data? We have hundreds of raw spectra. I am not sure how to $succinctly$ describe observations before we get into the analysis.
-
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{cal_ex_80_deg}
 	\caption{This is an example of a fully calibrated spectrum ($\ell = 80^\circ$), for which we have created 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest). Despite the forty spectra used to produce a single spectrum of this kind, there remain clear limitations to the utility. There is a clear sinusoidal trend (with a sloped baseline) as well as systematics spikes (here visible at 1.424 GHz) which persist across spectra. Our intensity maximizer function is generally resistant to these annoyances due to the comparatively high signal to noise ratio of our setup. Nevertheless, there do exist some exceptions, as our later plots potentially feature.}
 	\label{fig:cal_ex}
 \end{figure}
+
+\quad \quad By maximizing the brightness temperature for the fully calibrated spectrum (consider how the shape of figure \ref{fig:cal_ex} would be friendly to a primitive maximization algorithm) of every galactic longitude on our range, we are able to produce a single plot which represents an overview of our data for this project. Figure \ref{fig:Dopp_collection} is close to what we would consider our image $T_A(\ell, V_{LSR})$ except that the graph is not colored to reflect varying brightness temperatures at the different angles. However, on its own, the figure does reflect the peculiarity of the various gas clouds in that the plot does not always appear to follow consistent patterns.
 
 % This plot is simply a way of concisely representing the 260 spectra we collected over the interval $\ell \in [-9, 250]$ degrees (one-degree spacings).
 \begin{figure}
@@ -159,6 +159,8 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We hav
 	\label{fig:Dopp_collection}
 \end{figure}
 
+Additionally, we may more quantitatively explore the idea pursued in the illustration for figure \ref{fig:ell_vs_r}. Figure \ref{fig:TP_disp} represents a dispersion of lines relating linear velocity to the distance from the galactic center. We create this visualization by treating radial distance and galactic longitude as parameters essentially independent but for the constraint that $R_\text{min} = R_\odot \sin \ell$ and $R_\text{max} = R_\odot$. This particular distribution appears highly symmetric, which may at first counter worries as to the rigor of a tangent-point approach.
+
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{tangentPoint_dispersion}
@@ -166,12 +168,16 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We hav
 	\label{fig:TP_disp}
 \end{figure}
 
+However, since the tangent-point method is applied exclusively to the range $\ell \in (0^\circ, 90^\circ]$, a more relevant comparison is offered in figure \ref{fig:TP_sel_disp}. Selecting the minimum value for radial distance seems more natural as we approach ninety degrees (the arc length vanishes and we are treating one value for radius anyway). However, as we approach the other end, the arc lengths begin to explode.
+
 \begin{figure}
 	\centering
 	\includegraphics[width=.9\linewidth]{tangentPoint_selected_dispersions}
 	\caption{Here we are essentially representing similar information to that of figure \ref{fig:TP_disp}. We use a semilog vertical axis to verify that there is one consistently-varying multiplicative offset ($\frac{1}{\sin \ell}$) as we examine different galactic longitudes. This plot also agrees with our expectation that our two boundary cases are meaningless: $\ell = 0^\circ$ approaches an infinite linear velocity and $\ell = 90^\circ$ corresponds to a velocity curve for which the minimum and maximum radii are the same (an infinitesimal segment).}
 	\label{fig:TP_sel_disp}
 \end{figure}
+
+Ten degrees is still far from our lower bound of zero, but we can see here that the single galactic longitude spans a linear velocity of around an order of magnitude. Furthermore, we need radius anyway for our classical mass considerations (refer to equation \ref{eq:mass}), and the problem is more concerning for that (we nearly span the full range of the solar circle). With a square term on velocity and a first-order radius term, we can expect a range of values which span nearly three orders of magnitude on mass. This author lacks sufficient understanding of the tangent-point method to make conclusions about its accuracy, which means that this situation is neither a problem to be ignored nor, necessarily, a problem to which to draw academic attention.
 
 \section{Analysis}
 
