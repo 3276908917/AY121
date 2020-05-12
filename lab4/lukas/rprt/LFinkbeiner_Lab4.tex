@@ -181,18 +181,16 @@ Ten degrees is still far from our lower bound of zero, but we can see here that 
 
 \section{Analysis}
 
-\quad \quad We can estimate the mass of the whole galaxy like this. We can estimate the mass within the solar circle like this. What fraction is gas, and what fraction is star? Does this question not require a given nuber for the mass of all stars?
-
-We can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
-
-The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
-
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{outer_mass_distro}
-	\caption{This is a cumulative mass distribution for radii larger than that of the solar circle. The plot begins with a mass of zero because we subtract-off whatever the function calculates for radii smaller than that of the solar circle; we know the calculations to be erroneous for the smaller radii because we are applying different calculation methods. Observe that the rate of increase of mass drops off rather steeply. We hope for this to be the case as the galaxy thins out toward its edges and is most dense at smaller radii.}
+	\caption{This is a cumulative mass distribution for radii larger than that of the solar circle. The plot begins with a mass of zero because we subtract-off whatever the function calculates for radii smaller than that of the solar circle; we know the calculations to be erroneous for the smaller radii because we are applying different calculation methods. Observe that the rate of increase of mass drops off rather steeply. We hope for this to be the case as the galaxy thins out toward its edges and is most dense at smaller radii. However, the transition is rather jarring to be ocurring as far out as the Sun. It may point to a deficiency in the mass approximation near $R_\odot$.}
 	\label{fig:outer_mass_distro}
 \end{figure}
+
+\quad \quad If we take the $V(R) \approx 220$ km/s for $R > R_\odot \approx 8.5$ kpc, we may apply equation \ref{eq:mass} out to radius of the Milky Way, estimated by \textcolor{red}{people} to be about 18.5 kpc. This corresponds to the ideal cumulative mass plot, figure \ref{fig:outer_mass_distro}. The final mass, for the range exclusively defined as the outer region of the Milky Way, rests at $2.23808 \times 10^{32}$ kg (about one hundred solar masses).
+
+%We can estimate the mass of the whole galaxy like this. We can estimate the mass within the solar circle like this. What fraction is gas, and what fraction is star? Does this question not require a given nuber for the mass of all stars?
 
 \begin{figure}
 	\centering
@@ -207,6 +205,10 @@ The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of
 	\caption{This is a semilog plot of interstellar cloud mass versus radius. The calculation rests conceptually on a cumulative distribution function, so we may immediately spot imperfections in the data. Specifically, after about 3 kpc, the data do not leveling off consistently. Instead, the mass response fluctuates and then slowly declines. However, the initial rise does fit with our expectation of a general decrease in density as we move outward from the center.}
 	\label{fig:inner_mass_distro}
 \end{figure}
+
+Finally, we can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
+
+The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
 
 \section{Conclusions}
 
