@@ -152,11 +152,18 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 
 \quad \quad What would be a good $introduction$ to the data? We have hundreds of raw spectra. I am not sure how to $succinctly$ describe observations before we get into the analysis.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=.8\linewidth]{cal_ex_80_deg}
+	\caption{Here is an example of a fully calibrated example ($\ell = 80$ degrees), just one of 260. There is a black vertical line indicating the location of the HI line at rest (\textcolor{red}{something Hertz})}
+	\label{fig:cal_ex}
+\end{figure}
+
 % This plot is simply a way of concisely representing the 260 spectra we collected over the interval $\ell \in [-9, 250]$ degrees (one-degree spacings).
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{Doppler_collection}
-	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries. \textcolor{red}{This $is$ the image $T_A(\ell, V_\text{LSR})$}}
+	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries. \textcolor{red}{This is $almost$ the image $T_A(\ell, V_\text{LSR})$; we need the brightness temperature associated with each Doppler velocity, then we can color this.}}
 	\label{fig:Dopp_collection}
 \end{figure}
 
@@ -192,14 +199,14 @@ The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{inner_vel_distro}
-	\caption{}
+	\caption{This is a plot of galactic rotation velocities by radius, calculated using the tangent-point method. If we approximated the galactic plane as a rigid disk, we would expect the velocity to increase with greater radius (as the same angular distance must be covered in the same amount of time at a greater radius). While this line does not disqualify a spiral, we might initially expect a spiral shape to come from $similar$ linear velocities manifesting as curved arms at greater radii. It is not clear if the fall-off of gravitational influence would agree with this model.}
 	\label{fig:inner_vel_distro}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{inner_mass_distro}
-	\caption{}
+	\caption{This is a semilog plot of interstellar cloud mass versus radius. The calculation rests conceptually on a cumulative distribution function, so we may immediately spot imperfections in the data. Specifically, after about 3 kpc, the data do not leveling off consistently. Instead, the mass response fluctuates and then slowly declines. However, the initial rise does fit with our expectation of a general decrease in density as we move outward from the center.}
 	\label{fig:inner_mass_distro}
 \end{figure}
 
