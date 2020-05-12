@@ -6,9 +6,7 @@
 
 \graphicspath{{res/}}
 
-% I need a punchy title which is general enough
-% to fit all three (if I can pull them off) points from the lab manual.
-\title{\textcolor{red}{The Galactic Plane}}
+\title{Gaseous Mass in the Galactic Plane}
 
 \author{Lukas Finkbeiner}
 
@@ -114,7 +112,7 @@ As we collect Doppler velocities for each galactic longitude $\ell$, it is impor
 
 \section{Methods}
 
-\quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. Our full observation consists of 260 galactic coordinate pairs where the galactic latitude is a constant $0^\circ$ and the galactic longitude begins at $-9^\circ$ and increases in $1^\circ$ increments. We convert from galactic to topocentric coordinates using the rotation matrices \textcolor{red}{as described in a previous report}. We schedule our measurements by entering a value for the local sidereal time and considering which galactic coordinate pairs correspond to topocentric coordinate pairs which are currently accessible by the Leuschner dish (see figure \ref{fig:vis_demo} for an example case).
+\quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. Our full observation consists of 260 galactic coordinate pairs where the galactic latitude is a constant $0^\circ$ and the galactic longitude begins at $-9^\circ$ and increases in $1^\circ$ increments. We convert from galactic to topocentric coordinates using the same rotation matrices from lab 2 (Finkbeiner, 2020). We schedule our measurements by entering a value for the local sidereal time and considering which galactic coordinate pairs correspond to topocentric coordinate pairs which are currently accessible by the Leuschner dish (see figure \ref{fig:vis_demo} for an example case).
 
 \begin{figure}
 	\centering
@@ -190,9 +188,7 @@ Ten degrees is still far from our lower bound of zero, but we can see here that 
 	\label{fig:outer_mass_distro}
 \end{figure}
 
-\quad \quad If we take the $V(R) \approx 220$ km/s for $R > R_\odot \approx 8.5$ kpc, we may apply equation \ref{eq:mass} out to radius of the Milky Way, estimated by \textcolor{red}{people} to be about 18.5 kpc. This corresponds to the ideal cumulative mass plot, figure \ref{fig:outer_mass_distro}. The final mass, for the range exclusively defined as the outer region of the Milky Way, rests at $2.23808 \times 10^{32}$ kg (about one hundred solar masses).
-
-%We can estimate the mass of the whole galaxy like this. We can estimate the mass within the solar circle like this. What fraction is gas, and what fraction is star? Does this question not require a given nuber for the mass of all stars?
+\quad \quad If we take the $V(R) \approx 220$ km/s for $R > R_\odot \approx 8.5$ kpc, we may apply equation \ref{eq:mass} out to radius of the Milky Way, estimated to be about 18.5 kpc (M. L\'{o}pez-Corredoira et al, 2018). This corresponds to the ideal cumulative mass plot, figure \ref{fig:outer_mass_distro}. The final mass, for the range exclusively defined as the outer region of the Milky Way, rests at $2.23808 \times 10^{32}$ kg (about one hundred solar masses).
 
 \begin{figure}
 	\centering
@@ -214,9 +210,9 @@ Now, figure \ref{fig:inner_vel_distro} only charts the velocity calculations. We
 
 Furthermore, this is about one order of magnitude smaller than our analogous result for the outer milky way. We expect a decreasing density function with increasing radius, so we doubt this result for a second reason.
 
-Finally, we can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole.
+Finally, we can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. Modern estimates of the radius of the active galactic nucleus put it at about $4.4 \times 10^{7}$ km in radius (Doelemean et al, 2008). By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole.
 
-With a simple integration over the black hole radius, we get a mass of approximately $7.52497 \times 10^{22}$ kg. This is eight orders of magnitude below the mass of the sun, so we immediately know the result to be spurious. Anyway, according to \textcolor{red}{blah}, the true mass is about 6 orders of magnitude greater than the mass of the sun.
+With a simple integration over the black hole radius, we get a mass of approximately $7.52497 \times 10^{22}$ kg. This is eight orders of magnitude below the mass of the sun, so we immediately know the result to be spurious. Anyway, the independent mass is published to be about 6 orders of magnitude greater than the mass of the sun (Doelemean et al, 2008).
 
 Error is very difficult to consider here because the radius would otherwise be chosen quite arbitrarily. Truly, we are observing the movement of gaseous clouds $around$ the black hole, so one would be tempted to correct this underestimation by expanding the effective radius. However, it is not clear what boundary to set. What qualifies as `very close' to the black? If we expand to one light year (which may indeed be considered very close for a supermassive black hole), the calculated mass of course increases by six orders of magnitude.
 
@@ -228,11 +224,9 @@ To reverse-engineer the published result using this approach, we would have to d
 
 \section{Acknowledgments}
 
-\quad \quad Lukas wrote most of the code to adapt the old tracking script to this new project, and took several sets of data to resolve localized errors. Rebecca developed filtering examples for subtracting-off the sytematics spikes, curved baseline, and sinusoidal pattern shown in figure \ref{fig:cal_ex}. Mehdi developed column density examples for calculating the mass, as well as some routines for parsing .fits data. 
+\quad \quad Mehdi developed column density examples for calculating the mass, as well as some routines for parsing .fits data. Rebecca developed filtering examples for subtracting-off the sytematics spikes, curved baseline, and sinusoidal pattern shown in figure \ref{fig:cal_ex}. I wrote most of the code to adapt the old tracking script to this new project, and took several sets of data to resolve localized errors.
 
 Theory and background provided by Aaron Parsons. ``LAB 4: Mapping the Galactic HI Line.'' Updated April 2020.
-
-% Can we please get a bibliography this time?
 
 % The following is a lorem ipsum. We want
 	% tangent-point resource recommended by Rebecca
@@ -240,10 +234,26 @@ Theory and background provided by Aaron Parsons. ``LAB 4: Mapping the Galactic H
 	% lab 2, for most of the gain and line shape stuff. Should I also cite myself?
 
 \begin{thebibliography}{9}
-\bibitem{latexcompanion} 
-Michel Goossens, Frank Mittelbach, and Alexander Samarin. 
-\textit{The \LaTeX\ Companion}. 
-Addison-Wesley, Reading, Massachusetts, 1993.
+
+\bibitem{doeleman}
+Doeleman, Sheperd S.; et al.
+\textit{Event-horizon-scale structure in the supermassive black hole candidate at that Galactic Centre}.
+Nature, 455(7209):78–80, 2008.
+
+\bibitem{lopez}
+M. L\'{o}pez-Corredoira, C. Allende Prieto, F. Garzón, H. Wang, C. Liu and L. Deng.
+\textit{Disk stars in the Milky Way detected beyond 25 kpc from its center}.
+Astronomy \& Astrophysics 612: L8, 2018. 
+
+\bibitem{me}
+L. Finkbeiner.
+\textit{Lab 2}.
+2020.
+
+\bibitem{verschuur} 
+G.L. Verschuur and K. I. Kellermann. 
+\textit{Galactic and Extragalactic Radio Astronomy}. 
+Springer-Verlag, 1983.
 
 \bibitem{einstein} 
 Albert Einstein. 
