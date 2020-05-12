@@ -37,8 +37,6 @@ results, uncertainties.
 
 Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
 
-21 cm line transition: 1420.405751786 MHz at rest.
-
 \begin{equation} \label{eq:spiral}
 R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
 \end{equation}
@@ -76,8 +74,6 @@ V(R) = \frac{R}{R_\odot} \left[ \frac{V_\text{Dopp}}{\sin \ell} - V(R_\odot) \ri
 %\begin{equation} \label{eq:outer_spiral}
 %R = V(R) \left[ \frac{V_\text{Dopp}}{R_\odot \sin \ell} + \frac{V(R_\odot)}{R_\odot} \right]^{-1}
 %\end{equation}
-
-\textcolor{red}{You have to cite sources and find a better common unit.}
 
 In preparation for our mass estimations, we start with the conventional
 
@@ -133,9 +129,7 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz
 
 \section{Methods}
 
-\quad \quad To observe the galactic plane, we have our trusty tracking script. After three labs' worth of development, it is almost correct!
-
-How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
+\quad \quad How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
 
 We convert from galactic to topocentric coordinates using rotation matrices, as described in a previous report. How much should I include? If I describe the matrices again, that will certainly have to go in the introduction.
 
@@ -155,7 +149,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{cal_ex_80_deg}
-	\caption{Here is an example of a fully calibrated example ($\ell = 80$ degrees), just one of 260. There is a black vertical line indicating the location of the HI line at rest (\textcolor{red}{something Hertz})}
+	\caption{Here is an example of a fully calibrated example ($\ell = 80$ degrees), just one of 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest).}
 	\label{fig:cal_ex}
 \end{figure}
 
@@ -221,5 +215,27 @@ The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of
 Theory and background provided by Aaron Parsons. ``LAB 4: Mapping the Galactic HI Line.'' Updated April 2020.
 
 % Can we please get a bibliography this time?
+
+% The following is a lorem ipsum. We want
+	% tangent-point resource recommended by Rebecca
+	% my source for the radius of the galactic black hole
+	% lab 2, for most of the gain and line shape stuff. Should I also cite myself?
+
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+Michel Goossens, Frank Mittelbach, and Alexander Samarin. 
+\textit{The \LaTeX\ Companion}. 
+Addison-Wesley, Reading, Massachusetts, 1993.
+
+\bibitem{einstein} 
+Albert Einstein. 
+\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
+[\textit{On the electrodynamics of moving bodies}]. 
+Annalen der Physik, 322(10):891–921, 1905.
+
+\bibitem{knuthwebsite} 
+Knuth: Computers and Typesetting,
+\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
+\end{thebibliography}
 
 \end{document}
