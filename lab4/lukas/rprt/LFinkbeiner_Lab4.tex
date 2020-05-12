@@ -41,6 +41,37 @@ Given certain patterns, how well does a spiral fit? We need to control for the t
 R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
 \end{equation}
 
+% ugh where does intro end and methods begin
+
+Before we analyze the output of our spectrometer, we need to calibrate the spectra. The concepts are the same as \textcolor{red}{in lab 2 (this should be a citation?)}.
+
+We want to change our local oscillator frequency (as shown in figure \ref{fig:sig_chain}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
+
+\begin{equation} \label{eq:line_shape}
+T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
+\end{equation}
+
+The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute:
+
+\begin{equation} \label{eq:line_gain}
+G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{cold})}} \sum{s_\text{cold}}
+\end{equation}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{sig_chain}
+	\caption{This is a simplification of the Leuschner signal chain, where the horizontal polarization has been ignored (we do not use those data in this report). Furthermore, we abstract-away the clock rate of the ROACH and the various stages of digitization. For our `on' LO frequency of 1270 MHz, the output spectra cover a frequency range 1415 to 1425 MHz.}
+	\label{fig:sig_chain}
+\end{figure}
+
+As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
+
+The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
+
+We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
+
+We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
+
 The following equation is a conclusion of the tangent-point method for converting galactic rotation to Doppler velocity. $R_\odot \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
 
 \begin{equation} \label{eq:vel_dopp}
@@ -87,38 +118,7 @@ Then, we re-arrange to get the desired form:
 M_\text{gravitational} = \frac{R v^2}{G} 
 \end{equation}
 
-% ugh where does intro end and methods begin
-
-Before we analyze the output of our spectrometer, we need to calibrate the spectra. The concepts are the same as \textcolor{red}{in lab 2 (this should be a citation?)}.
-
-We want to change our local oscillator frequency between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
-
-\begin{equation} \label{eq:line_shape}
-T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
-\end{equation}
-
-The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute:
-
-\begin{equation} \label{eq:line_gain}
-G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{cold})}} \sum{s_\text{cold}}
-\end{equation}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=.9\linewidth]{sig_chain}
-	\caption{This is a simplification of the Leuschner signal chain, where the horizontal polarization has been ignored (we do not use those data in this report). Furthermore, we abstract-away the clock rate of the ROACH and the various stages of digitization. For our `on' LO frequency of 1270 MHz, the output spectra cover a frequency range 1415 to 1425 MHz.}
-	\label{fig:sig_chain}
-\end{figure}
-
-As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
-
-The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
-
-We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
-
-We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
-
-\textcolor{red}{Finally, it is important to distinguish between radius $R$ and galactic longitude $\ell$.}
+As we collect Doppler velocities for each galactic longitude $\ell$, it is important to distinguish between $\ell$ and the radial distance $R$ of a hydrogen cloud to the galactic center. To estimate mass for the part of the galaxy inside the solar circle, we use the tangent point method by applying equation \ref{eq:vel_curve} with $R = R_\text{min} = R_0 \sin \ell$. In figure \ref{fig:ell_vs_r}, we illustrate the range of radii associated with an arbitrary $\ell$. The tangent-point method necessarily excludes these other radii. Later on, in the observations section, we will visualize some consequences of this.
 
 \begin{figure}
 	\centering
