@@ -55,7 +55,7 @@ G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{c
 
 The first equation will be used to demonstrate a consistent HI signal by combining spectra for two different frequencies in the local oscillator. The second equation will be used to scale the power spectrum so that the y-axis carries information about the brightness temperatures associated with different frequencies on our spectra.
 
-The following equation is a conclusion of the tangent-point method ($0^\circ < \ell \leq 90^\circ$) for converting galactic rotation to Doppler velocity. $V(R_\odot) \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
+The following equation is a conclusion of the tangent-point method ($0^\circ < \ell \leq 90^\circ$) for converting galactic rotation to Doppler velocity (G.L. Verschuur and K. I. Kellermann, 1983). $V(R_\odot) \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
 
 \begin{equation} \label{eq:vel_dopp}
 V_\text{Dopp} = \left[ \frac{V(R)}{R} - \frac{V(R_\odot)}{R_\odot} \right] R_\odot \sin(\ell)
@@ -159,7 +159,7 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We hav
 
 %\textcolor{red}{This is $almost$ the image $T_A(\ell, V_\text{LSR})$; we need the brightness temperature associated with each Doppler velocity, then we can color this.}
 
-Additionally, we may more quantitatively explore the idea pursued in the illustration for figure \ref{fig:ell_vs_r}. Figure \ref{fig:TP_disp} represents a dispersion of lines relating linear velocity to the distance from the galactic center. We create this visualization by treating radial distance and galactic longitude as parameters essentially independent but for the constraint that $R_\text{min} = R_\odot \sin \ell$ and $R_\text{max} = R_\odot$. This particular distribution appears highly symmetric, which may at first counter worries as to the rigor of a tangent-point approach.
+Additionally, we may more quantitatively explore the idea pursued in the illustration for figure \ref{fig:ell_vs_r}. Figure \ref{fig:TP_disp} represents a dispersion of lines relating linear velocity to the distance from the galactic center. We create this visualization by treating radial distance and galactic longitude as parameters essentially independent but for the constraint that $R_\text{min} = R_\odot \sin \ell$ and $R_\text{max} = R_\odot$ (G.L. Verschuur and K. I. Kellermann, 1983). This particular distribution appears highly symmetric, which may at first counter worries as to the rigor of a tangent-point approach.
 
 \begin{figure}
 	\centering
@@ -233,37 +233,28 @@ Theory and background provided by Aaron Parsons. ``LAB 4: Mapping the Galactic H
 	% my source for the radius of the galactic black hole
 	% lab 2, for most of the gain and line shape stuff. Should I also cite myself?
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{4}
 
 \bibitem{doeleman}
-Doeleman, Sheperd S.; et al.
+S. Doeleman et al.
 \textit{Event-horizon-scale structure in the supermassive black hole candidate at that Galactic Centre}.
 Nature, 455(7209):78–80, 2008.
-
-\bibitem{lopez}
-M. L\'{o}pez-Corredoira, C. Allende Prieto, F. Garzón, H. Wang, C. Liu and L. Deng.
-\textit{Disk stars in the Milky Way detected beyond 25 kpc from its center}.
-Astronomy \& Astrophysics 612: L8, 2018. 
 
 \bibitem{me}
 L. Finkbeiner.
 \textit{Lab 2}.
 2020.
 
+\bibitem{lopez}
+M. L\'{o}pez-Corredoira, C. Allende Prieto, F. Garzón, H. Wang, C. Liu and L. Deng.
+\textit{Disk stars in the Milky Way detected beyond 25 kpc from its center}.
+Astronomy \& Astrophysics 612: L8, 2018.
+
 \bibitem{verschuur} 
 G.L. Verschuur and K. I. Kellermann. 
 \textit{Galactic and Extragalactic Radio Astronomy}. 
 Springer-Verlag, 1983.
 
-\bibitem{einstein} 
-Albert Einstein. 
-\textit{Zur Elektrodynamik bewegter K{\"o}rper}. (German) 
-[\textit{On the electrodynamics of moving bodies}]. 
-Annalen der Physik, 322(10):891–921, 1905.
-
-\bibitem{knuthwebsite} 
-Knuth: Computers and Typesetting,
-\\\texttt{http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html}
 \end{thebibliography}
 
 \end{document}
