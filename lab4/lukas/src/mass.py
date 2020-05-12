@@ -19,6 +19,7 @@ def mass_inner_plot(dopps):
         v = dop[1] - V0 * sin_ell
         ms.append(r * v ** 2 / G)
     plt.plot(rs, ms)
+    return rs, ms
 
 def vel_inner_plot(dopps):
     fig, ax = frame()
@@ -33,6 +34,7 @@ def vel_inner_plot(dopps):
         rs.append(R0 * sin_ell / kpc)
         vs.append(dop[1] - V0 * sin_ell)
     plt.plot(rs, vs)
+    return rs, vs
 
 def mass_outer(circle_edge, constant_v):
     '''

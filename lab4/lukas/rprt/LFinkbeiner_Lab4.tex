@@ -57,7 +57,7 @@ G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{c
 
 The first equation will be used to demonstrate a consistent HI signal by combining spectra for two different frequencies in the local oscillator. The second equation will be used to scale the power spectrum so that the y-axis carries information about the brightness temperatures associated with different frequencies on our spectra.
 
-The following equation is a conclusion of the tangent-point method ($0^\circ < \ell \leq 90^\circ$) for converting galactic rotation to Doppler velocity. $R_\odot \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
+The following equation is a conclusion of the tangent-point method ($0^\circ < \ell \leq 90^\circ$) for converting galactic rotation to Doppler velocity. $V(R_\odot) \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
 
 \begin{equation} \label{eq:vel_dopp}
 V_\text{Dopp} = \left[ \frac{V(R)}{R} - \frac{V(R_\odot)}{R_\odot} \right] R_\odot \sin(\ell)
@@ -155,9 +155,11 @@ We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We hav
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{Doppler_collection}
-	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries. \textcolor{red}{This is $almost$ the image $T_A(\ell, V_\text{LSR})$; we need the brightness temperature associated with each Doppler velocity, then we can color this.}}
+	\caption{We take the peak intensity of each spectrum to represent the shifted HI line for that galactic longitude.  Observe that, for our tangent-point considerations ($\ell \in [0, 90]$), we have an initial region featuring wild fluctuations followed by a relatively flat region for the second half of the angles. While this could represent physical realities, this seeming discontinuity of the derivative could also be a consequence of the primitive intensity-maximizing function, or it could be a consequence of pointing the telescope at angles close to mechanical boundaries.}
 	\label{fig:Dopp_collection}
 \end{figure}
+
+%\textcolor{red}{This is $almost$ the image $T_A(\ell, V_\text{LSR})$; we need the brightness temperature associated with each Doppler velocity, then we can color this.}
 
 Additionally, we may more quantitatively explore the idea pursued in the illustration for figure \ref{fig:ell_vs_r}. Figure \ref{fig:TP_disp} represents a dispersion of lines relating linear velocity to the distance from the galactic center. We create this visualization by treating radial distance and galactic longitude as parameters essentially independent but for the constraint that $R_\text{min} = R_\odot \sin \ell$ and $R_\text{max} = R_\odot$. This particular distribution appears highly symmetric, which may at first counter worries as to the rigor of a tangent-point approach.
 
@@ -199,6 +201,8 @@ Ten degrees is still far from our lower bound of zero, but we can see here that 
 	\label{fig:inner_vel_distro}
 \end{figure}
 
+To examine the mass $in$side the solar circle, we have to use a different approach: the tangent-point method described in the introduction. Figure \ref{fig:inner_vel_distro} is created with 89 points. Each point has an x coordinate corresponding to the minimum radial distance $R_\text{min} = R_\odot \sin \ell$. We then plug that $R_\text{min}$ into equation \ref{eq:vel_curve} and combine our observations for Doppler velocity (corrected for the local standard of rest frame). We observe a linear and almost monotonic decrease for the entire range of the solar circle, which may be consistent with the spiral model distribution of linear velocities.
+
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{inner_mass_distro}
@@ -206,17 +210,25 @@ Ten degrees is still far from our lower bound of zero, but we can see here that 
 	\label{fig:inner_mass_distro}
 \end{figure}
 
-Finally, we can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
+Now, figure \ref{fig:inner_vel_distro} only charts the velocity calculations. We are here interested in the quantities of mass in the solar circle, so we apply equation \ref{eq:mass} to these results to get figure \ref{fig:inner_mass_distro}. We expect the the result to be a cumulative distribution function, so the decrease toward the end is disconcerting. This results in a maximum spread of about 48\% in the final result. We estimate the gaseous mass inside the solar circle to be $(8.16075 \pm .19450) \times 10^{31}$ kg. This is only about 40 solar masses, the error is not large enough to really escape suspicion. We expect the milky way galaxy to be forming new stars at a very high rate, but there is simply not enough mass in this calculation to justify any such concept.
 
-The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
+Furthermore, this is about one order of magnitude smaller than our analogous result for the outer milky way. We expect a decreasing density function with increasing radius, so we doubt this result for a second reason.
+
+Finally, we can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole.
+
+With a simple integration over the black hole radius, we get a mass of approximately $7.52497 \times 10^{22}$ kg. This is eight orders of magnitude below the mass of the sun, so we immediately know the result to be spurious. Anyway, according to \textcolor{red}{blah}, the true mass is about 6 orders of magnitude greater than the mass of the sun.
+
+Error is very difficult to consider here because the radius would otherwise be chosen quite arbitrarily. Truly, we are observing the movement of gaseous clouds $around$ the black hole, so one would be tempted to correct this underestimation by expanding the effective radius. However, it is not clear what boundary to set. What qualifies as `very close' to the black? If we expand to one light year (which may indeed be considered very close for a supermassive black hole), the calculated mass of course increases by six orders of magnitude.
+
+To reverse-engineer the published result using this approach, we would have to define `very close' as one hundred million light-years. This is already orders of magnitude larger than the radius of the Milky Way galaxy. Therefore, without a satisfactory numerical error, we may still conclude that something in this estimation was fundamentally flawed, for we lack even a distantly-correct figure.
 
 \section{Conclusions}
 
-\quad \quad We seem to have at least a couple of results! How do I estimate the uncertainty on the Leuschner dish?
+\quad \quad In summary, the mass considerations were bad.
 
 \section{Acknowledgments}
 
-\quad \quad Who did what?
+\quad \quad Lukas wrote most of the code to adapt the old tracking script to this new project, and took several sets of data to resolve localized errors. Rebecca developed filtering examples for subtracting-off the sytematics spikes, curved baseline, and sinusoidal pattern shown in figure \ref{fig:cal_ex}. Mehdi developed column density examples for calculating the mass, as well as some routines for parsing .fits data. 
 
 Theory and background provided by Aaron Parsons. ``LAB 4: Mapping the Galactic HI Line.'' Updated April 2020.
 
