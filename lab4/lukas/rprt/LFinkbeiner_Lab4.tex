@@ -12,6 +12,10 @@
 
 \author{Lukas Finkbeiner}
 
+% We probably want a basic run-down of a .fits file, but perhaps some of that can go in the introduction.
+
+% Explain \alpha and \beta in the first figure.
+
 \begin{document}
 
 \maketitle
@@ -53,7 +57,7 @@ G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{c
 
 The first equation will be used to demonstrate a consistent HI signal by combining spectra for two different frequencies in the local oscillator. The second equation will be used to scale the power spectrum so that the y-axis carries information about the brightness temperatures associated with different frequencies on our spectra.
 
-The following equation is a conclusion of the tangent-point method for converting galactic rotation to Doppler velocity. $R_\odot \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
+The following equation is a conclusion of the tangent-point method ($0^\circ < \ell \leq 90^\circ$) for converting galactic rotation to Doppler velocity. $R_\odot \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
 
 \begin{equation} \label{eq:vel_dopp}
 V_\text{Dopp} = \left[ \frac{V(R)}{R} - \frac{V(R_\odot)}{R_\odot} \right] R_\odot \sin(\ell)
@@ -110,7 +114,9 @@ As we collect Doppler velocities for each galactic longitude $\ell$, it is impor
 
 \section{Methods}
 
-\quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
+\quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. Our full observation consists of 260 galactic coordinate pairs where the galactic latitude is a constant $0^\circ$ and the galactic longitude begins at $-9^\circ$ and increases in $1^\circ$ increments. We convert from galactic to topocentric coordinates using the rotation matrices \textcolor{red}{as described in a previous report}. We schedule our measurements by entering a value for the local sidereal time and considering which galactic coordinate pairs correspond to topocentric coordinate pairs which are currently accessible by the Leuschner dish (see figure \ref{fig:vis_demo} for an example case).
+
+As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
 
 \begin{figure}
 	\centering
@@ -119,34 +125,18 @@ As we collect Doppler velocities for each galactic longitude $\ell$, it is impor
 	\label{fig:sig_chain}
 \end{figure}
 
-
-
 The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
 
-We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
+We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock). We have a 12MHz Nyquist bandwidth, and we are operating in the twelfth Nyquist window.
 
-We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
+Before we analyze the output of our spectrometer, we need to calibrate the spectra. We want to change our local oscillator frequency (as indicated in equation \ref{eq:line_shape}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra. Our `off' frequency, 1268 MHz, leads to an output range of 1.417 to 1.419 GHz. 
 
-Before we analyze the output of our spectrometer, we need to calibrate the spectra.
-
-We want to change our local oscillator frequency (as shown in figure \ref{fig:sig_chain}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
-
-\ref{eq:line_shape}
-
-The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute: \ref{eq:line_gain}
-
-
-
-How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
-
-We convert from galactic to topocentric coordinates using rotation matrices, as described in a previous report. How much should I include? If I describe the matrices again, that will certainly have to go in the introduction.
-
-We probably want a basic run-down of a .fits file, but perhaps some of that can go in the introduction.
+The gain, G (indicated in equation \ref{eq:line_gain}), is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode wired close to the Leuschner dish receiver. For the vertical-polarization receiver (with which we are exclusively concerned here), the noise diode was independently estimated to contribute about 80 Kelvins. For our `cold' spectrum, we simply use the spectrum measured for the same galactic coordinates but without the noise diode enabled. We control for any time-dependent environmental inconsistencies by taking these two spectra consecutively.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.75\linewidth]{1940_10_05_2020}
-	\caption{This is a visibility demonstration to clarify our observation process: we input a value for the local sidereal time, and our script plots the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range (since we are observing the galactic plane, the galactic latitude $b$ is universally zero degrees). We began this project with the nominal range of $\ell \in [-10^\circ, 250^\circ]$. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude).}
+	\caption{This is a visibility demonstration to clarify our observation process: we hold the local sidereal time fixed and plot the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range. We began this project with the nominal range of $\ell \in [-10^\circ, 250^\circ]$. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude). We also calculated that $\ell=-10^\circ$ is not visible for any sufficiently wide segment of the day. This visibility plot was generated at 19:40 on the tenth of May.}
 	\label{fig:vis_demo}
 \end{figure}
 
