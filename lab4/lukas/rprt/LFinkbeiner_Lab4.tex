@@ -33,7 +33,7 @@ results, uncertainties.
 \end{abstract}
 
 \section{Introduction and Background}
-% currently we need more connecting text
+% currently we need more connecting text and MORE MOTIVATION
 
 Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
 
@@ -41,36 +41,17 @@ Given certain patterns, how well does a spiral fit? We need to control for the t
 R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
 \end{equation}
 
-% ugh where does intro end and methods begin
-
-Before we analyze the output of our spectrometer, we need to calibrate the spectra. The concepts are the same as \textcolor{red}{in lab 2 (this should be a citation?)}.
-
-We want to change our local oscillator frequency (as shown in figure \ref{fig:sig_chain}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
+To explore these questions, we want to be able to examine the Doppler velocities and brightness temperatures associated with different parts of the galactic plane of the Milky Way. We want to examine power spectra collected for values of the galactic longitude $\ell$ on the range $-10^\circ$ to $250^\circ$. We will provide a more comprehensive analysis of our particular setup in the methods section. For now, we consider, in the abstract, two equations for calibrating the spectra. 
 
 \begin{equation} \label{eq:line_shape}
 T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
 \end{equation}
 
-The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute:
-
 \begin{equation} \label{eq:line_gain}
 G = \frac{T_\text{sys, cal} - T_\text{sys, cold}}{\sum{(s_\text{cal} - s_\text{cold})}} \sum{s_\text{cold}}
 \end{equation}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=.9\linewidth]{sig_chain}
-	\caption{This is a simplification of the Leuschner signal chain, where the horizontal polarization has been ignored (we do not use those data in this report). Furthermore, we abstract-away the clock rate of the ROACH and the various stages of digitization. For our `on' LO frequency of 1270 MHz, the output spectra cover a frequency range 1415 to 1425 MHz.}
-	\label{fig:sig_chain}
-\end{figure}
-
-As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
-
-The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
-
-We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
-
-We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
+The first equation will be used to demonstrate a consistent HI signal by combining spectra for two different frequencies in the local oscillator. The second equation will be used to scale the power spectrum so that the y-axis carries information about the brightness temperatures associated with different frequencies on our spectra.
 
 The following equation is a conclusion of the tangent-point method for converting galactic rotation to Doppler velocity. $R_\odot \approx 220 $ km / s and $R_\odot \approx 8.5$ kpc $\equiv 2.6 \times 10^{17}$ km. 
 
@@ -118,18 +99,45 @@ Then, we re-arrange to get the desired form:
 M_\text{gravitational} = \frac{R v^2}{G} 
 \end{equation}
 
-As we collect Doppler velocities for each galactic longitude $\ell$, it is important to distinguish between $\ell$ and the radial distance $R$ of a hydrogen cloud to the galactic center. To estimate mass for the part of the galaxy inside the solar circle, we use the tangent point method by applying equation \ref{eq:vel_curve} with $R = R_\text{min} = R_0 \sin \ell$. In figure \ref{fig:ell_vs_r}, we illustrate the range of radii associated with an arbitrary $\ell$. The tangent-point method necessarily excludes these other radii. Later on, in the observations section, we will visualize some consequences of this.
+As we collect Doppler velocities for each galactic longitude $\ell$, it is important to distinguish between $\ell$ and the radial distance $R$ of a hydrogen cloud to the galactic center. To estimate mass for the part of the galaxy inside the solar circle, we use the tangent point method by applying equation \ref{eq:vel_curve} with $R = R_\text{min} = R_\odot \sin \ell$. In figure \ref{fig:ell_vs_r}, we illustrate the range of radii associated with an arbitrary $\ell$. The tangent-point method necessarily excludes these other radii. Later on, in the observations section, we will visualize some consequences of this.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.4\linewidth]{ell_versus_r}
-	\caption{This is a simple illustration demonstrating how the value of $\ell$ can place constraints on valid values for $R$ (specifically, $R_2$ here represents the right-triangle case, for which the radius is minimized). However, since our universal value for galactic latitude $b = 0$ degrees has no relevance to radial distances, no pair of galactic coordinates will specify the radius at which we are working. Consequently, the tangent-point method must explicitly establish that we work with a specific radius $R = R_\text{min}$.}
+	\caption{This is a simple illustration demonstrating how the value of $\ell$ can place constraints on valid values for $R$ (specifically, $R_2$ here represents the right-triangle case, for which the radius is minimized). However, since our universal value for galactic latitude $b = 0^\circ$ has no relevance to radial distances, no pair of galactic coordinates will specify the radius at which we are working. Consequently, the tangent-point method must explicitly establish that we work with a specific radius $R = R_\text{min}$.}
 	\label{fig:ell_vs_r}
 \end{figure}
 
 \section{Methods}
 
-\quad \quad How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
+\quad \quad To conduct all of our measurements of the galactic plane of the Milky Way, we run a tracking script on a remote computer linked to the Leuschner dish. As a demonstration of the Leuschner dish signal chain (illustrated in figure \ref{fig:sig_chain}), we show how we map a set of input signals to a final frequency axis for our plots (frequency versus brightness temperature). Since we are considering only frequency, this allows us to skip over the amplifiers and attenuators.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\linewidth]{sig_chain}
+	\caption{This is a simplification of the Leuschner signal chain, where the horizontal polarization has been ignored (we do not use those data in this report). Furthermore, we abstract-away the clock rate of the ROACH and the various stages of digitization. For our `on' LO frequency of 1270 MHz, the output spectra cover a frequency range 1415 to 1425 MHz.}
+	\label{fig:sig_chain}
+\end{figure}
+
+
+
+The initial band-pass filter ranges from 1.4 to 1.63 GHz. There is a down-converter that mixes this filtered signal with the signal from the local oscillator LO. This leads to a new frequency band (intermediate frequency IF) of 130 MHz to 360 MHz. Since we are using a real-valued mixer, we apply a band-pass filter to eliminate the sum frequencies. This filter is centered at 150 MHz and has a bandwidth of 10 MHz. Consequently, we expect the following frequency range in our outputs (which take the form of spectra in .fits files): a 10 MHz wide range beginning at 145 MHz IF (which maps to 1.415 GHz RF) and ending at 155 MHz IF (which maps to 1.425 GHz RF).
+
+We used 1268 MHz for our second LO frequency, the `off' spectrum. This leads to an output range of 1.417 to 1.419 GHz.
+
+We sample at 24 MHz (we keep 1/32 of the samples from the 768 MHz clock),->12MHz Nyquist bandwidth. so we are operating in the twelfth Nyquist window.
+
+Before we analyze the output of our spectrometer, we need to calibrate the spectra.
+
+We want to change our local oscillator frequency (as shown in figure \ref{fig:sig_chain}) between two values. This allows us to, via the mixer, adjust where the HI line appears in our spectra. We thereby create `on' (LO at 1270 MHz) and `off' (LO at 1268 MHz) spectra.
+
+\ref{eq:line_shape}
+
+The gain, G, is calculated with an additional spectrum ($cal$) that we deliberately contaminate with thermal noise. We do this by activating a noise diode which, for the vertical-polarization receiver (with which we are exclusively concerned here) is independently estimated to contribute about 80 Kelvins. Finally, we compare the magnitudes with a spectrum without this contamination and we compute: \ref{eq:line_gain}
+
+
+
+How we calibrate: for each value $\ell$, we take four sets of ten spectra: ...
 
 We convert from galactic to topocentric coordinates using rotation matrices, as described in a previous report. How much should I include? If I describe the matrices again, that will certainly have to go in the introduction.
 
@@ -138,7 +146,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 \begin{figure}
 	\centering
 	\includegraphics[width=.75\linewidth]{1940_10_05_2020}
-	\caption{This is a visibility demonstration to clarify our observation process: we input a value for the local sidereal time, and our script plots the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range (since we are observing the galactic plane, the galactic latitude $b$ is universally zero degrees). We began this project with the nominal range of $\ell \in [-10, 250]$ degrees. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude).}
+	\caption{This is a visibility demonstration to clarify our observation process: we input a value for the local sidereal time, and our script plots the topocentric coordinate conversions for all values of the galactic longitude $\ell$ on our range (since we are observing the galactic plane, the galactic latitude $b$ is universally zero degrees). We began this project with the nominal range of $\ell \in [-10^\circ, 250^\circ]$. By calculating similar visibility curves for a full sidereal day, we are able to classify some of our observations with higher risk for obstruction (particularly when the target altitude is close to the dish's minimum attainable altitude).}
 	\label{fig:vis_demo}
 \end{figure}
 
@@ -149,7 +157,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{cal_ex_80_deg}
-	\caption{Here is an example of a fully calibrated example ($\ell = 80$ degrees), just one of 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest).}
+	\caption{Here is an example of a fully calibrated example ($\ell = 80^\circ$), just one of 260. There is a black vertical line indicating the location of the 21 cm HI line at rest (1420.405751786 MHz at rest).}
 	\label{fig:cal_ex}
 \end{figure}
 
@@ -171,7 +179,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 \begin{figure}
 	\centering
 	\includegraphics[width=.9\linewidth]{tangentPoint_selected_dispersions}
-	\caption{Here we are essentially representing similar information to that of figure \ref{fig:TP_disp}. We use a semilog vertical axis to verify that there is one consistently-varying multiplicative offset ($\frac{1}{\sin \ell}$) as we examine different galactic longitudes. This plot also agrees with our expectation that our two boundary cases are meaningless: $\ell = 0$ degrees approaches an infinite linear velocity and $\ell = 90$ degrees corresponds to a velocity curve for which the minimum and maximum radii are the same (an infinitesimal segment).}
+	\caption{Here we are essentially representing similar information to that of figure \ref{fig:TP_disp}. We use a semilog vertical axis to verify that there is one consistently-varying multiplicative offset ($\frac{1}{\sin \ell}$) as we examine different galactic longitudes. This plot also agrees with our expectation that our two boundary cases are meaningless: $\ell = 0^\circ$ approaches an infinite linear velocity and $\ell = 90^\circ$ corresponds to a velocity curve for which the minimum and maximum radii are the same (an infinitesimal segment).}
 	\label{fig:TP_sel_disp}
 \end{figure}
 
@@ -179,7 +187,7 @@ We probably want a basic run-down of a .fits file, but perhaps some of that can 
 
 \quad \quad We can estimate the mass of the whole galaxy like this. We can estimate the mass within the solar circle like this. What fraction is gas, and what fraction is star? Does this question not require a given nuber for the mass of all stars?
 
-We can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1$ degree) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
+We can estimate the mass of the super-massive black hole at the center of the milky way if we use the Doppler velocity for our closest angle ($\ell = 1^\circ$) and combine equations \ref{eq:vel_curve} and \ref{eq:mass} and integrate over radii from the galactic center out to a single light-year. According to \textcolor{red}{blah}, the active galactic nucleus is about $4.4 \times 10^{7}$ km in radius. By comparison, a light year is six orders of magnitude larger than the estimated radius of the black hole. \textcolor{red}{I have no idea what is going on.}
 
 The result? Mass $\approx 7.6405 \times 10^{13}$ kg. This is seventeen orders of magnitude below the mass of the sun. Something has gone terribly wrong. Even if I were to expand to expand my range of radii to 10000 times the radius of the black hole, I would still be at three-quarters the mass of our sun. 
 
