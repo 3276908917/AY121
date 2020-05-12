@@ -2,7 +2,7 @@ import math
 
 G = 6.673e-11 # Gravitational constant in mks
 Rb = 4.4e7 # estimation of Milky Way supermassive black hole radius, km
-Rg = 37 * kpc# radius of the Milky Way galaxy; we need to cite sources
+Rg = 37 * kpc # radius of the Milky Way galaxy; we need to cite sources
 
 def mass_inner_plot(dopps):
     fig, ax = frame()
