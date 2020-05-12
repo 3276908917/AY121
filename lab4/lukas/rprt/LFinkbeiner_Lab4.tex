@@ -37,13 +37,7 @@ results, uncertainties.
 \section{Introduction and Background}
 % currently we need more connecting text and MORE MOTIVATION
 
-Given certain patterns, how well does a spiral fit? We need to control for the total number of data. We want the normalization of any two compared sets to be the same (so, we scale accordingly). What numpy functions I used.
-
-\begin{equation} \label{eq:spiral}
-R_\text{arm} = R_0 e^{\kappa(\phi - \phi_0)}
-\end{equation}
-
-To explore these questions, we want to be able to examine the Doppler velocities and brightness temperatures associated with different parts of the galactic plane of the Milky Way. We want to examine power spectra collected for values of the galactic longitude $\ell$ on the range $-10^\circ$ to $250^\circ$. We will provide a more comprehensive analysis of our particular setup in the methods section. For now, we consider, in the abstract, two equations for calibrating the spectra. 
+\textcolor{red}{To explore these questions}, we want to be able to examine the Doppler velocities and brightness temperatures associated with different parts of the galactic plane of the Milky Way. We want to examine power spectra collected for values of the galactic longitude $\ell$ on the range $-10^\circ$ to $250^\circ$. We will provide a more comprehensive analysis of our particular setup in the methods section. For now, we consider, in the abstract, two equations for calibrating the spectra. 
 
 \begin{equation} \label{eq:line_shape}
 T_\text{line} = G \, \frac{s_\text{on}}{s_\text{off}}
@@ -220,7 +214,9 @@ To reverse-engineer the published result using this approach, we would have to d
 
 \section{Conclusions}
 
-\quad \quad In summary, the mass considerations were bad.
+\quad \quad In summary, we calculated three different masses. We found the gaseous mass of the outer galaxy (distance to galactic center greater than 8.5 kpc) to be $(2.23808 \pm .05595) \times 10^{32}$ kg. The error here is offered based on definitions of the galaxy's outer limit, but we only vary that parameter by .25 kpc. This error is somewhat arbitrary anyway since we are considering an ideal case of constant linear velocity.
+
+We found the gaseous mass of the inner galaxy (distance to galactic center less than 8.5 kpc) to be $(8.16075 \pm .19450) \times 10^{31}$ kg. Finally, we estimated the Milky Way galactic center's supermassive black hole mass to be only $7.52497 \times 10^{22}$ kg, without any rigorous and significant sense of error.
 
 \section{Acknowledgments}
 
